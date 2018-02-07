@@ -70,13 +70,13 @@
 "use strict";
 
 
-var _MoveCounter = __webpack_require__(1);
+var _Game = __webpack_require__(1);
 
-var _MoveCounter2 = _interopRequireDefault(_MoveCounter);
+var _Game2 = _interopRequireDefault(_Game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-new _MoveCounter2.default();
+new _Game2.default();
 
 /***/ }),
 /* 1 */
@@ -93,13 +93,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MoveCounter = function () {
-    function MoveCounter() {
-        _classCallCheck(this, MoveCounter);
+var Game = function () {
+    function Game() {
+        _classCallCheck(this, Game);
 
         // $(".site-header__menu-icon").click(function () {
         //     console.log("right icon was clicked");
 
+        this.fieldSize = 9;
         this.cardClickCounter = 1;
         this.showCardClickCounter = document.getElementById('card-click-counter');
         this.cardClick = document.getElementById('field');
@@ -109,12 +110,27 @@ var MoveCounter = function () {
         this.startTime();
     }
 
-    _createClass(MoveCounter, [{
+    _createClass(Game, [{
         key: 'events',
         value: function events() {
 
-            this.newChoice = this.newChoice.bind(this);
-            this.cardClick.addEventListener('click', this.newChoice);
+            this.newCardClick = this.newCardClick.bind(this);
+            this.cardClick.addEventListener('click', this.newCardClick);
+        }
+    }, {
+        key: 'newCardClick',
+        value: function newCardClick(event) {
+
+            // verify, that user clicked on td element
+            if (event.target.nodeName.toLowerCase() == 'td') {
+
+                // increment the move-counter of clicks
+                // update move-counter on frontend
+                this.showCardClickCounter.innerText = this.cardClickCounter++;
+
+                this.checkRating();
+                this.checkCardClickChoice();
+            }
         }
     }, {
         key: 'generateCards',
@@ -123,31 +139,14 @@ var MoveCounter = function () {
         key: 'startTime',
         value: function startTime() {}
     }, {
-        key: 'newChoice',
-        value: function newChoice() {
-            this.updateCardClickCounter();
-            this.checkRating();
-            this.checkCardClickChoice();
-        }
-    }, {
-        key: 'updateCardClickCounter',
-        value: function updateCardClickCounter() {
-            // increment the move-counter of clicks
-            // update move-counter on frontend
-            this.showCardClickCounter.innerText = this.cardClickCounter++;
-        }
-    }, {
-        key: 'checkRating',
-        value: function checkRating() {}
-    }, {
         key: 'checkCardClickChoice',
         value: function checkCardClickChoice() {}
     }]);
 
-    return MoveCounter;
+    return Game;
 }();
 
-exports.default = MoveCounter;
+exports.default = Game;
 
 /***/ })
 /******/ ]);
