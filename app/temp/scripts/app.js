@@ -70,13 +70,13 @@
 "use strict";
 
 
-var _MoveCounter = __webpack_require__(1);
+var _Game = __webpack_require__(1);
 
-var _MoveCounter2 = _interopRequireDefault(_MoveCounter);
+var _Game2 = _interopRequireDefault(_Game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-new _MoveCounter2.default();
+new _Game2.default();
 
 /***/ }),
 /* 1 */
@@ -93,61 +93,135 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MoveCounter = function () {
-    function MoveCounter() {
-        _classCallCheck(this, MoveCounter);
+var Game = function () {
+    function Game() {
+        _classCallCheck(this, Game);
 
         // $(".site-header__menu-icon").click(function () {
         //     console.log("right icon was clicked");
 
+        this.fieldSize = 4;
         this.cardClickCounter = 1;
         this.showCardClickCounter = document.getElementById('card-click-counter');
+        this.showCardRating = document.getElementById('card-star-rating');
+        this.showCardTimer = document.getElementById('card-timer');
         this.cardClick = document.getElementById('field');
 
+        this.num = 0;
+        this.strg = "";
         this.events();
         this.generateCards();
-        this.startTime();
+        this.interval;
+        this.offset;
     }
 
-    _createClass(MoveCounter, [{
+    _createClass(Game, [{
+        key: 'timerStart',
+        value: function timerStart() {
+            //remove eventlistener after first call of timerStart
+            this.cardClick.removeEventListener('click', this.timerStart);
+
+            this.offset = new Date();
+
+            this.interval = setInterval(this.timerUpdate.bind(this), 1000);
+        }
+    }, {
+        key: 'timeFormat',
+        value: function timeFormat(value) {
+            var text = value.toString();
+            console.log(text.length);
+
+            if (text.length <= 1) {
+                return "0" + text;
+            };
+            return text;
+        }
+    }, {
+        key: 'timerUpdate',
+        value: function timerUpdate() {
+            var current = new Date();
+            var diff = current.getTime() - this.offset.getTime();
+
+            var diffHours = Math.floor(diff / (1000 * 60 * 60));
+            diff -= diffHours * (1000 * 60 * 60);
+
+            var diffMin = Math.floor(diff / (1000 * 60));
+            diff -= diffMin * 1000 * 60;
+
+            var diffSec = Math.floor(diff / 1000);
+
+            this.showCardTimer.innerText = this.timeFormat(diffHours) + ":" + this.timeFormat(diffMin) + ":" + this.timeFormat(diffSec);
+        }
+    }, {
         key: 'events',
         value: function events() {
 
-            this.newChoice = this.newChoice.bind(this);
-            this.cardClick.addEventListener('click', this.newChoice);
+            this.newCardClick = this.newCardClick.bind(this);
+            this.cardClick.addEventListener('click', this.newCardClick);
+
+            this.timerStart = this.timerStart.bind(this);
+            this.cardClick.addEventListener('click', this.timerStart);
+        }
+    }, {
+        key: 'newCardClick',
+        value: function newCardClick(event) {
+
+            // verify, that user clicked on td element
+            if (event.target.nodeName.toLowerCase() == 'td') {
+
+                // increment the move-counter of clicks
+                // update move-counter on frontend
+                this.showCardClickCounter.innerText = this.cardClickCounter++;
+
+                this.checkRating();
+                this.checkCardClickChoice();
+            }
         }
     }, {
         key: 'generateCards',
         value: function generateCards() {}
     }, {
-        key: 'startTime',
-        value: function startTime() {}
-    }, {
-        key: 'newChoice',
-        value: function newChoice() {
-            this.updateCardClickCounter();
-            this.checkRating();
-            this.checkCardClickChoice();
-        }
-    }, {
-        key: 'updateCardClickCounter',
-        value: function updateCardClickCounter() {
-            // increment the move-counter of clicks
-            // update move-counter on frontend
-            this.showCardClickCounter.innerText = this.cardClickCounter++;
+        key: 'generateRatingStars',
+        value: function generateRatingStars(num) {
+            var stars = "";
+            for (var i = 0; i < num; i++) {
+                stars += "*";
+            }
+            return stars;
         }
     }, {
         key: 'checkRating',
-        value: function checkRating() {}
+        value: function checkRating() {
+            this.rating = (this.cardClickCounter - 1) / this.fieldSize;
+            switch (true) {
+                case this.rating <= 4.25:
+                    this.starRating = 3;
+
+                    break;
+                case this.rating <= 5.75:
+                    this.starRating = 2;
+
+                    break;
+                case this.rating <= 7.5:
+                    this.starRating = 1;
+
+                    break;
+                default:
+                    this.starRating = 0;
+            }
+            console.log("rating: " + this.rating);
+
+            this.showCardRating.innerText = this.generateRatingStars(this.starRating);
+        }
     }, {
         key: 'checkCardClickChoice',
         value: function checkCardClickChoice() {}
     }]);
 
-    return MoveCounter;
+    return Game;
 }();
 
-exports.default = MoveCounter;
+exports.default = Game;
 
 /***/ })
 /******/ ]);
