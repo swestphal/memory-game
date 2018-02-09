@@ -107,60 +107,71 @@ var Game = function () {
         this.showCardTimer = document.getElementById('card-timer');
         this.cardClick = document.getElementById('field');
 
-        this.num = 0;
         this.strg = "";
+
+        this.refreshIntervalId;
+        this.firstClickTime;
+
         this.events();
         this.generateCards();
-        this.interval;
-        this.offset;
     }
 
     _createClass(Game, [{
+        key: 'timerStop',
+        value: function timerStop() {
+            clearInterval(this.refreshIntervalId);
+        }
+    }, {
         key: 'timerStart',
         value: function timerStart() {
             //remove eventlistener after first call of timerStart
             this.cardClick.removeEventListener('click', this.timerStart);
 
-            this.offset = new Date();
+            // save time of first click
+            this.firstClickTime = new Date();
 
-            this.interval = setInterval(this.timerUpdate.bind(this), 1000);
+            // update timer every second
+            this.refreshIntervalId = setInterval(this.timerUpdate.bind(this), 1000);
         }
     }, {
         key: 'timeFormat',
         value: function timeFormat(value) {
-            var text = value.toString();
-            console.log(text.length);
+            // convert value to string
+            var value = value.toString();
 
-            if (text.length <= 1) {
-                return "0" + text;
+            // if only one digit length put 0 before
+            if (value.length <= 1) {
+                return "0" + value;
             };
-            return text;
+
+            //else go back like it was
+            return value;
         }
     }, {
         key: 'timerUpdate',
         value: function timerUpdate() {
-            var current = new Date();
-            var diff = current.getTime() - this.offset.getTime();
+            var currentTime = new Date();
+            var diffTime = currentTime.getTime() - this.firstClickTime.getTime();
 
-            var diffHours = Math.floor(diff / (1000 * 60 * 60));
-            diff -= diffHours * (1000 * 60 * 60);
+            var diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            diffTime -= diffHours * (1000 * 60 * 60);
 
-            var diffMin = Math.floor(diff / (1000 * 60));
-            diff -= diffMin * 1000 * 60;
+            var diffMin = Math.floor(diffTime / (1000 * 60));
+            diffTime -= diffMin * 1000 * 60;
 
-            var diffSec = Math.floor(diff / 1000);
-
+            var diffSec = Math.floor(diffTime / 1000);
+            if (diffSec == 10) this.timerStop();
             this.showCardTimer.innerText = this.timeFormat(diffHours) + ":" + this.timeFormat(diffMin) + ":" + this.timeFormat(diffSec);
         }
     }, {
         key: 'events',
         value: function events() {
 
-            this.newCardClick = this.newCardClick.bind(this);
-            this.cardClick.addEventListener('click', this.newCardClick);
-
             this.timerStart = this.timerStart.bind(this);
             this.cardClick.addEventListener('click', this.timerStart);
+
+            this.newCardClick = this.newCardClick.bind(this);
+            this.cardClick.addEventListener('click', this.newCardClick);
         }
     }, {
         key: 'newCardClick',
@@ -209,7 +220,6 @@ var Game = function () {
                 default:
                     this.starRating = 0;
             }
-            console.log("rating: " + this.rating);
 
             this.showCardRating.innerText = this.generateRatingStars(this.starRating);
         }
