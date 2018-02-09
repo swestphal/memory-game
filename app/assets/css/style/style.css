@@ -468,3 +468,13 @@ img {
 a {
   color:#999;
 }
+
+.open {
+    background:red;
+    color:white;
+}
+
+.matching {
+    background:yellow;
+    color:blue;
+}
