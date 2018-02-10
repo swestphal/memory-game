@@ -3,7 +3,7 @@ var memory = function() {
     // $(".site-header__menu-icon").click(function () {
     //     console.log("right icon was clicked");
 
-    var fieldSize = 16;
+    var fieldSize = 9;
     var cardClickCounter = 1;
     var showCardClickCounter = document.getElementById('card-click-counter');
     var showCardRating = document.getElementById('card-star-rating');
@@ -14,6 +14,7 @@ var memory = function() {
     var openCards = [];
     var strg = "";
     var oldId;
+    var clickDisabled = false;
     var refreshIntervalId;
     var firstClickTime;
     var rating;
@@ -42,7 +43,7 @@ var memory = function() {
         refreshIntervalId = setInterval(timerUpdate.bind(this), 1000);
     }
 
-    function timeFormat(value) {
+    function digitFormat(value) {
         // convert value to string
         var value = value.toString();
 
@@ -65,8 +66,9 @@ var memory = function() {
 
         var diffSec = Math.floor(diffTime / 1000);
         if (diffSec == 10) timerStop();
-        showCardTimer.innerText = timeFormat(diffHours) + ":" + timeFormat(diffMin) + ":" + timeFormat(diffSec);
+        showCardTimer.innerText = digitFormat(diffHours) + ":" + digitFormat(diffMin) + ":" + digitFormat(diffSec);
     }
+
 
 
     function play() {
@@ -74,16 +76,18 @@ var memory = function() {
         //timerStart = timerStart.bind(this);
         cardClick.addEventListener('click', timerStart);
 
-        cardClick.addEventListener('click', function() { newCardClick() });
+        cardClick.addEventListener('click', function() {
+            if (clickDisabled == true) return;
+            else newCardClick();
+        });
     }
 
     function newCardClick() {
         // verify, that user clicked on td element
-        if ((event.target.nodeName).toLowerCase() == 'td') {
-            var id = event.target.dataset.id;
+        if ((event.target.nodeName).toLowerCase() == 'img') {
+            var id = event.target.parentElement.dataset.id;
 
-            if (cardArr[id].isOpen == false && !cardArr[id].isOpen && oldId != id) {
-                console.log("go to check");
+            if (id != oldId && cardArr[id].isClickable != false) {
                 // increment the move-counter of clicks
                 // update move-counter on frontend
                 showCardClickCounter.innerText = cardClickCounter++;
@@ -91,6 +95,7 @@ var memory = function() {
                 checkRating();
 
                 checkCardClickChoice();
+
             }
             oldId = id;
         }
@@ -99,21 +104,28 @@ var memory = function() {
 
     function generateCards() {
 
-        for (var i = 0; i < (fieldSize / 2); i++) {
+        for (var i = 0; i < Math.floor(fieldSize / 2); i++) {
             var card1 = {
                 matchingPair: i,
                 isOpen: false,
                 isMatching: false,
-                content: i + 1
+                isClickable: true,
+                img: 'dog' + digitFormat(i + 1)
             }
-            var card2 = {
-                matchingPair: i,
-                isOpen: false,
-                isMatching: false,
-                content: i + fieldSize
-            }
+            var card2 = card1;
             cardArr.push(card1);
             cardArr.push(card2);
+
+        }
+        if (fieldSize % 0 != 0) {
+            var card = {
+                matchingPair: 999,
+                isOpen: true,
+                isMatching: false,
+                isClickable: false,
+                img: 'odd'
+            }
+            cardArr.push(card);
         }
         shuffleCards();
     }
@@ -133,9 +145,6 @@ var memory = function() {
             // swap the last element with it
             let temp = cardArr[counter];
             cardArr[counter] = cardArr[index];
-            // set position in the random order
-            cardArr[counter]['position'] = counter;
-
             cardArr[index] = temp;
         }
 
@@ -150,8 +159,13 @@ var memory = function() {
             for (var col = 0; col < Math.sqrt(fieldSize); col++) {
                 var nodeCol = document.createElement("td");
                 var itemId = Math.sqrt(fieldSize) * row + col;
-                var content = document.createTextNode(cardArr[itemId]['matchingPair']);
-                nodeCol.appendChild(content);
+                console.log(itemId);
+                var img = document.createElement('IMG');
+                if (cardArr[itemId].isClickable == false) { img.setAttribute("src", '../../assets/images/pool/1x/odd.png') } else img.setAttribute("src", '../../assets/images/pool/1x/paws.png');
+                img.setAttribute("width", "200");
+                img.setAttribute("height", "200");
+                img.setAttribute("alt", "Train your Brain");
+                nodeCol.appendChild(img);
                 nodeCol.dataset.id = itemId;
                 nodeRow.appendChild(nodeCol);
             }
@@ -196,18 +210,21 @@ var memory = function() {
 
     function checkCardClickChoice() {
 
-        var openCard = event.target.dataset.id;
+        var openCard = event.target.parentElement.dataset.id;
+
         openCards.push(openCard);
+
         cardArr[openCard].isOpen = true;
+        event.target.src = '../../assets/images/pool/1x/' + cardArr[openCard]['img'] + '.png';
 
         if ((openCards).length <= 1) {
-            event.target.classList.add("open");
+            event.target.parentElement.classList.add("open");
         }
 
 
         if ((openCards).length == 2) {
-
-            event.target.classList.add("open");
+            clickDisabled = true;
+            event.target.parentElement.classList.add("open");
 
             var cardOneId = openCards[0];
             cardArr[cardOneId].isOpen = true;
@@ -221,12 +238,14 @@ var memory = function() {
                 var matchingPair = document.querySelectorAll(".open");
                 cardArr[cardOneId].isMatching = true;
                 cardArr[cardTwoId].isMatching = true;
-                for (var i = 0; i < matchingPair.length; i++) {
+                setTimeout(function() {
+                    for (var i = 0; i < matchingPair.length; i++) {
 
-                    console.log(cardArr);
-                    matchingPair[i].classList.remove("open");
-                    matchingPair[i].classList.add("matching");
-                }
+                        matchingPair[i].classList.remove("open");
+                        matchingPair[i].classList.add("matching");
+                    }
+                    clickDisabled = false;
+                }, 1000);
 
             } else {
                 cardArr[cardOneId].isOpen = false;
@@ -236,10 +255,13 @@ var memory = function() {
                     var pairs = document.querySelectorAll(".open");
                     for (var i = 0; i < pairs.length; i++) {
                         pairs[i].classList.remove("open");
+                        pairs[i].childNodes[0].src = '../../assets/images/pool/1x/paws.png';
                     }
-                }, 1000);
+                    clickDisabled = false;
+                }, 2000);
 
             }
+
         }
     }
 }();
