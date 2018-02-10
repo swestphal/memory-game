@@ -22,9 +22,15 @@
                 <div class="game__timer" id="card-timer">00:00:00</div>
                 <div class="game__move-counter" id="card-click-counter">Moves: 0</div>
                 <div class="game__popup" id="popup">congrat popup</div>
-                <div class="game__field" id="field">
-                    <table id="field-table">
-                    </table>
+                <div class="row">
+                    <div class="game__field" id="field">
+                        <audio id="myAudio">
+                            <source src="../../assets/sound/flip.ogg" type="audio/ogg">
+                            <source src="../../assets/sound/flip.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+                        </audio>
+                        <table id="field-table" class="field-table">
+                        </table>
+                    </div>
                 </div>
             </section>
         </div>
