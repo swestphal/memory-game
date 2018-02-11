@@ -3,22 +3,30 @@ var memory = function() {
     // $(".site-header__menu-icon").click(function () {
     //     console.log("right icon was clicked");
 
-    var fieldSize = 4;
+    var fieldSize = 16;
+    var fieldSizeIsOdd = false;
     var cardClickCounter = 1;
     var showCardClickCounter = document.getElementById('card-click-counter');
     var showCardRating = document.getElementById('card-star-rating');
     var showCardTimer = document.getElementById('card-timer');
     var showGameField = document.getElementById('field-table');
 
+    var getRestart = document.getElementById('game-restart');
+    var getLevel = document.getElementById('game-level');
+    var getLevel = document.getElementById('game-level-input');
     var cardClick = document.getElementById('field');
-    var openCards = [];
-    var strg = "";
+
+    var matchingCards = 0;
+    var gameCompleted = false;
+
     var clickDisabled = false;
     var refreshIntervalId;
     var firstClickTime;
     var rating;
     var starRating;
+    var oldId;
 
+    var goToSecondMove = false;
     var cardArr = [];
 
     generateCards();
@@ -64,7 +72,7 @@ var memory = function() {
         diffTime -= diffMin * 1000 * 60;
 
         var diffSec = Math.floor(diffTime / 1000);
-        if (diffSec == 10) timerStop();
+
         showCardTimer.innerText = digitFormat(diffHours) + ":" + digitFormat(diffMin) + ":" + digitFormat(diffSec);
     }
 
@@ -82,28 +90,46 @@ var memory = function() {
     }
 
     function newCardClick() {
+        var dataSetId = event.target.dataset.id;
         // verify, that user clicked on td element
-        if ((event.target.nodeName).toLowerCase() == 'img') {
-            var dataSetId = event.target.parentElement.dataset.id;
 
-            if (!cardArr[dataSetId].isOpen && cardArr[dataSetId].isClickable) {
-                var myAudio = document.getElementById('myAudio');
-                myAudio.play();
-                // increment the move-counter of clicks
-                // update move-counter on frontend
-                showCardClickCounter.innerText = cardClickCounter++;
-                checkRating();
-                checkCardClickChoice();
+        if (!gameCompleted) {
+            if ((event.target.nodeName).toLowerCase() == 'img' && dataSetId) {
+                var dataSetId = event.target.dataset.id;
+
+
+                if (dataSetId != oldId && cardArr[dataSetId].isClickable == true) {
+                    var myAudio = document.getElementById('myAudio');
+                    myAudio.play();
+                    // increment the move-counter of clicks
+                    // update move-counter on frontend
+                    showCardClickCounter.innerText = cardClickCounter++;
+                    checkRating();
+                    checkCardClickChoice(dataSetId);
+
+                }
 
             }
-
         }
     }
 
 
     function generateCards() {
+        if (fieldSize % 2 != 0) fieldSizeIsOdd = true;
+        if (fieldSizeIsOdd == true) {
 
-        for (var i = 0; i < 2; i++) {
+            var dummyCard = {
+                matchingPair: 999,
+                isOpen: false,
+                isMatching: false,
+                isClickable: false,
+                img: 'odd'
+            }
+            fieldSizeIsOdd = true;
+            cardArr.push(dummyCard);
+        }
+
+        for (var i = 0; i < Math.floor(fieldSize / 2); i++) {
             var card1 = {
                 matchingPair: i,
                 isOpen: false,
@@ -111,26 +137,8 @@ var memory = function() {
                 isClickable: true,
                 img: 'dog' + digitFormat(i + 1)
             }
-            var card2 = {
-                matchingPair: i,
-                isOpen: false,
-                isMatching: false,
-                isClickable: true,
-                img: 'dog' + digitFormat(i + 1)
-            }
             cardArr.push(card1);
-            cardArr.push(card2);
-
-        }
-        if (fieldSize == 9 || fieldSize == 25) {
-            var card = {
-                matchingPair: 999,
-                isOpen: false,
-                isMatching: false,
-                isClickable: false,
-                img: 'odd'
-            }
-            cardArr.push(card);
+            cardArr.push(card1);
         }
 
         shuffleCards();
@@ -163,6 +171,7 @@ var memory = function() {
 
 
             for (var col = 0; col < Math.sqrt(fieldSize); col++) {
+                var nodeFrontDiv = document.createElement("div");
                 var nodeCol = document.createElement("td");
                 nodeCol.className = "field-table__card";
                 var itemId = Math.sqrt(fieldSize) * row + col;
@@ -172,8 +181,15 @@ var memory = function() {
                 img.setAttribute("width", "200");
                 img.setAttribute("height", "200");
                 img.setAttribute("alt", "Train your Brain");
-                nodeCol.appendChild(img);
-                nodeCol.dataset.id = itemId;
+                img.dataset.id = itemId;
+                nodeFrontDiv.appendChild(img);
+                nodeFrontDiv.classList.add('front');
+                var nodeFlipDiv = document.createElement('div');
+                nodeFlipDiv.classList.add('field-table__flipContainer');
+                nodeFlipDiv.appendChild(nodeFrontDiv);
+
+                nodeCol.appendChild(nodeFlipDiv);
+
                 nodeRow.appendChild(nodeCol);
             }
             showGameField.appendChild(nodeRow);
@@ -191,17 +207,17 @@ var memory = function() {
 
 
     function checkRating() {
-        rating = (cardClickCounter - 1) / fieldSize;
+        rating = (cardClickCounter) / fieldSize;
         switch (true) {
-            case (rating <= 4.25):
+            case (rating <= 1):
                 starRating = 3;
 
                 break;
-            case (rating <= 5.75):
+            case (rating <= 1.3):
                 starRating = 2;
 
                 break;
-            case (rating <= 7.5):
+            case (rating <= 1.6):
                 starRating = 1;
 
                 break;
@@ -214,65 +230,91 @@ var memory = function() {
 
     }
 
-
-    function checkCardClickChoice() {
-
-        var currentCard = event.target.parentElement.dataset.id;
-
-        openCards.push(currentCard);
-
-        event.target.src = '../../assets/images/pool/1x/' + cardArr[currentCard]['img'] + '.png';
-
-        if ((openCards).length <= 1) {
-            cardArr[openCards[0]].isOpen = true;
-            event.target.parentElement.classList.add("open");
-            return;
+    function checkIfCompleted() {
+        matchingCards++;
+        console.log(matchingCards);
+        if (matchingCards >= Math.floor(fieldSize / 2)) {
+            gameCompleted = true;
+            timerStop;
+            gratulation();
         }
 
+    }
 
-        if ((openCards).length == 2) {
+    function gratulation() {
+        console.log("hurrah");
+    }
+
+    function flipCard(element, id) {
+
+        var nodeBackDiv = document.createElement('div');
+        nodeBackDiv.classList.add('back');
+
+        var img = document.createElement('IMG');
+        img.src = '../../assets/images/pool/1x/' + cardArr[id]['img'] + '.png';
+        img.setAttribute("width", "200");
+        img.setAttribute("height", "200");
+        img.setAttribute("alt", "Train your Brain");
+
+        nodeBackDiv.appendChild(img);
+        element.appendChild(nodeBackDiv);
+    }
+
+    function checkCardClickChoice(currentCardId) {
+
+        var currentElement = event.target.parentElement.parentElement;
+        //event.target.src = '../../assets/images/pool/1x/' + cardArr[currentCard]['img'] + '.png';
+
+
+        if (goToSecondMove == true) {
 
             clickDisabled = true;
-            event.target.parentElement.classList.add("open");
+            currentElement.parentElement.classList.add("open");
+            flipCard(currentElement, currentCardId);
 
-            var cardOneId = openCards[0];
-            cardArr[cardOneId].isOpen = true;
-            var cardTwoId = openCards[1];
-            cardArr[cardTwoId].isOpen = true;
-            openCards = [];
 
-            if (cardArr[cardOneId].matchingPair == cardArr[cardTwoId].matchingPair) {
+            if (cardArr[oldId].matchingPair == cardArr[currentCardId].matchingPair) {
 
-                cardArr[cardOneId].isMatching = true;
-                cardArr[cardTwoId].isMatching = true;
-
-                var matchingPair = document.querySelectorAll(".open");
                 setTimeout(function() {
-                    for (var i = 0; i < matchingPair.length; i++) {
+                    cardArr[oldId].isMatching = true;
+                    cardArr[currentCardId].isMatching = true;
 
+                    var matchingPair = document.querySelectorAll(".open");
+
+                    for (var i = 0; i < matchingPair.length; i++) {
                         matchingPair[i].classList.remove("open");
                         matchingPair[i].classList.add("matching");
                     }
 
                     clickDisabled = false;
                 }, 1000);
-
+                goToSecondMove = false;
+                checkIfCompleted();
             } else {
-                cardArr[cardOneId].isOpen = false;
-                cardArr[cardTwoId].isOpen = false;
-
                 setTimeout(function() {
+                    cardArr[oldId].isOpen = false;
+                    cardArr[currentCardId].isOpen = false;
+
+
                     var pairs = document.querySelectorAll(".open");
+
                     for (var i = 0; i < pairs.length; i++) {
                         pairs[i].classList.remove("open");
-                        pairs[i].childNodes[0].src = '../../assets/images/pool/1x/paws.png';
                     }
+
                     clickDisabled = false;
                 }, 2000);
-
+                goToSecondMove = false;
             }
 
+        } else {
 
+            cardArr[currentCardId].isOpen = true;
+            currentElement.parentElement.classList.add("open");
+            flipCard(currentElement, currentCardId);
+            //flipCard(event.target.parentElement);
+            oldId = currentCardId;
+            goToSecondMove = true;
         }
 
     }

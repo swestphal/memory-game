@@ -12,26 +12,46 @@
 
 <body>
     <header class="site-header">
-        Let's Play Memory
+        <div class="site-header__title">
+            <h1> Doggy Memory</h1>
+        </div>
+        <div class="site-header__doggy">
+            <img src="../../assets/images/1x/doggy.png">
+        </div>
     </header>
     <main>
         <div class="wrapper">
             <section class="game">
-                <div class="game__star-rating" id="card-star-rating">***</div>
-                <div class="game__btn-restart" id="btn-restart">restart button</div>
-                <div class="game__timer" id="card-timer">00:00:00</div>
-                <div class="game__move-counter" id="card-click-counter">Moves: 0</div>
-                <div class="game__popup" id="popup">congrat popup</div>
-                <div class="row">
-                    <div class="game__field" id="field">
-                        <audio id="myAudio">
-                            <source src="../../assets/sound/flip.ogg" type="audio/ogg">
-                            <source src="../../assets/sound/flip.mp3" type="audio/mpeg"> Your browser does not support the audio element.
-                        </audio>
-                        <table id="field-table" class="field-table">
-                        </table>
+                <div class="grid">
+                    <div class="grid__col grid__col-sidebar">
+                        <div class="game__input">
+                            <div class="game__input-show-level">Level: <span id="game-level">easy</span>
+                                <div class="game__input-get-level" id="game-level-input">up down</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid__col grid__col-main">
+                        <div class="game__field" id="field">
+                            <audio id="myAudio">
+                                <source src="../../assets/sound/flip.ogg" type="audio/ogg">
+                                <source src="../../assets/sound/flip.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+                            </audio>
+                            <table id="field-table" class="field-table">
+                            </table>
+                        </div>
+                    </div>
+                    <div class="grid__col grid__col-sidebar">
+                        <div class="game__ui">
+                            <div class="game__ui-star-rating">Rating: <span id="card-star-rating">***</span></div>
+                            <div class="game__ui-timer" id="card-timer">00:00:00</div>
+                            <div class="game__ui-move-counter">Moves: <span id="card-click-counter">0</div>
+                            <div class="game__ui-restart" id="btn-restart">
+                                <p>NEW GAME</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="game__popup" id="popup">congrat popup</div>
             </section>
         </div>
     </main>

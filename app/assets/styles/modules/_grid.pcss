@@ -1,11 +1,19 @@
 .grid {
 
-    &__row {
-        display: flex;
-        flex-wrap: nowrap;
-    }
+
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
 
     &__col {
-        flex-basis: 30%;
+
+        align-self: center;
+        width: 700px;
+    }
+
+    &__col-sidebar {
+        width: 300px;
+
+        align-self: center;
     }
 }
