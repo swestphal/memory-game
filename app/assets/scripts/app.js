@@ -3,7 +3,8 @@ var memory = function() {
     // $(".site-header__menu-icon").click(function () {
     //     console.log("right icon was clicked");
 
-    var fieldSize = 4;
+    var fieldSize = 9;
+    var fieldSizeIsOdd = false;
     var cardClickCounter = 1;
     var showCardClickCounter = document.getElementById('card-click-counter');
     var showCardRating = document.getElementById('card-star-rating');
@@ -82,9 +83,11 @@ var memory = function() {
     }
 
     function newCardClick() {
+
         // verify, that user clicked on td element
         if ((event.target.nodeName).toLowerCase() == 'img') {
-            var dataSetId = event.target.parentElement.dataset.id;
+            console.log(event.target.nodeName);
+            var dataSetId = event.target.dataset.id;
 
             if (!cardArr[dataSetId].isOpen && cardArr[dataSetId].isClickable) {
                 var myAudio = document.getElementById('myAudio');
@@ -102,8 +105,19 @@ var memory = function() {
 
 
     function generateCards() {
+        if (fieldSize == 9 || fieldSize == 25) {
+            var dummyCard = {
+                matchingPair: 999,
+                isOpen: false,
+                isMatching: false,
+                isClickable: false,
+                img: 'odd'
+            }
+            fieldSizeIsOdd = true;
+            cardArr.push(dummyCard);
+        }
 
-        for (var i = 0; i < 2; i++) {
+        for (var i = 0; i < Math.floor(fieldSize / 2); i++) {
             var card1 = {
                 matchingPair: i,
                 isOpen: false,
@@ -111,26 +125,8 @@ var memory = function() {
                 isClickable: true,
                 img: 'dog' + digitFormat(i + 1)
             }
-            var card2 = {
-                matchingPair: i,
-                isOpen: false,
-                isMatching: false,
-                isClickable: true,
-                img: 'dog' + digitFormat(i + 1)
-            }
             cardArr.push(card1);
-            cardArr.push(card2);
-
-        }
-        if (fieldSize == 9 || fieldSize == 25) {
-            var card = {
-                matchingPair: 999,
-                isOpen: false,
-                isMatching: false,
-                isClickable: false,
-                img: 'odd'
-            }
-            cardArr.push(card);
+            cardArr.push(card1);
         }
 
         shuffleCards();
@@ -163,6 +159,7 @@ var memory = function() {
 
 
             for (var col = 0; col < Math.sqrt(fieldSize); col++) {
+                var nodeFrontDiv = document.createElement("div");
                 var nodeCol = document.createElement("td");
                 nodeCol.className = "field-table__card";
                 var itemId = Math.sqrt(fieldSize) * row + col;
@@ -172,8 +169,15 @@ var memory = function() {
                 img.setAttribute("width", "200");
                 img.setAttribute("height", "200");
                 img.setAttribute("alt", "Train your Brain");
-                nodeCol.appendChild(img);
-                nodeCol.dataset.id = itemId;
+                img.dataset.id = itemId;
+                nodeFrontDiv.appendChild(img);
+                nodeFrontDiv.classList.add('front');
+                var nodeFlipDiv = document.createElement('div');
+                nodeFlipDiv.classList.add('field-table__flipContainer');
+                nodeFlipDiv.appendChild(nodeFrontDiv);
+
+                nodeCol.appendChild(nodeFlipDiv);
+
                 nodeRow.appendChild(nodeCol);
             }
             showGameField.appendChild(nodeRow);
@@ -214,18 +218,33 @@ var memory = function() {
 
     }
 
+    function flipCard(element, id) {
+        console.log(element);
+        var nodeBackDiv = document.createElement('div');
+        nodeBackDiv.classList.add('back');
+
+        var img = document.createElement('IMG');
+        img.src = '../../assets/images/pool/1x/' + cardArr[id]['img'] + '.png';
+        img.setAttribute("width", "200");
+        img.setAttribute("height", "200");
+        img.setAttribute("alt", "Train your Brain");
+        nodeBackDiv.appendChild(img);
+        element.appendChild(nodeBackDiv);
+    }
 
     function checkCardClickChoice() {
 
-        var currentCard = event.target.parentElement.dataset.id;
-
+        var currentCard = event.target.dataset.id;
+        console.log(currentCard);
         openCards.push(currentCard);
 
-        event.target.src = '../../assets/images/pool/1x/' + cardArr[currentCard]['img'] + '.png';
+        //event.target.src = '../../assets/images/pool/1x/' + cardArr[currentCard]['img'] + '.png';
 
         if ((openCards).length <= 1) {
             cardArr[openCards[0]].isOpen = true;
-            event.target.parentElement.classList.add("open");
+            event.target.parentElement.parentElement.parentElement.classList.add("open");
+            flipCard(event.target.parentElement.parentElement, currentCard);
+            //flipCard(event.target.parentElement);
             return;
         }
 
@@ -233,8 +252,8 @@ var memory = function() {
         if ((openCards).length == 2) {
 
             clickDisabled = true;
-            event.target.parentElement.classList.add("open");
-
+            event.target.parentElement.parentElement.parentElement.classList.add("open");
+            flipCard(event.target.parentElement.parentElement, currentCard);
             var cardOneId = openCards[0];
             cardArr[cardOneId].isOpen = true;
             var cardTwoId = openCards[1];
