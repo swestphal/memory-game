@@ -4,13 +4,14 @@
     width: 261px;
     height: 355px;
     color: #FDC55C;
+    position: relative;
 
     &-show-level {
         text-align: center;
         transform: rotate(-18deg);
         position: absolute;
-        top: 486px;
-        left: 49px;
+        top: 115px;
+        left: 39px;
         font-size: 14px;
         span {
             display: inline-block;
@@ -23,14 +24,22 @@
     }
     &-get-level {
         text-align: center;
-        transform: rotate(-4deg);
+        transform: rotate(15deg);
         position: absolute;
-        top: 143px;
-        left: 105px;
-        font-size: 17px;
+        top: 34px;
+        left: 141px;
+        font-size: 21px;
         span {
             transform: rotate(-4deg);
             font-size: 20px;
         }
+    }
+    &-small-grass {
+        background: url('/assets/images/1x/smallGrass.png') no-repeat right;
+        position: absolute;
+        top: 300px;
+        width: 200%;
+        height: 52px;
+        right: 0;
     }
 }

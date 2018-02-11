@@ -489,6 +489,95 @@ a {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'fontello';
+    src: url('../../fonts/fontello/fontello.eot?88597527');
+    src: url('../../fonts/fontello/fontello.eot?88597527#iefix') format('embedded-opentype'),
+    url('../../fonts/fontello/fontello.woff2?88597527') format('woff2'),
+    url('../../fonts/fontello/fontello.woff?88597527') format('woff'),
+    url('../../fonts/fontello/fontello.ttf?88597527') format('truetype'),
+    url('../../fonts/fontello/fontello.svg?88597527#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?88597527#fontello') format('svg');
+  }
+}
+*/
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-linkedin:before {
+    content: '\e800';
+}
+
+/* '' */
+
+.icon-facebook:before {
+    content: '\e801';
+}
+
+/* '' */
+
+.icon-twitter:before {
+    content: '\e802';
+}
+
+/* '' */
+
+.icon-minefield:before {
+    content: '\e826';
+}
+
+/* '' */
+
+.icon-github:before {
+    content: '\f308';
+}
+
+/* '' */
+
 .grid {
 
 
@@ -516,9 +605,8 @@ a {
 
 .grid__col-sidebar {
         width: 300px;
-
+        position: relative;
         -ms-flex-item-align: center;
-
             align-self: center;
     }
 
@@ -647,36 +735,66 @@ a {
     background: url('/assets/images/1x/flowers.png') no-repeat center;
     height: 137px;
     position: relative;
+
+    -webkit-box-shadow: 0 8px 6px -6px #7a987c;
+
+            box-shadow: 0 8px 6px -6px #7a987c;
 }
 
 .site-header__title {
+
         font-family: LoveYaLikeASister;
-        color: #B64182;
-        position: relative;
-        top: 6px;
+        color: #fdcc66;
+        width: 600px;
+        margin: 0 auto; //position: absolute;
         -webkit-transform: rotate(-2deg);
                 transform: rotate(-2deg);
         font-size: 1.2em;
         text-align: center;
         padding: 0.25em;
         background: url('/assets/images/1x/signHeading.png') no-repeat center;
+        background-size: contain;
     }
 
 .site-header__doggy {
         position: absolute;
-        right: 100px;
-        top: -16px;
+        right: -1px;
+        top: -4px;
     }
 
 .site-header__doggy img {
             height: 130px;
         }
 
-footer {
-    background: url('/assets/images/1x/grass.png') no-repeat center #aec5bb;
-    ;
-    height: 137px;
+.site-footer {
+    position: relative;
+    position: relative;
+    background: url('/assets/images/1x/grass.png') no-repeat bottom #aec5bb;
+    height: 124px;
 }
+
+.site-footer__content {
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+        color: rgba(230, 249, 240, 0.72);
+    }
+
+.site-footer__content a:link,
+        .site-footer__content a:visited {
+            color: rgba(230, 249, 240, 0.72);
+        }
+
+.site-footer__content a:hover,
+        .site-footer__content a:active {
+            color: #fdcc66;
+        }
+
+.site-footer__content p {
+            width: 100%;
+            font-size: 12px;
+            text-align: center;
+        }
 
 .game__ui {
     margin-top: 3em;
@@ -725,9 +843,10 @@ footer {
         }
 
 .game__ui-restart {
-        text-align: center; //background: url('/assets/images/1x/bone.png') no-repeat center;
-        //background-size: contain;
+        text-align: center;
+
         -webkit-transform: rotate(5deg);
+
                 transform: rotate(5deg);
         position: absolute;
         top: 180px;
@@ -739,12 +858,22 @@ footer {
             font-size: 0.8rem;
         }
 
+.game__ui-small-grass {
+        background: url('/assets/images/1x/smallGrass.png') no-repeat left;
+        position: absolute;
+        top: 370px;
+        width: 200%;
+        left: 0;
+        height: 52px;
+    }
+
 .game__input {
     margin-top: 3em;
     background: url('/assets/images/1x/signInput.png') no-repeat center;
     width: 261px;
     height: 355px;
     color: #FDC55C;
+    position: relative;
 }
 
 .game__input-show-level {
@@ -752,8 +881,8 @@ footer {
         -webkit-transform: rotate(-18deg);
                 transform: rotate(-18deg);
         position: absolute;
-        top: 486px;
-        left: 49px;
+        top: 115px;
+        left: 39px;
         font-size: 14px;
     }
 
@@ -769,12 +898,12 @@ footer {
 
 .game__input-get-level {
         text-align: center;
-        -webkit-transform: rotate(-4deg);
-                transform: rotate(-4deg);
+        -webkit-transform: rotate(15deg);
+                transform: rotate(15deg);
         position: absolute;
-        top: 143px;
-        left: 105px;
-        font-size: 17px;
+        top: 34px;
+        left: 141px;
+        font-size: 21px;
     }
 
 .game__input-get-level span {
@@ -782,3 +911,12 @@ footer {
                     transform: rotate(-4deg);
             font-size: 20px;
         }
+
+.game__input-small-grass {
+        background: url('/assets/images/1x/smallGrass.png') no-repeat right;
+        position: absolute;
+        top: 300px;
+        width: 200%;
+        height: 52px;
+        right: 0;
+    }
