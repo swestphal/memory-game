@@ -456,6 +456,11 @@ body {
     letter-spacing: 0.2em;
 }
 
+a,
+input:focus {
+    outline: none;
+}
+
 img {
     max-width: 100%;
     height: auto;
@@ -579,14 +584,10 @@ a {
 /* '' */
 
 .grid {
-
-
+    min-height: 640px;
+    padding-top: 1em;
     display: -webkit-box;
-
-
     display: -ms-flexbox;
-
-
     display: flex;
     -webkit-box-align: stretch;
         -ms-flex-align: stretch;
@@ -605,9 +606,7 @@ a {
 
 .grid__col-sidebar {
         width: 300px;
-        position: relative;
-        -ms-flex-item-align: center;
-            align-self: center;
+        position: relative; //align-self: center;
     }
 
 .field-table {
@@ -675,19 +674,9 @@ a {
 .field-table__card,
 .front,
 .back {
-    width: 100px;
-    height: 100px;
+    width: 136px;
+    height: 136px;
 }
-
-@media (min-width: 530px) {
-
-.field-table__card,
-.front,
-.back {
-        width: 150px;
-        height: 150px
-}
-    }
 
 /* flip speed goes here */
 
@@ -731,7 +720,7 @@ a {
 }
 
 .site-header {
-    margin-top: 3em;
+    margin-top: 1.5em;
     background: url('/assets/images/1x/flowers.png') no-repeat center;
     height: 137px;
     position: relative;
