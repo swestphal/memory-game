@@ -14,29 +14,65 @@ var memory = function() {
     var getRestart = document.getElementById('game-restart');
     var getLevel = document.getElementById('game-level');
     var getLevel = document.getElementById('game-level-input');
+    var gameLevel = document.getElementById('game-level');
+
     var cardClick = document.getElementById('field');
 
     var matchingCards = 0;
     var gameCompleted = false;
 
+    var flag = 0;
     var clickDisabled = false;
     var refreshIntervalId;
     var firstClickTime;
-    var rating;
     var starRating;
     var oldId;
+    var level = 0;
 
     var goToSecondMove = false;
     var cardArr = [];
 
-    generateCards();
 
-    play();
+    restart();
 
+    function restart() {
 
+        fieldSizeIsOdd = false;
+        cardClickCounter = 1;
+        matchingCards = 0;
+        gameCompleted = false;
+
+        flag = 0;
+        clickDisabled = false;
+        //refreshIntervalId;
+        //firstClickTime;
+        //starRating;
+        oldId = 999;
+
+        goToSecondMove = false;
+        cardArr = [];
+
+        var myNode = document.getElementById("field-table");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+
+        timerStop();
+        timerRestart();
+        showCardClickCounter.innerText = 0;
+
+        showCardRating.innerText = "***";
+        generateCards();
+        listenEvents();
+    }
 
     function timerStop() {
         clearInterval(refreshIntervalId);
+    }
+
+    function timerRestart() {
+        clearInterval(refreshIntervalId);
+        showCardTimer.innerText = "00:00:00";
     }
 
     function timerStart() {
@@ -48,6 +84,19 @@ var memory = function() {
 
         // update timer every second
         refreshIntervalId = setInterval(timerUpdate.bind(this), 1000);
+    }
+
+    function changeLevel() {
+
+        var levels = ["puppy", "terrier", "bernese"];
+        var sizes = [4, 9, 16]
+        level++;
+        level = level % 3;
+        console.log(level);
+        gameLevel.innerText = levels[level];
+        fieldSize = sizes[level];
+        restart();
+
     }
 
     function digitFormat(value) {
@@ -78,7 +127,7 @@ var memory = function() {
 
 
 
-    function play() {
+    function listenEvents() {
 
         //timerStart = timerStart.bind(this);
         cardClick.addEventListener('click', timerStart);
@@ -87,6 +136,10 @@ var memory = function() {
             if (clickDisabled == true) return;
             else newCardClick();
         });
+
+        getLevel.addEventListener('click', changeLevel);
+
+        getRestart.addEventListener('click', restart);
     }
 
     function newCardClick() {
@@ -194,6 +247,7 @@ var memory = function() {
             }
             showGameField.appendChild(nodeRow);
         }
+
         return;
     }
 
@@ -207,7 +261,7 @@ var memory = function() {
 
 
     function checkRating() {
-        rating = (cardClickCounter) / fieldSize;
+        var rating = (cardClickCounter) / fieldSize;
         switch (true) {
             case (rating <= 1):
                 starRating = 3;
@@ -232,7 +286,7 @@ var memory = function() {
 
     function checkIfCompleted() {
         matchingCards++;
-        console.log(matchingCards);
+
         if (matchingCards >= Math.floor(fieldSize / 2)) {
             gameCompleted = true;
             timerStop;
@@ -303,7 +357,7 @@ var memory = function() {
                     }
 
                     clickDisabled = false;
-                }, 2000);
+                }, 1500);
                 goToSecondMove = false;
             }
 
