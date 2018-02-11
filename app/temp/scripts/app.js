@@ -75,7 +75,7 @@ var memory = function () {
     // $(".site-header__menu-icon").click(function () {
     //     console.log("right icon was clicked");
 
-    var fieldSize = 9;
+    var fieldSize = 16;
     var fieldSizeIsOdd = false;
     var cardClickCounter = 1;
     var showCardClickCounter = document.getElementById('card-click-counter');
@@ -83,6 +83,9 @@ var memory = function () {
     var showCardTimer = document.getElementById('card-timer');
     var showGameField = document.getElementById('field-table');
 
+    var getRestart = document.getElementById('game-restart');
+    var getLevel = document.getElementById('game-level');
+    var getLevel = document.getElementById('game-level-input');
     var cardClick = document.getElementById('field');
 
     var matchingCards = 0;
