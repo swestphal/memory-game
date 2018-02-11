@@ -14,9 +14,9 @@
     <header class="site-header">
         <div class="site-header__title">
             <h1> Doggy Memory</h1>
-        </div>
-        <div class="site-header__doggy">
-            <img src="../../assets/images/1x/doggy.png">
+            <div class="site-header__doggy">
+                <img src="../../assets/images/1x/doggy.png">
+            </div>
         </div>
     </header>
     <main>
@@ -26,8 +26,10 @@
                     <div class="grid__col grid__col-sidebar">
                         <div class="game__input">
                             <div class="game__input-show-level">Level: <span id="game-level">easy</span>
-                                <div class="game__input-get-level" id="game-level-input">up down</div>
+                                <div class="game__input-get-level" id="game-level-input">&#8633;</div>
                             </div>
+                        </div>
+                        <div class="game__input-small-grass">
                         </div>
                     </div>
                     <div class="grid__col grid__col-main">
@@ -48,16 +50,20 @@
                             <div class="game__ui-restart" id="btn-restart">
                                 <p>NEW GAME</p>
                             </div>
+
                         </div>
+                         <div class="game__ui-small-grass">
+                            </div>
                     </div>
                 </div>
-                <div class="game__popup" id="popup">congrat popup</div>
+                <!--<div class="game__popup" id="popup">congrat popup</div>-->
             </section>
         </div>
+
     </main>
     <footer class="site-footer">
-        <div>
-            &lt;&hearts;&gt; by Simone Westphal - <a href="https://www.linkedin.com/in/simonewestphal/">in</a>&nbsp;<a href="https://github.com/swestphal">github</a>
+        <div class="site-footer__content">
+            <p>&lt;&hearts;&gt; by Simone Westphal - <a href="https://www.linkedin.com/in/simonewestphal/" class="icon icon-linkedin"></a>&nbsp;<a href="https://github.com/swestphal" class="icon icon-github"></a></p>
         </div>
     </footer>
     <script src="temp/scripts/app.js"></script>
