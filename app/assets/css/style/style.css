@@ -451,28 +451,28 @@ template {
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  color:#333;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
 }
 
 img {
-  max-width:100%;
-  height:auto;
-  display:block;
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 * {
-  -webkit-box-sizing:border-box;
-          box-sizing:border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 a {
-  color:#999;
+    color: #999;
 }
 
 .wrapper {
-    max-width:800px;
-    margin:0 auto;
+    max-width: 880;
+    margin: 0 auto;
 }
 
 .field-table {
