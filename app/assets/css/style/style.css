@@ -909,3 +909,46 @@ a {
         height: 52px;
         right: 0;
     }
+
+.modal {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 220px;
+    z-index: 10;
+    display: block;
+    overflow: hidden;
+    outline: 0;
+    margin: 0 auto;
+    visibility: hidden;
+    width: 570px;
+    height: 527px;
+    opacity: 0;
+    -webkit-transition: all .5 ease-out;
+    transition: all .5 ease-out;
+    -webkit-transition: all .5s ease-out;
+}
+
+.modal-congrat {
+        background: url('/assets/images/1x/dogHome.png') no-repeat center;
+    }
+
+.modal__content {
+        position: absolute;
+        padding: 100px 100px 50px 100px;
+        bottom: 0;
+        line-height: 1.7rem;
+        color: #924D19;
+    }
+
+.modal.fade-in {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .5s ease-out;
+        -webkit-transition: opacity .5s ease-out;
+    }
+
+.modal__close {
+        font-size: 30px;
+        float: right;
+    }

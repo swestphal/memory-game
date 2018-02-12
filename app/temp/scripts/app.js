@@ -90,6 +90,12 @@ var memory = function () {
 
     var cardClick = document.getElementById('field');
 
+    var modalCongrat = document.getElementById('modal-congrat');
+    var modalClose = document.getElementById('modal-close');
+    var modalMoves = document.getElementById('modal-congrat-moves');
+    var modalMinutes = document.getElementById('modal-congrat-minutes');
+    var modalSeconds = document.getElementById('modal-congrat-seconds');
+
     var matchingCards = 0;
     var gameCompleted = false;
 
@@ -100,6 +106,8 @@ var memory = function () {
     var starRating;
     var oldId;
     var level = 0;
+
+    var diffHours, diffMin, diffSec;
 
     var goToSecondMove = false;
     var cardArr = [];
@@ -137,7 +145,19 @@ var memory = function () {
         listenEvents();
     }
 
+    function modalFadeIn(containerId) {
+        console.log(containerId);
+        var content = document.getElementById(containerId);
+        content.classList.add("fade-in");
+    }
+
+    function modalFadeOut() {
+        var modal = event.target.parentElement.parentElement;
+        modal.classList.remove("fade-in");
+    }
+
     function timerStop() {
+
         clearInterval(refreshIntervalId);
     }
 
@@ -186,13 +206,13 @@ var memory = function () {
         var currentTime = new Date();
         var diffTime = currentTime.getTime() - firstClickTime.getTime();
 
-        var diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+        diffHours = Math.floor(diffTime / (1000 * 60 * 60));
         diffTime -= diffHours * (1000 * 60 * 60);
 
-        var diffMin = Math.floor(diffTime / (1000 * 60));
+        diffMin = Math.floor(diffTime / (1000 * 60));
         diffTime -= diffMin * 1000 * 60;
 
-        var diffSec = Math.floor(diffTime / 1000);
+        diffSec = Math.floor(diffTime / 1000);
 
         showCardTimer.innerText = digitFormat(diffHours) + ":" + digitFormat(diffMin) + ":" + digitFormat(diffSec);
     }
@@ -209,6 +229,8 @@ var memory = function () {
         getLevel.addEventListener('click', changeLevel);
 
         getRestart.addEventListener('click', restart);
+
+        modalClose.addEventListener('click', modalFadeOut);
     }
 
     function newCardClick() {
@@ -328,15 +350,15 @@ var memory = function () {
     function checkRating() {
         var rating = cardClickCounter / fieldSize;
         switch (true) {
-            case rating <= 1:
+            case rating <= 1.3:
                 starRating = 3;
 
                 break;
-            case rating <= 1.3:
+            case rating <= 1.5:
                 starRating = 2;
 
                 break;
-            case rating <= 1.6:
+            case rating <= 1.7:
                 starRating = 1;
 
                 break;
@@ -352,13 +374,17 @@ var memory = function () {
 
         if (matchingCards >= Math.floor(fieldSize / 2)) {
             gameCompleted = true;
-            timerStop;
+            timerStop();
+
             gratulation();
         }
     }
 
     function gratulation() {
-        console.log("hurrah");
+        modalFadeIn("modal-congrat");
+        modalMoves.innerText = cardClickCounter;
+        modalMinutes.innerText = diffMin;
+        modalSeconds.innerText = diffSec;
     }
 
     function flipCard(element, id) {
