@@ -1,8 +1,8 @@
 .modal {
-    position: fixed;
+    position: absolute;
     right: 0;
     left: 0;
-    top: 220px;
+    bottom: 1500px;
     z-index: 10;
     display: block;
     overflow: hidden;
@@ -11,45 +11,92 @@
     visibility: hidden;
     width: 570px;
     height: 527px;
-    opacity: 0;
+
     transition: all .5 ease-out;
     -webkit-transition: all .5s ease-out;
 
-    &-congrat {
+    &__content {
+        bottom: 0;
+        line-height: 1.7rem;
+        font-size: 16px;
+        color: #924D19;
+    }
+    &__congrat {
         background: url('/assets/images/1x/dogHome.png') no-repeat center;
+        background-size: contain;
         .modal__content {
             padding: 100px 100px 50px 100px;
             position: absolute;
             bottom: 0;
         }
+        &__content {
+            position: absolute;
+            padding: 100px 100px 50px 100px;
+            bottom: 0;
+            line-height: 1.7rem;
+            color: #924D19;
+        }
     }
 
-    &-info {}
 
-    &-hitlist() &__content {
-        position: absolute;
-        padding: 100px 100px 50px 100px;
-        bottom: 0;
-        line-height: 1.7rem;
-        color: #924D19;
+
+    &__faq {
+        background: #ea7e69;
+        padding: 50px;
+        height: auto;
+        width: 700px;
     }
+    &__hitlist {
+        background: #ea7e69;
+        padding: 50px;
+        height: auto;
+        width: 700px;
+    }
+
 
     &.fade-in {
         visibility: visible;
-        opacity: 1;
-        transition: opacity .5s ease-out;
-        -webkit-transition: opacity .5s ease-out;
+        animation: animationFrames 0.8s alternate forwards ease-in;
+        -webkit-animation: animationFrames 0.8s alternate forwards ease-in;
     }
 
     &__close {
         cursor: pointer;
         font-size: 30px;
         float: right;
-        &:hover {
-            transform: rotate(360deg);
-            -webkit-transform: rotate(360deg);
-            transition: rotate 2s ease-out;
-            -webkit-transition: rotate 2s ease-out;
-        }
+        z-index: 999;
+        transition: scale 2s ease-out;
+        -webkit-transition: scale 2s ease-out;
+    }
+    &__close:hover {
+        color: #FCCB6F;
+        transform: scale(1.2);
+        -webkit-transform: scale(1.2);
+    }
+}
+
+
+
+@-webkit-keyframes animationFrames {
+    0% {
+        bottom: 1000px;
+        opacity: 0;
+    }
+
+    70% {
+        bottom: 0;
+        opacity: 1;
+    }
+
+    80% {
+        bottom: 100px;
+    }
+
+    90% {
+        bottom: 50px;
+    }
+
+    100% {
+        bottom: 70px;
     }
 }

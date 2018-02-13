@@ -19,24 +19,34 @@
             </div>
         </div>
         <div class="site-header__info" id="header-info">
-            <div id="site-header__info-faq" data-modal-target="modal-faq"><span class="icon icon-award"></span></div>
-            <div id="site-header__info-hitlist" data-modal-target="modal-hitlist"><span class="icon icon-help"></span></div>
+            <div id="site-header__info-faq" data-modal-target="modal-faq"><span class="icon icon-help"></span></div>
+            <div id="site-header__info-hitlist" data-modal-target="modal-hitlist"><span class="icon icon-award"></span></div>
         </div>
     </header>
-    <div class="modal modal-faq" id="modal-faq">
-        <div class="modal__close" id="modal-close" aria-label="Close congratulation modal">&times;</div>
-        <p>Play your game!</p>
-    </div>
-    <div class="modal modal-hitlist" id="modal-hitlist">
-        <div class="modal__close" id="modal-close" aria-label="Close congratulation modal">&times;</div>
-        <p>1) Mariechen 2) wieder Mariechen</p>
-    </div>
-    <div class="modal modal-congrat congrat" id="modal-congrat">
+    <div class="modal modal__faq" id="modal-faq">
         <div class="modal__content">
-            <div class="modal__close" id="modal-close" aria-label="Close congratulation modal">&times;</div>
+            <div class="modal__close " aria-label="Close congratulation modal">&times;</div>
+            <h3>Train your brain with a memory game!</h3>
+            <p>Select the level on the left panel. There are three levels with a different amount of cards (4,9,16). On an odd fieldsize there is a dummy card, wich you cannot click or flip.
+                <br> It is not possible to change the level in a running game.
+                <br> If you want change the level while playing, please use the restart button on the right panel.
+                <br>If your browser supports datasaving, your moves, the played fieldsize and time will be saved.</p>
+            <p>Let's play and have fun!</p>
+        </div>
+    </div>
+    <div class="modal modal__hitlist" id="modal-hitlist">
+        <div class="modal__content">
+            <div class="modal__close" aria-label="Close congratulation modal">&times;</div>
+            <h3>Rankinglist</h3>
+            <p id="modal-show-hitlist"></p>
+        </div>
+    </div>
+    <div class="modal modal__congrat " id="modal-congrat">
+        <div class="modal__content">
+            <div class="modal__close" aria-label="Close congratulation modal">&times;</div>
             <h3>Congratulation!</h3>
-            <p>You mastered this game with <span id="modal-congrat-moves"></span> moves in <span id="modal-congrat-minutes"></span> minutes and <span id="modal-congrat-seconds"></span> seconds.
-                <br>In the ranking, you are on place <span id="modal-congrat-ranking"></span></p>
+            <p>You mastered this game with <span id="modal-congrat-moves"></span> moves in <span id="modal-congrat-time"></span>
+                <!--<br>In the ranking, you are on place <span id="modal-congrat-ranking"></span></p>-->
         </div>
     </div>
     <main>
@@ -45,7 +55,7 @@
                 <div class="grid">
                     <div class="grid__col grid__col-sidebar">
                         <div class="game__input">
-                            <div class="game__input-show-level">Level: <span id="game-level">easy</span>
+                            <div class="game__input-show-level">Level: <span id="game-level">terrier</span>
                                 <div class="game__input-get-level" id="game-level-input">&#8633;</div>
                             </div>
                         </div>
@@ -58,7 +68,7 @@
                                 <source src="../../assets/sound/flip.ogg" type="audio/ogg">
                                 <source src="../../assets/sound/flip.mp3" type="audio/mpeg"> Your browser does not support the audio element.
                             </audio>
-                            <table id="field-table" class="field-table">
+                            <table id="field-table" class="field-table ">
                             </table>
                         </div>
                     </div>
