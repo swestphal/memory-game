@@ -24,6 +24,8 @@ var memory = function() {
     var modalMinutes = document.getElementById('modal-congrat-minutes');
     var modalSeconds = document.getElementById('modal-congrat-seconds');
 
+    var modalInfoOpen = document.getElementById('header-info');
+
     var matchingCards = 0;
     var gameCompleted = false;
 
@@ -75,13 +77,19 @@ var memory = function() {
     }
 
     function modalFadeIn(containerId) {
-        console.log(containerId);
-        var content = document.getElementById(containerId);
+
+        if (!containerId) {
+            var content = document.getElementById(event.target.parentElement.dataset.modalTarget);
+        } else
+            var content = document.getElementById(containerId);
+
         content.classList.add("fade-in");
+
     }
 
     function modalFadeOut() {
         var modal = event.target.parentElement.parentElement;
+        console.log(modal);
         modal.classList.remove("fade-in");
     }
 
@@ -165,6 +173,9 @@ var memory = function() {
         getRestart.addEventListener('click', restart);
 
         modalClose.addEventListener('click', modalFadeOut);
+
+        modalInfoOpen.addEventListener('click', function() { modalFadeIn(null) });
+
     }
 
     function newCardClick() {
@@ -323,6 +334,9 @@ var memory = function() {
 
     function gratulation() {
         modalFadeIn("modal-congrat");
+        localStorage.setItem("Fieldsize", fieldsize);
+        localStorage.setItem("Moves", cardClickCounter);
+        localStorage.setItem("Time", diffMin + ":" + diffSec);
         modalMoves.innerText = cardClickCounter;
         modalMinutes.innerText = diffMin;
         modalSeconds.innerText = diffSec;

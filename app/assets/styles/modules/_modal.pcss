@@ -17,9 +17,16 @@
 
     &-congrat {
         background: url('/assets/images/1x/dogHome.png') no-repeat center;
+        .modal__content {
+            padding: 100px 100px 50px 100px;
+            position: absolute;
+            bottom: 0;
+        }
     }
 
-    &__content {
+    &-info {}
+
+    &-hitlist() &__content {
         position: absolute;
         padding: 100px 100px 50px 100px;
         bottom: 0;
@@ -35,7 +42,14 @@
     }
 
     &__close {
+        cursor: pointer;
         font-size: 30px;
         float: right;
+        &:hover {
+            transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            transition: rotate 2s ease-out;
+            -webkit-transition: rotate 2s ease-out;
+        }
     }
 }
