@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+    div {
+        width: 100px;
+        height: 100px;
+        background: red;
+        top: 50px;
+
+
+        animation: animationFrames 0.8s alternate forwards ease-in;
+        -webkit-animation: animationFrames 0.8s alternate forwards ease-in;
+    }
+
+    .modal-animation {}
+
+
+
+
+
+    @-webkit-keyframes animationFrames {
+        0% {
+            -webkit-transform: translate(1px, -300px);
+        }
+        70% {
+            -webkit-transform: translate(1px, 600px);
+        }
+        80% {
+            -webkit-transform: translate(1px, 550px);
+        }
+        90% {
+            -webkit-transform: translate(1px, 610px);
+        }
+        100% {
+            -webkit-transform: translate(1px, 600px);
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>bump</h1>
+    </div>
+</body>
+
+</html>

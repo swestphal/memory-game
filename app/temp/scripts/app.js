@@ -75,7 +75,7 @@ var memory = function () {
     // $(".site-header__menu-icon").click(function () {
     //     console.log("right icon was clicked");
 
-    var fieldSize = 16;
+    var fieldSize = 9;
     var fieldSizeIsOdd = false;
     var cardClickCounter = 1;
     var showCardClickCounter = document.getElementById('card-click-counter');
@@ -89,14 +89,16 @@ var memory = function () {
     var gameLevel = document.getElementById('game-level');
 
     var cardClick = document.getElementById('field');
+    var myAudio = document.getElementById('myAudio');
 
     var modalCongrat = document.getElementById('modal-congrat');
-    var modalClose = document.getElementById('modal-close');
+    var modalsClose = document.getElementsByClassName('modal__close');
     var modalMoves = document.getElementById('modal-congrat-moves');
-    var modalMinutes = document.getElementById('modal-congrat-minutes');
-    var modalSeconds = document.getElementById('modal-congrat-seconds');
+    var modalTime = document.getElementById('modal-congrat-time');
 
     var modalInfoOpen = document.getElementById('header-info');
+
+    var showHitlist = document.getElementById('modal-show-hitlist');
 
     var matchingCards = 0;
     var gameCompleted = false;
@@ -113,6 +115,8 @@ var memory = function () {
 
     var goToSecondMove = false;
     var cardArr = [];
+
+    document.addEventListener('DOMContentLoaded', listenEvents, false);
 
     restart();
 
@@ -138,13 +142,19 @@ var memory = function () {
             myNode.removeChild(myNode.firstChild);
         }
 
+        addHitlist();
+
         timerStop();
         timerRestart();
         showCardClickCounter.innerText = 0;
 
         showCardRating.innerText = "***";
         generateCards();
-        listenEvents();
+    }
+
+    function addHitlist() {
+        localStorage.setItem("Fieldsize", fieldSize.toString());
+        showHitlist.innerText = localStorage.getItem("fieldSize");
     }
 
     function modalFadeIn(containerId) {
@@ -157,8 +167,9 @@ var memory = function () {
     }
 
     function modalFadeOut() {
+
         var modal = event.target.parentElement.parentElement;
-        console.log(modal);
+
         modal.classList.remove("fade-in");
     }
 
@@ -173,6 +184,7 @@ var memory = function () {
     }
 
     function timerStart() {
+
         //remove eventlistener after first call of timerStart
         cardClick.removeEventListener('click', timerStart);
 
@@ -185,13 +197,14 @@ var memory = function () {
 
     function changeLevel() {
 
-        var levels = ["puppy", "terrier", "bernese"];
-        var sizes = [4, 9, 16];
+        var levels = ["terrier", "bernese", "puppy"];
+        var sizes = [9, 16, 4];
         level++;
         level = level % 3;
         console.log(level);
         gameLevel.innerText = levels[level];
         fieldSize = sizes[level];
+
         restart();
     }
 
@@ -236,7 +249,12 @@ var memory = function () {
 
         getRestart.addEventListener('click', restart);
 
-        modalClose.addEventListener('click', modalFadeOut);
+        console.log(modalsClose);
+        for (var i = 0; i < modalsClose.length; i++) {
+            modalsClose[i].addEventListener('click', modalFadeOut, false);
+        }
+
+        //modalClose.addEventListener('click', modalFadeOut);
 
         modalInfoOpen.addEventListener('click', function () {
             modalFadeIn(null);
@@ -252,7 +270,7 @@ var memory = function () {
                 var dataSetId = event.target.dataset.id;
 
                 if (dataSetId != oldId && cardArr[dataSetId].isClickable == true) {
-                    var myAudio = document.getElementById('myAudio');
+
                     myAudio.play();
                     // increment the move-counter of clicks
                     // update move-counter on frontend
@@ -392,12 +410,18 @@ var memory = function () {
 
     function gratulation() {
         modalFadeIn("modal-congrat");
-        localStorage.setItem("Fieldsize", fieldsize);
-        localStorage.setItem("Moves", cardClickCounter);
-        localStorage.setItem("Time", diffMin + ":" + diffSec);
+        var timeContent = "";
+        localStorage.setItem("fieldSize", fieldSize.toString());
+        localStorage.setItem("moves", cardClickCounter.toString());
+        localStorage.setItem("time", diffMin.toString() + ":" + diffSec.toString());
+
         modalMoves.innerText = cardClickCounter;
-        modalMinutes.innerText = diffMin;
-        modalSeconds.innerText = diffSec;
+
+        if (diffMin >= 1) {
+            timeContent = diffMin + " minutes and ";
+        };
+
+        modalTime.innerText = timeContent + diffSec + " seconds.";
     }
 
     function flipCard(element, id) {
@@ -466,6 +490,7 @@ var memory = function () {
             flipCard(currentElement, currentCardId);
             //flipCard(event.target.parentElement);
             oldId = currentCardId;
+
             goToSecondMove = true;
         }
     }
