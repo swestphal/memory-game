@@ -76,7 +76,7 @@ var memory = function () {
     //     console.log("right icon was clicked");
 
     var fieldSize = 9;
-    var fieldSizeIsOdd = false;
+    var fieldSizeIsOdd = true;
     var cardClickCounter = 1;
     var showCardClickCounter = document.getElementById('card-click-counter');
     var showCardRating = document.getElementById('card-star-rating');
@@ -122,16 +122,13 @@ var memory = function () {
 
     function restart() {
 
-        fieldSizeIsOdd = false;
         cardClickCounter = 1;
         matchingCards = 0;
         gameCompleted = false;
 
         flag = 0;
         clickDisabled = false;
-        //refreshIntervalId;
-        //firstClickTime;
-        //starRating;
+
         oldId = 999;
 
         goToSecondMove = false;
@@ -150,6 +147,36 @@ var memory = function () {
 
         showCardRating.innerText = "***";
         generateCards();
+    }
+
+    function isLocalStorageNameSupported() {
+        var testKey = 'test',
+            storage = window.localStorage;
+        try {
+            storage.setItem(testKey, '1');
+            storage.removeItem(testKey);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function pushToLocalStorage(newData) {
+        newData = {
+            "fieldSize": fieldSize.toString(),
+            "moves": cardClickCounter.toString(),
+            "time": diffMin.toString() + ":" + diffSec.toString()
+        };
+        var hitlistData = {};
+        var localData = localStorage.getItem("hitlist");
+        if (localData == true) {
+
+            hitlistData = JSON.parse(localData);
+
+            hitlistData.push(newData);
+        } else hitlistData = newData;
+
+        localStorage.setItem("hitlist", JSON.stringify(hitlistData));
     }
 
     function addHitlist() {
@@ -201,7 +228,9 @@ var memory = function () {
         var sizes = [9, 16, 4];
         level++;
         level = level % 3;
-        console.log(level);
+
+        if (sizes[level] % 2 == 0) fieldSizeIsOdd = false;
+        console.log(fieldSizeIsOdd);
         gameLevel.innerText = levels[level];
         fieldSize = sizes[level];
 
@@ -411,9 +440,15 @@ var memory = function () {
     function gratulation() {
         modalFadeIn("modal-congrat");
         var timeContent = "";
-        localStorage.setItem("fieldSize", fieldSize.toString());
-        localStorage.setItem("moves", cardClickCounter.toString());
-        localStorage.setItem("time", diffMin.toString() + ":" + diffSec.toString());
+
+        var newData = {
+            "fieldSize": fieldSize.toString(),
+            "moves": cardClickCounter.toString(),
+            "time": diffMin.toString() + ":" + diffSec.toString()
+        };
+
+        pushToLocalStorage(newData);
+        console.log(getLocalStorage("hitlist"));
 
         modalMoves.innerText = cardClickCounter;
 
