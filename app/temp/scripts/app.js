@@ -139,7 +139,7 @@ var memory = function () {
             myNode.removeChild(myNode.firstChild);
         }
 
-        addHitlist();
+        addHitlistToDom();
 
         timerStop();
         timerRestart();
@@ -161,27 +161,57 @@ var memory = function () {
         }
     }
 
-    function pushToLocalStorage(newData) {
-        newData = {
-            "fieldSize": fieldSize.toString(),
-            "moves": cardClickCounter.toString(),
-            "time": diffMin.toString() + ":" + diffSec.toString()
-        };
-        var hitlistData = {};
-        var localData = localStorage.getItem("hitlist");
-        if (localData == true) {
-
-            hitlistData = JSON.parse(localData);
-
-            hitlistData.push(newData);
-        } else hitlistData = newData;
-
-        localStorage.setItem("hitlist", JSON.stringify(hitlistData));
+    function getFromLocalStorage() {
+        return JSON.parse(localStorage.getItem("hitlist"));
     }
 
-    function addHitlist() {
-        localStorage.setItem("Fieldsize", fieldSize.toString());
-        showHitlist.innerText = localStorage.getItem("fieldSize");
+    function writeToLocalStore(obj) {
+        return localStorage.setItem("hitlist", JSON.stringify(obj));
+    }
+
+    function pushToLocalStorage(newObj) {
+        // var newData = ({
+        //   fieldSize: fieldSize,
+        // moves: cardClickCounter,
+        //    minutes: diffMin,
+        //  seconds: diffSec
+        // });
+
+        var oldHitlist = getFromLocalStorage();
+
+        if (oldHitlist == null) {
+            oldHitlist = [newObj];
+        } else oldHitlist.push(newObj);
+
+        writeToLocalStore(oldHitlist);
+    }
+
+    function removeNode(node) {
+        while (node.firstChild) {
+            node.removeChild(node.firstChild);
+        }
+    }
+
+    function addHitlistToDom() {
+
+        removeNode(showHitlist);
+
+        var myFragment = document.createDocumentFragment();
+
+        var nodeUl = document.createElement("ul");
+
+        var localHitlist = getFromLocalStorage();
+
+        if (localHitlist) {
+            for (var i = 0; i < (localHitlist.length > 6 ? 6 : localHitlist.length); i++) {
+                var nodeLi = document.createElement("li");
+                var content = i + 1 + ")" + localHitlist[i].fieldSize + "fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
+                nodeLi.innerText = content;
+                myFragment.appendChild(nodeLi);
+            }
+        }
+        nodeUl.appendChild(myFragment);
+        showHitlist.appendChild(nodeUl);
     }
 
     function modalFadeIn(containerId) {
@@ -230,7 +260,7 @@ var memory = function () {
         level = level % 3;
 
         if (sizes[level] % 2 == 0) fieldSizeIsOdd = false;
-        console.log(fieldSizeIsOdd);
+
         gameLevel.innerText = levels[level];
         fieldSize = sizes[level];
 
@@ -278,12 +308,9 @@ var memory = function () {
 
         getRestart.addEventListener('click', restart);
 
-        console.log(modalsClose);
         for (var i = 0; i < modalsClose.length; i++) {
             modalsClose[i].addEventListener('click', modalFadeOut, false);
         }
-
-        //modalClose.addEventListener('click', modalFadeOut);
 
         modalInfoOpen.addEventListener('click', function () {
             modalFadeIn(null);
@@ -439,24 +466,27 @@ var memory = function () {
 
     function gratulation() {
         modalFadeIn("modal-congrat");
+
         var timeContent = "";
-
-        var newData = {
-            "fieldSize": fieldSize.toString(),
-            "moves": cardClickCounter.toString(),
-            "time": diffMin.toString() + ":" + diffSec.toString()
-        };
-
-        pushToLocalStorage(newData);
-        console.log(getLocalStorage("hitlist"));
-
-        modalMoves.innerText = cardClickCounter;
 
         if (diffMin >= 1) {
             timeContent = diffMin + " minutes and ";
         };
+        timeContent += diffSec + " seconds.";
 
-        modalTime.innerText = timeContent + diffSec + " seconds.";
+        console.log(timeContent);
+        modalTime.innerText = timeContent;
+
+        var newData = {
+            fieldSize: fieldSize,
+            moves: cardClickCounter,
+            time: timeContent
+        };
+
+        pushToLocalStorage(newData);
+
+        modalMoves.innerText = cardClickCounter;
+        modalTime.innerText = timeContent;
     }
 
     function flipCard(element, id) {
