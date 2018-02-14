@@ -4,7 +4,7 @@ var memory = function() {
     //     console.log("right icon was clicked");
 
     var fieldSize = 9;
-    var fieldSizeIsOdd = false;
+    var fieldSizeIsOdd = true;
     var cardClickCounter = 1;
     var showCardClickCounter = document.getElementById('card-click-counter');
     var showCardRating = document.getElementById('card-star-rating');
@@ -47,23 +47,19 @@ var memory = function() {
     document.addEventListener('DOMContentLoaded', listenEvents, false);
 
 
-
-
     restart();
 
     function restart() {
 
 
-        fieldSizeIsOdd = false;
+
         cardClickCounter = 1;
         matchingCards = 0;
         gameCompleted = false;
 
         flag = 0;
         clickDisabled = false;
-        //refreshIntervalId;
-        //firstClickTime;
-        //starRating;
+
         oldId = 999;
 
         goToSecondMove = false;
@@ -76,7 +72,7 @@ var memory = function() {
             myNode.removeChild(myNode.firstChild);
         }
 
-        addHitlist();
+        addHitlistToDom();
 
         timerStop();
         timerRestart();
@@ -87,10 +83,73 @@ var memory = function() {
 
     }
 
+    function isLocalStorageNameSupported() {
+        var testKey = 'test',
+            storage = window.localStorage;
+        try {
+            storage.setItem(testKey, '1');
+            storage.removeItem(testKey);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
 
-    function addHitlist() {
-        localStorage.setItem("Fieldsize", fieldSize.toString());
-        showHitlist.innerText = localStorage.getItem("fieldSize");
+    function getFromLocalStorage() {
+        return JSON.parse(localStorage.getItem("hitlist"));
+    }
+
+    function writeToLocalStore(obj) {
+        return localStorage.setItem("hitlist", JSON.stringify(obj));
+    }
+
+    function pushToLocalStorage(newObj) {
+        // var newData = ({
+        //   fieldSize: fieldSize,
+        // moves: cardClickCounter,
+        //    minutes: diffMin,
+        //  seconds: diffSec
+        // });
+
+        var oldHitlist = getFromLocalStorage();
+
+
+        if (oldHitlist == null) { oldHitlist = [newObj]; } else oldHitlist.push(newObj);
+
+        writeToLocalStore(oldHitlist);
+
+    }
+
+
+    function removeNode(node) {
+        while (node.firstChild) {
+            node.removeChild(node.firstChild);
+        }
+    }
+
+
+
+    function addHitlistToDom() {
+
+        removeNode(showHitlist);
+
+        var myFragment = document.createDocumentFragment();
+
+        var nodeUl = document.createElement("ul");
+
+        var localHitlist = getFromLocalStorage();
+
+        if (localHitlist) {
+            for (var i = 0; i < (localHitlist.length > 6 ? 6 : localHitlist.length); i++) {
+                var nodeLi = document.createElement("li");
+                var content = (i + 1) + ")" + localHitlist[i].fieldSize + "fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
+                nodeLi.innerText = content;
+                myFragment.appendChild(nodeLi);
+            }
+        }
+        nodeUl.appendChild(myFragment);
+        showHitlist.appendChild(nodeUl);
+
     }
 
     function modalFadeIn(containerId) {
@@ -141,7 +200,9 @@ var memory = function() {
         var sizes = [9, 16, 4]
         level++;
         level = level % 3;
-        console.log(level);
+
+        if (sizes[level] % 2 == 0) fieldSizeIsOdd = false;
+
         gameLevel.innerText = levels[level];
         fieldSize = sizes[level];
 
@@ -194,12 +255,10 @@ var memory = function() {
 
         getRestart.addEventListener('click', restart);
 
-        console.log(modalsClose);
+
         for (var i = 0; i < modalsClose.length; i++) {
             modalsClose[i].addEventListener('click', modalFadeOut, false);
         }
-
-        //modalClose.addEventListener('click', modalFadeOut);
 
         modalInfoOpen.addEventListener('click', function() { modalFadeIn(null) });
 
@@ -364,16 +423,27 @@ var memory = function() {
 
     function gratulation() {
         modalFadeIn("modal-congrat");
-        var timeContent = "";
-        localStorage.setItem("fieldSize", fieldSize.toString());
-        localStorage.setItem("moves", cardClickCounter.toString());
-        localStorage.setItem("time", diffMin.toString() + ":" + diffSec.toString());
 
-        modalMoves.innerText = cardClickCounter;
+        var timeContent = "";
 
         if (diffMin >= 1) { timeContent = diffMin + " minutes and " };
+        timeContent += diffSec + " seconds."
 
-        modalTime.innerText = timeContent + diffSec + " seconds.";
+        console.log(timeContent);
+        modalTime.innerText = timeContent;
+
+        var newData = {
+            fieldSize: fieldSize,
+            moves: cardClickCounter,
+            time: timeContent
+        };
+
+
+        pushToLocalStorage(newData);
+
+
+        modalMoves.innerText = cardClickCounter;
+        modalTime.innerText = timeContent;
     }
 
 
