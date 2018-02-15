@@ -270,6 +270,14 @@ var memory = function () {
         return true;
     }
 
+    function changeLevelHint() {
+        var hint = document.getElementById('game-level-hint');
+        hint.classList.add('show');
+        setTimeout(function () {
+            hint.classList.remove('show');
+        }, 5000);
+    }
+
     function changeLevel() {
         if (!gameRunning()) {
 
@@ -284,7 +292,7 @@ var memory = function () {
             fieldSize = sizes[level];
 
             restart();
-        }
+        } else changeLevelHint();
     }
 
     function digitFormat(value) {
@@ -384,7 +392,6 @@ var memory = function () {
             cardArr.push(card1);
             cardArr.push(card1);
         }
-
         shuffleCards();
     }
 
