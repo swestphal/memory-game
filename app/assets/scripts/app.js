@@ -71,6 +71,8 @@ var memory = function() {
         while (myNode.firstChild) {
             myNode.removeChild(myNode.firstChild);
         }
+        changeLevelDisableHint();
+        modalFadeOutOpened();
 
         addHitlistToDom();
 
@@ -96,28 +98,29 @@ var memory = function() {
     }
 
     function getFromLocalStorage() {
-        return JSON.parse(localStorage.getItem("hitlist"));
+        if (isLocalStorageNameSupported()) return JSON.parse(localStorage.getItem("hitlist"));
     }
 
     function writeToLocalStore(obj) {
-        return localStorage.setItem("hitlist", JSON.stringify(obj));
+        if (isLocalStorageNameSupported()) return localStorage.setItem("hitlist", JSON.stringify(obj));
     }
 
     function pushToLocalStorage(newObj) {
-        // var newData = ({
-        //   fieldSize: fieldSize,
-        // moves: cardClickCounter,
-        //    minutes: diffMin,
-        //  seconds: diffSec
-        // });
+        if (isLocalStorageNameSupported()) {
+            // var newData = ({
+            //   fieldSize: fieldSize,
+            // moves: cardClickCounter,
+            //    minutes: diffMin,
+            //  seconds: diffSec
+            // });
 
-        var oldHitlist = getFromLocalStorage();
+            var oldHitlist = getFromLocalStorage();
 
 
-        if (oldHitlist == null) { oldHitlist = [newObj]; } else oldHitlist.push(newObj);
-
-        writeToLocalStore(oldHitlist);
-
+            if (oldHitlist == null) { oldHitlist = [newObj]; } else oldHitlist.push(newObj);
+            if (oldHitlist.length > 6) oldHitlist.shift();
+            writeToLocalStore(oldHitlist);
+        }
     }
 
 
@@ -133,23 +136,28 @@ var memory = function() {
 
         removeNode(showHitlist);
 
-        var myFragment = document.createDocumentFragment();
-
-        var nodeUl = document.createElement("ul");
-
         var localHitlist = getFromLocalStorage();
-
         if (localHitlist) {
-            for (var i = 0; i < (localHitlist.length > 6 ? 6 : localHitlist.length); i++) {
-                var nodeLi = document.createElement("li");
-                var content = (i + 1) + ")" + localHitlist[i].fieldSize + "fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
-                nodeLi.innerText = content;
-                myFragment.appendChild(nodeLi);
-            }
-        }
-        nodeUl.appendChild(myFragment);
-        showHitlist.appendChild(nodeUl);
 
+            var myFragment = document.createDocumentFragment();
+
+            var nodeUl = document.createElement("ul");
+
+            if (localHitlist) {
+                for (var i = (localHitlist.length > 6 ? 6 : localHitlist.length); i > 0; i--) {
+                    var nodeLi = document.createElement("li");
+                    var content = (i + 1) + ")" + localHitlist[i].fieldSize + "fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
+                    nodeLi.innerText = content;
+                    myFragment.appendChild(nodeLi);
+                }
+            }
+            nodeUl.appendChild(myFragment);
+            showHitlist.appendChild(nodeUl);
+        } else {
+            var nodeP = document.createElement("p");
+            nodeP.innerText = "Sorry, but there are no games saved.";
+            showHitlist.appendChild(nodeP);
+        }
     }
 
     function modalFadeIn(containerId) {
@@ -190,6 +198,7 @@ var memory = function() {
     function timerRestart() {
         clearInterval(refreshIntervalId);
         showCardTimer.innerText = "00:00:00";
+        cardClick.addEventListener('click', timerStart);
     }
 
     function timerStart() {
@@ -210,12 +219,17 @@ var memory = function() {
         return true;
     }
 
+    function changeLevelDisableHint() {
+        var hint = document.getElementById('game-level-hint');
+        hint.classList.remove('show');
+    }
+
     function changeLevelHint() {
         var hint = document.getElementById('game-level-hint');
         hint.classList.add('show');
         setTimeout(function() {
             hint.classList.remove('show');
-        }, 5000);
+        }, 4000);
     }
 
     function changeLevel() {
@@ -394,9 +408,6 @@ var memory = function() {
             }
             showGameField.appendChild(nodeRow);
         }
-
-
-        return;
     }
 
     function generateRatingStars(num) {
@@ -452,6 +463,8 @@ var memory = function() {
         if (diffMin >= 1) { timeContent = diffMin + " minutes and " };
         timeContent += diffSec + " seconds."
 
+        modalMoves.innerText = cardClickCounter;
+        modalTime.innerText = timeContent;
         modalTime.innerText = timeContent;
 
         var newData = {
@@ -462,9 +475,8 @@ var memory = function() {
 
 
         pushToLocalStorage(newData);
+        addHitlistToDom();
 
-        modalMoves.innerText = cardClickCounter;
-        modalTime.innerText = timeContent;
     }
 
 
