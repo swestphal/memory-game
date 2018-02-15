@@ -6,6 +6,49 @@
     color: #FDC55C;
     position: relative;
 
+    &-show-hint {
+        position: absolute;
+        transform: rotate(33deg);
+
+        top: -34px;
+        left: -17px;
+        line-height: 1.5rem;
+        font-size: 12px;
+        text-shadow: 0 0 1px #6A3914;
+        width: 215px;
+    }
+    &-show-hint>div {
+        position: absolute;
+        top: -100px;
+        left: 40px;
+        width: 215px;
+        transform-origin: 156px 100%;
+        -webkit-transform-origin: bottom 20%;
+        background: #85B188;
+        padding: 7px;
+        border-radius: 3px;
+        visibility: 0;
+        transform: scale(0);
+        transition: all .5s ease-in;
+
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: -24px;
+            right: 47px;
+            margin-left: -5px;
+            border-width: 12px;
+            border-style: solid;
+            border-color: #85b188 transparent transparent transparent;
+        }
+    }
+
+    .show>div {
+        visibility: visible;
+        transform: scale(1);
+    }
+
+
     &-show-level {
         text-align: center;
         transform: rotate(-18deg);
@@ -22,6 +65,7 @@
             font-size: 20px;
         }
     }
+
     &-get-level {
         text-align: center;
         transform: rotate(15deg);
@@ -38,6 +82,7 @@
             transform: rotate(-4deg);
             font-size: 20px;
         }
+
         &:hover {
 
             -moz-box-shadow: inset 0 0 10px #503926;
@@ -45,6 +90,7 @@
             box-shadow: inset 0 0 10px #503926;
         }
     }
+
     &-small-grass {
         background: url('/assets/images/1x/smallGrass.png') no-repeat right;
         position: absolute;
