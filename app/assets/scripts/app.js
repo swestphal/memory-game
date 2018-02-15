@@ -5,7 +5,7 @@ var memory = function() {
 
     var fieldSize = 9;
     var fieldSizeIsOdd = true;
-    var cardClickCounter = 1;
+    var cardClickCounter = 0;
     var showCardClickCounter = document.getElementById('card-click-counter');
     var showCardRating = document.getElementById('card-star-rating');
     var showCardTimer = document.getElementById('card-timer');
@@ -53,7 +53,7 @@ var memory = function() {
 
 
 
-        cardClickCounter = 1;
+        cardClickCounter = 0;
         matchingCards = 0;
         gameCompleted = false;
 
@@ -154,13 +154,25 @@ var memory = function() {
 
     function modalFadeIn(containerId) {
 
-        if (!containerId) {
+        if (containerId == null) {
             var content = document.getElementById(event.target.parentElement.dataset.modalTarget);
         } else
             var content = document.getElementById(containerId);
 
+        var openedModal = document.querySelector('.fade-in');
+
+        modalFadeOutOpened();
+
         content.classList.add("fade-in");
 
+    }
+
+    function modalFadeOutOpened() {
+        var modalOpened = document.querySelectorAll('.fade-in');
+        console.log(modalOpened);
+        for (var i = 0; i < modalOpened.length; i++) {
+            modalOpened[i].classList.remove("fade-in");
+        }
     }
 
     function modalFadeOut() {
@@ -192,23 +204,27 @@ var memory = function() {
         refreshIntervalId = setInterval(timerUpdate.bind(this), 1000);
     }
 
+    function gameRunning() {
 
+        if (gameCompleted || cardClickCounter == 0) return false;
+        return true;
+    }
 
     function changeLevel() {
+        if (!gameRunning()) {
 
-        var levels = ["terrier", "bernese", "puppy"];
-        var sizes = [9, 16, 4]
-        level++;
-        level = level % 3;
+            var levels = ["terrier", "bernese", "puppy"];
+            var sizes = [9, 16, 4]
+            level++;
+            level = level % 3;
 
-        if (sizes[level] % 2 == 0) fieldSizeIsOdd = false;
+            if (sizes[level] % 2 == 0) fieldSizeIsOdd = false;
 
-        gameLevel.innerText = levels[level];
-        fieldSize = sizes[level];
+            gameLevel.innerText = levels[level];
+            fieldSize = sizes[level];
 
-
-        restart();
-
+            restart();
+        }
     }
 
     function digitFormat(value) {
@@ -278,7 +294,7 @@ var memory = function() {
                     myAudio.play();
                     // increment the move-counter of clicks
                     // update move-counter on frontend
-                    showCardClickCounter.innerText = cardClickCounter++;
+                    showCardClickCounter.innerText = (cardClickCounter++) + 1;
                     checkRating();
                     checkCardClickChoice(dataSetId);
 
@@ -429,7 +445,6 @@ var memory = function() {
         if (diffMin >= 1) { timeContent = diffMin + " minutes and " };
         timeContent += diffSec + " seconds."
 
-        console.log(timeContent);
         modalTime.innerText = timeContent;
 
         var newData = {
@@ -441,7 +456,6 @@ var memory = function() {
 
         pushToLocalStorage(newData);
 
-
         modalMoves.innerText = cardClickCounter;
         modalTime.innerText = timeContent;
     }
@@ -449,7 +463,7 @@ var memory = function() {
 
 
     function flipCard(element, id) {
-
+        element.parentElement.classList.add("open");
         var nodeBackDiv = document.createElement('div');
         nodeBackDiv.classList.add('back');
 
@@ -466,13 +480,11 @@ var memory = function() {
     function checkCardClickChoice(currentCardId) {
 
         var currentElement = event.target.parentElement.parentElement;
-        //event.target.src = '../../assets/images/pool/1x/' + cardArr[currentCard]['img'] + '.png';
-
 
         if (goToSecondMove == true) {
 
             clickDisabled = true;
-            currentElement.parentElement.classList.add("open");
+            //currentElement.parentElement.classList.add("open");
             flipCard(currentElement, currentCardId);
 
 
@@ -488,7 +500,7 @@ var memory = function() {
                         matchingPair[i].classList.remove("open");
                         matchingPair[i].classList.add("matching");
                     }
-
+                    oldId = 999;
                     clickDisabled = false;
                 }, 1000);
                 goToSecondMove = false;
@@ -498,13 +510,11 @@ var memory = function() {
                     cardArr[oldId].isOpen = false;
                     cardArr[currentCardId].isOpen = false;
 
-
                     var pairs = document.querySelectorAll(".open");
-
                     for (var i = 0; i < pairs.length; i++) {
                         pairs[i].classList.remove("open");
                     }
-
+                    oldId = 999;
                     clickDisabled = false;
                 }, 1500);
                 goToSecondMove = false;
@@ -513,7 +523,7 @@ var memory = function() {
         } else {
 
             cardArr[currentCardId].isOpen = true;
-            currentElement.parentElement.classList.add("open");
+            // currentElement.parentElement.classList.add("open");
             flipCard(currentElement, currentCardId);
             //flipCard(event.target.parentElement);
             oldId = currentCardId;
