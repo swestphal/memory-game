@@ -89,7 +89,7 @@ var memory = function() {
         var testKey = 'test',
             storage = window.localStorage;
         try {
-            storage.setItem(testKey, '1');
+            storage.setItem(testKey, 'hitlist');
             storage.removeItem(testKey);
             return true;
         } catch (error) {
@@ -118,7 +118,7 @@ var memory = function() {
 
 
             if (oldHitlist == null) { oldHitlist = [newObj]; } else oldHitlist.push(newObj);
-            if (oldHitlist.length > 6) oldHitlist.shift();
+            //if (oldHitlist.length > 6) oldHitlist.shift();
             writeToLocalStore(oldHitlist);
         }
     }
@@ -136,28 +136,29 @@ var memory = function() {
 
         removeNode(showHitlist);
 
+        var myFragment = document.createDocumentFragment();
+
+        var nodeUl = document.createElement("ul");
+
         var localHitlist = getFromLocalStorage();
+
         if (localHitlist) {
-
-            var myFragment = document.createDocumentFragment();
-
-            var nodeUl = document.createElement("ul");
-
-            if (localHitlist) {
-                for (var i = (localHitlist.length > 6 ? 6 : localHitlist.length); i > 0; i--) {
-                    var nodeLi = document.createElement("li");
-                    var content = (i + 1) + ")" + localHitlist[i].fieldSize + "fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
-                    nodeLi.innerText = content;
-                    myFragment.appendChild(nodeLi);
-                }
+            for (var i = 0; i < (localHitlist.length > 6 ? 6 : localHitlist.length); i++) {
+                var nodeLi = document.createElement("li");
+                var content = (i + 1) + ")" + localHitlist[i].fieldSize + "fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
+                nodeLi.innerText = content;
+                myFragment.appendChild(nodeLi);
             }
-            nodeUl.appendChild(myFragment);
-            showHitlist.appendChild(nodeUl);
         } else {
             var nodeP = document.createElement("p");
             nodeP.innerText = "Sorry, but there are no games saved.";
             showHitlist.appendChild(nodeP);
         }
+        nodeUl.appendChild(myFragment);
+        showHitlist.appendChild(nodeUl);
+
+
+
     }
 
     function modalFadeIn(containerId) {
