@@ -912,6 +912,53 @@ a {
     position: relative;
 }
 
+.game__input-show-hint {
+        position: absolute;
+        -webkit-transform: rotate(33deg);
+                transform: rotate(33deg);
+
+        top: -34px;
+        left: -17px;
+        line-height: 1.5rem;
+        font-size: 12px;
+        text-shadow: 0 0 1px #6A3914;
+        width: 215px;
+    }
+
+.game__input-show-hint>div {
+        position: absolute;
+        top: -100px;
+        left: 40px;
+        width: 215px;
+        transform-origin: 156px 100%;
+        -webkit-transform-origin: bottom 20%;
+        background: #85B188;
+        padding: 7px;
+        border-radius: 3px;
+        visibility: 0;
+        -webkit-transform: scale(0);
+                transform: scale(0);
+        -webkit-transition: all .5s ease-in;
+        transition: all .5s ease-in;
+    }
+
+.game__input-show-hint>div:after {
+            content: "";
+            position: absolute;
+            bottom: -24px;
+            right: 47px;
+            margin-left: -5px;
+            border-width: 12px;
+            border-style: solid;
+            border-color: #85b188 transparent transparent transparent;
+        }
+
+.game__input .show>div {
+        visibility: visible;
+        -webkit-transform: scale(1);
+                transform: scale(1);
+    }
+
 .game__input-show-level {
         text-align: center;
         -webkit-transform: rotate(-18deg);
