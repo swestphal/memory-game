@@ -1,5 +1,11 @@
 .grid {
-    min-height: 640px;
+
+    @mixin atMedium {
+        min-height: 456px;
+    } //min-height: 640px;
+    @mixin atMediumLarge {
+        min-height: 551px;
+    } //min-height: 640px;
     padding-top: 1em;
     display: flex;
     align-items: stretch;
@@ -9,10 +15,16 @@
 
         align-self: center;
         width: 700px;
+        @mixin atXLarge {
+            width: 800px; //align-self: center;
+        }
     }
 
     &__col-sidebar {
         width: 300px;
-        position: relative; //align-self: center;
+        position: relative;
+        @mixin atXLarge {
+            width: 350px; //align-self: center;
+        }
     }
 }

@@ -302,7 +302,7 @@ var memory = function () {
             level++;
             level = level % 3;
 
-            if (levels % 2 == 0) fieldSizeIsOdd = false;
+            if (levels[level].size % 2 == 0) fieldSizeIsOdd = false;
 
             gameLevel.innerText = levels[level].name;
             fieldSize = levels[level].size;
