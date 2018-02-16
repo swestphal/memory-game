@@ -9,12 +9,12 @@
         vertical-align: initial;
     }
 
-    @mixin atMedium {
+    @mixin atMediumLarge {
         border-spacing: .7em;
     }
 
-    @mixin atLarge {
-        border-spacing: 1em;
+    @mixin atXLarge {
+        border-spacing: 1.5em;
     }
 
     &__card {
@@ -34,12 +34,98 @@
     }
 
     &__flip-container {}
+
+
+    .field-table__card,
+    .front,
+    .back {
+        width: 136px;
+        height: 136px;
+    }
+
+    &.bernese {
+        .field-table__card,
+        .front,
+        .back {
+            @mixin atMedium {
+                width: 100px;
+                height: 100px;
+            }
+            @mixin atMediumLarge {
+                width: 120px;
+                height: 120px;
+            }
+            @mixin atLarge {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    }
+    &.terrier {
+        .field-table__card,
+        .front,
+        .back {
+            @mixin atMedium {
+                width: 136px;
+                height: 136px;
+            }
+            @mixin atMediumLarge {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    }
+
+    &.puppy {
+        .field-table__card,
+        .front,
+        .back {
+            @mixin atMedium {
+
+                width: 150px;
+                height: 150px;
+            }
+            @mixin atMediumLarge {}
+        }
+    }
 }
 
 
 .field-table__card {
     perspective: 1000px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -56,12 +142,39 @@
     transform: rotateY(180deg);
 }
 
-.field-table__card,
-.front,
-.back {
-    width: 136px;
-    height: 136px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -80,6 +193,38 @@
 
     position: relative;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -108,6 +253,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* front pane, placed above back */
 
 .front {
@@ -116,6 +293,38 @@
     /* for firefox 31 */
     transform: rotateY(0deg);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

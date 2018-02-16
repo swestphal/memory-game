@@ -477,7 +477,8 @@ a {
 }
 
 .wrapper {
-    max-width: 880;
+    //max-width: 880;
+    overflow: hidden;
     margin: 0 auto;
     background: #aec5bb;
 }
@@ -595,8 +596,7 @@ a {
 
 /* '' */
 
-.grid {
-    min-height: 640px;
+.grid { //min-height: 640px; //min-height: 640px;
     padding-top: 1em;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -608,6 +608,20 @@ a {
         justify-content: space-around;
 }
 
+@media (min-width: 960px) {
+
+.grid {
+        min-height: 456px
+}
+    }
+
+@media (min-width: 1070px) {
+
+.grid {
+        min-height: 551px
+}
+    }
+
 .grid__col {
 
         -ms-flex-item-align: center;
@@ -616,9 +630,23 @@ a {
         width: 700px;
     }
 
+@media (min-width: 1500px) {
+
+.grid__col {
+            width: 800px; //align-self: center
+    }
+    }
+
 .grid__col-sidebar {
         width: 300px;
-        position: relative; //align-self: center;
+        position: relative;
+    }
+
+@media (min-width: 1500px) {
+
+.grid__col-sidebar {
+            width: 350px; //align-self: center
+    }
     }
 
 .field-table {
@@ -634,17 +662,17 @@ a {
         vertical-align: initial;
     }
 
-@media (min-width: 530px) {
+@media (min-width: 1070px) {
 
 .field-table {
         border-spacing: .7em
 }
     }
 
-@media (min-width: 1010px) {
+@media (min-width: 1500px) {
 
 .field-table {
-        border-spacing: 1em
+        border-spacing: 1.5em
 }
     }
 
@@ -670,6 +698,77 @@ a {
 
 .field-table__flip-container {}
 
+.field-table .field-table__card,
+    .field-table .front,
+    .field-table .back {
+        width: 136px;
+        height: 136px;
+    }
+
+@media (min-width: 960px) {
+
+.field-table.bernese .field-table__card,
+        .field-table.bernese .front,
+        .field-table.bernese .back {
+                width: 100px;
+                height: 100px
+        }
+    }
+
+@media (min-width: 1070px) {
+
+.field-table.bernese .field-table__card,
+        .field-table.bernese .front,
+        .field-table.bernese .back {
+                width: 120px;
+                height: 120px
+        }
+    }
+
+@media (min-width: 1300px) {
+
+.field-table.bernese .field-table__card,
+        .field-table.bernese .front,
+        .field-table.bernese .back {
+                width: 150px;
+                height: 150px
+        }
+    }
+
+@media (min-width: 960px) {
+
+.field-table.terrier .field-table__card,
+        .field-table.terrier .front,
+        .field-table.terrier .back {
+                width: 136px;
+                height: 136px
+        }
+    }
+
+@media (min-width: 1070px) {
+
+.field-table.terrier .field-table__card,
+        .field-table.terrier .front,
+        .field-table.terrier .back {
+                width: 150px;
+                height: 150px
+        }
+    }
+
+@media (min-width: 960px) {
+
+.field-table.puppy .field-table__card,
+        .field-table.puppy .front,
+        .field-table.puppy .back {
+
+                width: 150px;
+                height: 150px
+        }
+    }
+
+@media (min-width: 1070px) {
+    }
+
 .field-table__card {
     -webkit-perspective: 1000px;
             perspective: 1000px;
@@ -681,13 +780,6 @@ a {
 .field-table__card.matching .field-table__flipContainer {
     -webkit-transform: rotateY(180deg);
             transform: rotateY(180deg);
-}
-
-.field-table__card,
-.front,
-.back {
-    width: 136px;
-    height: 136px;
 }
 
 /* flip speed goes here */
