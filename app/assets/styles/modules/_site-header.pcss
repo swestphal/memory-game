@@ -3,23 +3,32 @@
     background: url('/assets/images/1x/flowers.png') no-repeat center;
     height: 137px;
     position: relative;
-
     box-shadow: 0 8px 6px -6px #7a987c;
 
-
-
     &__title {
-
         font-family: LoveYaLikeASister;
         color: #fdcc66;
-        width: 600px;
-        margin: 0 auto; //position: absolute;
-        transform: rotate(-2deg);
-        font-size: 1.2em;
-        text-align: center;
-        padding: 0.25em;
-        background: url('/assets/images/1x/signHeading.png') no-repeat center;
+
+        background: url('/assets/images/1x/signHeadingMobile.png') no-repeat center;
         background-size: contain;
+        h1 {
+            font-size: 1.2em;
+        }
+        @mixin atMedium {
+            width: 600px;
+            margin: 0 auto; //position: absolute;
+            transform: rotate(-2deg);
+            font-size: 1.2em;
+            text-align: center;
+            padding: 0.25em;
+            background: url('/assets/images/1x/signHeading.png') no-repeat center;
+            background-size: contain;
+            h1 {
+                font-size: 2em;
+                padding: 0.25em;
+                transform: rotate(-1deg);
+            }
+        }
     }
 
     &__doggy {
@@ -32,7 +41,10 @@
     }
 
     &__info {
-        float: right;
+        //float: right;
+        position: absolute;
+        right: 0;
+        bottom: 5px;
         margin-right: 50px;
 
         div {
@@ -45,7 +57,7 @@
         }
 
         div:hover {
-            background: #fdc55c;
+            background: #fdc 55c;
             -moz-box-shadow: inset 0 0 10px #503926;
             -webkit-box-shadow: inset 0 0 10px #503926;
             box-shadow: inset 0 0 10px #503926;

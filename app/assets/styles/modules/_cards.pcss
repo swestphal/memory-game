@@ -1,343 +1,138 @@
-.field-table {
-    margin: 0 auto;
-    position: relative;
-    perspective: 1000px;
-    border-collapse: separate;
-    border-spacing: .5em;
-
-    tr {
-        vertical-align: initial;
-    }
-
-    @mixin atMediumLarge {
-        border-spacing: .7em;
-    }
-
-    @mixin atXLarge {
-        border-spacing: 1.5em;
-    }
-
-    &__card {
-
+    .field-table {
+        margin: 0 auto;
         position: relative;
-        -webkit-transition: transform 1s ease;
-        transition: transform 1s ease;
-        &:hover {
-            cursor: pointer;
+        perspective: 1000px;
+        border-collapse: separate;
+        border-spacing: .2em;
+
+        tr {
+            vertical-align: initial;
         }
 
-        img {
-            padding: 2px;
-            border: 2px solid #83BB8A;
-            border-radius: 3px;
+        @mixin atMedium {
+            border-spacing: .5em;
+        }
+        @mixin atMediumLarge {
+            border-spacing: .7em;
+        }
+
+        @mixin atXLarge {
+            border-spacing: 1.5em;
+        }
+
+
+        &__card {
+            perspective: 1000px;
+            position: relative;
+            -webkit-transition: transform 1s ease;
+            transition: transform 1s ease;
+            &:hover {
+                cursor: pointer;
+            }
+
+            img {
+                padding: 2px;
+                border: 1px solid #83BB8A;
+                border-radius: 1px;
+            }
+
+            @mixin atMedium {
+                img {
+                    padding: 2px;
+                    border: 2px solid #83BB8A;
+                    border-radius: 3px;
+                }
+            }
+        }
+
+
+
+
+        &.bernese {
+            .field-table__card,
+            .front,
+            .back {
+                width: 87px;
+                height: 87px;
+                @mixin atMedium {
+                    width: 100px;
+                    height: 100px;
+                }
+                @mixin atMediumLarge {
+                    width: 120px;
+                    height: 120px;
+                }
+                @mixin atLarge {
+                    width: 150px;
+                    height: 150px;
+                }
+            }
+        }
+
+        &.terrier {
+            .field-table__card,
+            .front,
+            .back {
+                width: 115px;
+                height: 115px;
+                @mixin atMedium {
+                    width: 136px;
+                    height: 136px;
+                }
+                @mixin atMediumLarge {
+                    width: 150px;
+                    height: 150px;
+                }
+            }
+        }
+
+        &.puppy {
+            .field-table__card,
+            .front,
+            .back {
+                width: 135px;
+                height: 135px;
+                @mixin atMedium {
+                    width: 150px;
+                    height: 150px;
+                }
+                @mixin atMediumLarge {}
+            }
         }
     }
+    /* flip the pane when clicked */
 
-    &__flip-container {}
+    .field-table__card.open .field-table__flipContainer,
+    .field-table__card.matching .field-table__flipContainer {
+        transform: rotateY(180deg);
+    }
+    /* flip speed  */
 
+    .field-table__flipContainer {
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+    /* hide back of pane during swap */
 
-    .field-table__card,
     .front,
     .back {
-        width: 136px;
-        height: 136px;
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
+    /* front pane, placed above back */
 
-    &.bernese {
-        .field-table__card,
-        .front,
-        .back {
-            @mixin atMedium {
-                width: 100px;
-                height: 100px;
-            }
-            @mixin atMediumLarge {
-                width: 120px;
-                height: 120px;
-            }
-            @mixin atLarge {
-                width: 150px;
-                height: 150px;
-            }
-        }
+    .front {
+
+        z-index: 2;
+        /* for firefox 31 */
+        transform: rotateY(0deg);
     }
-    &.terrier {
-        .field-table__card,
-        .front,
-        .back {
-            @mixin atMedium {
-                width: 136px;
-                height: 136px;
-            }
-            @mixin atMediumLarge {
-                width: 150px;
-                height: 150px;
-            }
-        }
+    /* back, initially hidden pane */
+
+    .back {
+        margin: -2px;
+        transform: rotateY(180deg);
     }
-
-    &.puppy {
-        .field-table__card,
-        .front,
-        .back {
-            @mixin atMedium {
-
-                width: 150px;
-                height: 150px;
-            }
-            @mixin atMediumLarge {}
-        }
-    }
-}
-
-
-.field-table__card {
-    perspective: 1000px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* flip the pane when hovered */
-
-.field-table__card.open .field-table__flipContainer,
-.field-table__card.matching .field-table__flipContainer {
-    transform: rotateY(180deg);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* flip speed goes here */
-
-.field-table__flipContainer {
-    transition: 0.6s;
-    transform-style: preserve-3d;
-
-    position: relative;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* hide back of pane during swap */
-
-.front,
-.back {
-    backface-visibility: hidden;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* front pane, placed above back */
-
-.front {
-
-    z-index: 2;
-    /* for firefox 31 */
-    transform: rotateY(0deg);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* back, initially hidden pane */
-
-.back {
-    margin: -2px;
-    transform: rotateY(180deg);
-}
