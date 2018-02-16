@@ -3,23 +3,45 @@
     background: url('/assets/images/1x/flowers.png') no-repeat center;
     height: 137px;
     position: relative;
-
     box-shadow: 0 8px 6px -6px #7a987c;
 
-
-
     &__title {
-
         font-family: LoveYaLikeASister;
         color: #fdcc66;
-        width: 600px;
-        margin: 0 auto; //position: absolute;
-        transform: rotate(-2deg);
-        font-size: 1.2em;
-        text-align: center;
         padding: 0.25em;
-        background: url('/assets/images/1x/signHeading.png') no-repeat center;
+        background: url('/assets/images/1x/signHeadingMobile.png') no-repeat center;
         background-size: contain;
+        text-align: center;
+        position: relative;
+        left: -20px;
+        margin: 0 auto; //position: absolute;
+        width: 390px;
+
+        h1 {
+            font-size: 1.2em;
+            padding: 0.9em;
+            transform: rotate(-3deg);
+        }
+        @mixin atMediumSmall {
+            font-size: 1.2em;
+            width: 410px;
+            transform: rotate(-2deg);
+
+            top: -9px;
+        }
+        @mixin atMedium {
+            width: 600px;
+            margin: 0 auto; //position: absolute;
+            transform: rotate(-2deg);
+            padding: 0.25em;
+            background: url('/assets/images/1x/signHeading.png') no-repeat center;
+            background-size: contain;
+            h1 {
+                font-size: 2em;
+                padding: 0.25em;
+                transform: rotate(-1deg);
+            }
+        }
     }
 
     &__doggy {
@@ -32,30 +54,44 @@
     }
 
     &__info {
-        float: right;
+        //float: right;
+        position: absolute;
+        left: 0;
+        bottom: 5px;
         margin-right: 50px;
-
+        @mixin atMedium {
+            right: 0;
+        }
         div {
             float: right;
             border-radius: 80px;
             border: 2px solid #78583F;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             margin-left: 10px;
+            @mixin atMedium {
+                width: 30px;
+                height: 30px;
+            }
         }
-
         div:hover {
-            background: #fdc55c;
+            background: #fdc 55c;
             -moz-box-shadow: inset 0 0 10px #503926;
             -webkit-box-shadow: inset 0 0 10px #503926;
             box-shadow: inset 0 0 10px #503926;
         }
 
         .icon {
-            left: -1px;
+            left: 2px;
+            top: 3px;
             color: #78583F;
             position: relative;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            @mixin atMedium {
+                top: 0;
+                left: -1px;
+                font-size: 1.3rem;
+            }
         }
     }
 }
