@@ -1,60 +1,91 @@
 .game__input {
+    background: url('/assets/images/1x/signInputMobile.png') no-repeat;
+
+    background-size: 390px;
+    margin-top: 2em;
+    height: 150px;
+    color: #FDC55C;
+    position: relative;
 
     @mixin atMedium {
-        margin-top: 3em;
-        background: url('/assets/images/1x/signInput.png') no-repeat center;
+        margin-top: 0;
         width: 261px;
         height: 355px;
-        color: #FDC55C;
-        position: relative;
+        margin-top: 3em;
+        background: url('/assets/images/1x/signInput.png') no-repeat center;
+    }
 
-        &-show-hint {
-            position: absolute;
+    &-show-hint {
+
+        position: absolute;
+        font-size: 12px;
+        text-shadow: 0 0 1px #6A3914;
+        transform: rotate(10deg);
+        line-height: 1.5rem;
+        @mixin atMedium {
             transform: rotate(33deg);
-
             top: -34px;
             left: -17px;
-            line-height: 1.5rem;
-            font-size: 12px;
-            text-shadow: 0 0 1px #6A3914;
+
+
             width: 215px;
         }
-        &-show-hint>div {
-            position: absolute;
+    }
+
+    &-show-hint>div {
+        visibility: 0;
+        position: absolute;
+        background: #85B188;
+        transform: scale(0);
+        transition: all .5s ease-in;
+        padding: 7px;
+        border-radius: 3px;
+        left: 110px;
+        width: 215px;
+        transform-origin: 138px -12px;
+
+        @mixin atMedium {
+
             top: -100px;
             left: 40px;
             width: 215px;
             transform-origin: 156px 100%;
-            -webkit-transform-origin: bottom 20%;
-            background: #85B188;
-            padding: 7px;
-            border-radius: 3px;
-            visibility: 0;
-            transform: scale(0);
-            transition: all .5s ease-in;
-
-            &:after {
+        }
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 86px;
+            right: 64px;
+            margin-left: -5px;
+            border-width: 12px;
+            border-style: solid;
+            border-color: transparent transparent #85b188 transparent;
+            @mixin atMedium {
                 content: "";
                 position: absolute;
                 bottom: -24px;
                 right: 47px;
-                margin-left: -5px;
                 border-width: 12px;
                 border-style: solid;
                 border-color: #85b188 transparent transparent transparent;
             }
         }
-
-        .show>div {
-            visibility: visible;
-            transform: scale(1);
-        }
+    }
 
 
-        &-show-level {
+    .show>div {
+        visibility: visible;
+        transform: scale(1);
+    }
+
+
+    &-show-level {
+        position: absolute;
+        top: 17px;
+        left: 36px;
+        @mixin atMedium {
             text-align: center;
             transform: rotate(-18deg);
-            position: absolute;
             top: 115px;
             left: 39px;
             font-size: 14px;
@@ -67,11 +98,22 @@
                 font-size: 20px;
             }
         }
+    }
 
-        &-get-level {
+    &-get-level {
+        position: absolute;
+        border: 1px solid #503926;
+        background: #8A6B4F;
+        border-radius: 2px;
+        left: 250px;
+        top: -7px;
+        transform: rotate(-4deg);
+        font-size: 20px;
+        padding: 4px 15px; //transform: rotate(5deg);
+        @mixin atMedium {
+            font-size: inherit;
             text-align: center;
             transform: rotate(15deg);
-            position: absolute;
             top: 32px;
             left: 134px;
             font-size: 21px;
@@ -92,8 +134,10 @@
                 box-shadow: inset 0 0 10px #503926;
             }
         }
+    }
 
-        &-small-grass {
+    &-small-grass {
+        @mixin atMedium {
             background: url('/assets/images/1x/smallGrass.png') no-repeat right;
             position: absolute;
             top: 300px;

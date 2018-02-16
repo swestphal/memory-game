@@ -239,7 +239,7 @@ var memory = function() {
         if (!gameRunning()) {
 
             var levels = [{ name: "terrier", size: 9 }, { name: "bernese", size: 16 }, { name: "puppy", size: 4 }];
-            // var sizes = [9, 16, 4];
+
             level++;
             level = level % 3;
 

@@ -17,8 +17,12 @@
             }
         }
         &__col-sidebar {
-            width: 300px;
+
+
             position: relative;
+            @mixin atMedium {
+                width: 300px;
+            }
             @mixin atXLarge {
                 width: 350px; //align-self: center;
             }
