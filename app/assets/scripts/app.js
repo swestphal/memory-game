@@ -71,6 +71,7 @@ var memory = function() {
         while (myNode.firstChild) {
             myNode.removeChild(myNode.firstChild);
         }
+
         changeLevelDisableHint();
         modalFadeOutOpened();
 
@@ -234,18 +235,19 @@ var memory = function() {
     }
 
     function changeLevel() {
+        showGameField.classList.remove(gameLevel.innerText);
         if (!gameRunning()) {
 
-            var levels = ["terrier", "bernese", "puppy"];
-            var sizes = [9, 16, 4]
+            var levels = [{ name: "terrier", size: 9 }, { name: "bernese", size: 16 }, { name: "puppy", size: 4 }];
+            // var sizes = [9, 16, 4];
             level++;
             level = level % 3;
 
-            if (sizes[level] % 2 == 0) fieldSizeIsOdd = false;
+            if (levels % 2 == 0) fieldSizeIsOdd = false;
 
-            gameLevel.innerText = levels[level];
-            fieldSize = sizes[level];
-
+            gameLevel.innerText = levels[level].name;
+            fieldSize = levels[level].size;
+            showGameField.classList.add(gameLevel.innerText);
             restart();
         } else changeLevelHint();
     }
@@ -409,6 +411,7 @@ var memory = function() {
             }
             showGameField.appendChild(nodeRow);
         }
+
     }
 
     function generateRatingStars(num) {
