@@ -849,14 +849,34 @@ a {
 .site-header__title {
         font-family: LoveYaLikeASister;
         color: #fdcc66;
-
+        padding: 0.25em;
         background: url('/assets/images/1x/signHeadingMobile.png') no-repeat center;
         background-size: contain;
+        text-align: center;
+        position: relative;
+        left: -20px;
+        margin: 0 auto; //position: absolute;
+        width: 390px;
     }
 
 .site-header__title h1 {
             font-size: 1.2em;
+            padding: 0.9em;
+            -webkit-transform: rotate(-3deg);
+                    transform: rotate(-3deg);
         }
+
+@media (min-width: 480px) {
+
+.site-header__title {
+            font-size: 1.2em;
+            width: 410px;
+            -webkit-transform: rotate(-2deg);
+                    transform: rotate(-2deg);
+
+            top: -9px
+    }
+    }
 
 @media (min-width: 960px) {
 
@@ -865,8 +885,6 @@ a {
             margin: 0 auto; //position: absolute;
             -webkit-transform: rotate(-2deg);
                     transform: rotate(-2deg);
-            font-size: 1.2em;
-            text-align: center;
             padding: 0.25em;
             background: url('/assets/images/1x/signHeading.png') no-repeat center;
             background-size: contain
@@ -892,19 +910,34 @@ a {
 .site-header__info {
         //float: right;
         position: absolute;
-        right: 0;
+        left: 0;
         bottom: 5px;
         margin-right: 50px;
+    }
+
+@media (min-width: 960px) {
+
+.site-header__info {
+            right: 0
+    }
     }
 
 .site-header__info div {
             float: right;
             border-radius: 80px;
             border: 2px solid #78583F;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             margin-left: 10px;
         }
+
+@media (min-width: 960px) {
+
+.site-header__info div {
+                width: 30px;
+                height: 30px
+        }
+    }
 
 .site-header__info div:hover {
             background: #fdc 55c;
@@ -913,11 +946,21 @@ a {
         }
 
 .site-header__info .icon {
-            left: -1px;
+            left: 2px;
+            top: 3px;
             color: #78583F;
             position: relative;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
+
+@media (min-width: 960px) {
+
+.site-header__info .icon {
+                top: 0;
+                left: -1px;
+                font-size: 1.3rem
+        }
+    }
 
 .site-footer {
     position: relative;
