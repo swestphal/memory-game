@@ -235,9 +235,9 @@ var memory = function() {
     }
 
     function changeLevel() {
-        showGameField.classList.remove(gameLevel.innerText);
-        if (!gameRunning()) {
 
+        if (!gameRunning()) {
+            showGameField.classList.remove(gameLevel.innerText);
             var levels = [{ name: "terrier", size: 9 }, { name: "bernese", size: 16 }, { name: "puppy", size: 4 }];
 
             level++;
