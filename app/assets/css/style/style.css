@@ -477,7 +477,6 @@ a {
 }
 
 .wrapper {
-    //max-width: 880;
     overflow: hidden;
     margin: 0 auto;
     background: #aec5bb;
@@ -596,23 +595,51 @@ a {
 
 /* '' */
 
-.grid { //min-height: 640px; //min-height: 640px;
-    padding-top: 1em;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: stretch;
-        -ms-flex-align: stretch;
-            align-items: stretch;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
+.grid {
+    min-height: 400px;
 }
 
 @media (min-width: 960px) {
 
 .grid {
-        min-height: 456px
+        min-height: 456px;
+        padding-top: 1em;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+                align-items: stretch;
+        -ms-flex-pack: distribute;
+            justify-content: space-around
 }
+
+        .grid__col {
+            -ms-flex-item-align: center;
+                align-self: center;
+            width: 700px;
+        }
+            @media (min-width: 1500px) {
+
+        .grid__col {
+                width: 800px; //align-self: center
+        }
+    }
+        .grid__col-sidebar {
+
+
+            position: relative;
+        }
+            @media (min-width: 960px) {
+        .grid__col-sidebar {
+                width: 300px
+        }
+    }
+            @media (min-width: 1500px) {
+        .grid__col-sidebar {
+                width: 350px; //align-self: center
+        }
+    }
     }
 
 @media (min-width: 1070px) {
@@ -622,44 +649,24 @@ a {
 }
     }
 
-.grid__col {
-
-        -ms-flex-item-align: center;
-
-            align-self: center;
-        width: 700px;
-    }
-
-@media (min-width: 1500px) {
-
-.grid__col {
-            width: 800px; //align-self: center
-    }
-    }
-
-.grid__col-sidebar {
-        width: 300px;
-        position: relative;
-    }
-
-@media (min-width: 1500px) {
-
-.grid__col-sidebar {
-            width: 350px; //align-self: center
-    }
-    }
-
 .field-table {
     margin: 0 auto;
     position: relative;
     -webkit-perspective: 1000px;
             perspective: 1000px;
     border-collapse: separate;
-    border-spacing: .5em;
+    border-spacing: .2em;
 }
 
 .field-table tr {
         vertical-align: initial;
+    }
+
+@media (min-width: 960px) {
+
+.field-table {
+        border-spacing: .5em
+}
     }
 
 @media (min-width: 1070px) {
@@ -677,7 +684,8 @@ a {
     }
 
 .field-table__card {
-
+        -webkit-perspective: 1000px;
+                perspective: 1000px;
         position: relative;
         -webkit-transition: transform 1s ease;
         -webkit-transition: -webkit-transform 1s ease;
@@ -692,18 +700,24 @@ a {
 
 .field-table__card img {
             padding: 2px;
-            border: 2px solid #83BB8A;
-            border-radius: 3px;
+            border: 1px solid #83BB8A;
+            border-radius: 1px;
         }
 
-.field-table__flip-container {}
-
-.field-table .field-table__card,
-    .field-table .front,
-    .field-table .back {
-        width: 136px;
-        height: 136px;
+@media (min-width: 960px) {
+            .field-table__card img {
+                padding: 2px;
+                border: 2px solid #83BB8A;
+                border-radius: 3px;
+            }
     }
+
+.field-table.bernese .field-table__card,
+        .field-table.bernese .front,
+        .field-table.bernese .back {
+            width: 87px;
+            height: 87px;
+        }
 
 @media (min-width: 960px) {
 
@@ -735,6 +749,13 @@ a {
         }
     }
 
+.field-table.terrier .field-table__card,
+        .field-table.terrier .front,
+        .field-table.terrier .back {
+            width: 115px;
+            height: 115px;
+        }
+
 @media (min-width: 960px) {
 
 .field-table.terrier .field-table__card,
@@ -755,12 +776,18 @@ a {
         }
     }
 
+.field-table.puppy .field-table__card,
+        .field-table.puppy .front,
+        .field-table.puppy .back {
+            width: 135px;
+            height: 135px;
+        }
+
 @media (min-width: 960px) {
 
 .field-table.puppy .field-table__card,
         .field-table.puppy .front,
         .field-table.puppy .back {
-
                 width: 150px;
                 height: 150px
         }
@@ -769,12 +796,7 @@ a {
 @media (min-width: 1070px) {
     }
 
-.field-table__card {
-    -webkit-perspective: 1000px;
-            perspective: 1000px;
-}
-
-/* flip the pane when hovered */
+/* flip the pane when clicked */
 
 .field-table__card.open .field-table__flipContainer,
 .field-table__card.matching .field-table__flipContainer {
@@ -782,14 +804,13 @@ a {
             transform: rotateY(180deg);
 }
 
-/* flip speed goes here */
+/* flip speed  */
 
 .field-table__flipContainer {
     -webkit-transition: 0.6s;
     transition: 0.6s;
     -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;
-
     position: relative;
 }
 
@@ -799,7 +820,6 @@ a {
 .back {
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-
     position: absolute;
     top: 0;
     left: 0;
@@ -828,25 +848,59 @@ a {
     background: url('/assets/images/1x/flowers.png') no-repeat center;
     height: 137px;
     position: relative;
-
     -webkit-box-shadow: 0 8px 6px -6px #7a987c;
-
             box-shadow: 0 8px 6px -6px #7a987c;
 }
 
 .site-header__title {
-
         font-family: LoveYaLikeASister;
         color: #fdcc66;
-        width: 600px;
-        margin: 0 auto; //position: absolute;
-        -webkit-transform: rotate(-2deg);
-                transform: rotate(-2deg);
-        font-size: 1.2em;
-        text-align: center;
         padding: 0.25em;
-        background: url('/assets/images/1x/signHeading.png') no-repeat center;
+        background: url('/assets/images/1x/signHeadingMobile.png') no-repeat center;
         background-size: contain;
+        text-align: center;
+        position: relative;
+        left: -20px;
+        margin: 0 auto; //position: absolute;
+        width: 390px;
+    }
+
+.site-header__title h1 {
+            font-size: 1.2em;
+            padding: 0.9em;
+            -webkit-transform: rotate(-3deg);
+                    transform: rotate(-3deg);
+        }
+
+@media (min-width: 480px) {
+
+.site-header__title {
+            font-size: 1.2em;
+            width: 410px;
+            -webkit-transform: rotate(-2deg);
+                    transform: rotate(-2deg);
+
+            top: -9px
+    }
+    }
+
+@media (min-width: 960px) {
+
+.site-header__title {
+            width: 600px;
+            margin: 0 auto; //position: absolute;
+            -webkit-transform: rotate(-2deg);
+                    transform: rotate(-2deg);
+            padding: 0.25em;
+            background: url('/assets/images/1x/signHeading.png') no-repeat center;
+            background-size: contain
+    }
+            .site-header__title h1 {
+                font-size: 2em;
+                padding: 0.25em;
+                -webkit-transform: rotate(-1deg);
+                        transform: rotate(-1deg);
+            }
     }
 
 .site-header__doggy {
@@ -860,31 +914,59 @@ a {
         }
 
 .site-header__info {
-        float: right;
+        //float: right;
+        position: absolute;
+        left: 0;
+        bottom: 5px;
         margin-right: 50px;
+    }
+
+@media (min-width: 960px) {
+
+.site-header__info {
+            right: 0
+    }
     }
 
 .site-header__info div {
             float: right;
             border-radius: 80px;
             border: 2px solid #78583F;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             margin-left: 10px;
         }
 
+@media (min-width: 960px) {
+
+.site-header__info div {
+                width: 30px;
+                height: 30px
+        }
+    }
+
 .site-header__info div:hover {
-            background: #fdc55c;
+            background: #fdc 55c;
             -webkit-box-shadow: inset 0 0 10px #503926;
             box-shadow: inset 0 0 10px #503926;
         }
 
 .site-header__info .icon {
-            left: -1px;
+            left: 2px;
+            top: 3px;
             color: #78583F;
             position: relative;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
+
+@media (min-width: 960px) {
+
+.site-header__info .icon {
+                top: 0;
+                left: -1px;
+                font-size: 1.3rem
+        }
+    }
 
 .site-footer {
     position: relative;
@@ -916,134 +998,176 @@ a {
             text-align: center;
         }
 
+@media (min-width: 960px) {
+
 .game__ui {
-    margin-top: 3em;
-    background: url('/assets/images/1x/signUI.png') no-repeat center;
-    width: 261px;
-    height: 355px;
-    position: relative;
-    font-size: 20px;
-    color: #FDC55C;
+        margin-top: 3em;
+        background: url('/assets/images/1x/signUI.png') no-repeat center;
+        width: 261px;
+        height: 355px;
+        position: relative;
+        font-size: 20px;
+        color: #FDC55C
 }
 
-.game__ui-star-rating {
-        text-align: center;
+        .game__ui-star-rating {
+            text-align: center;
 
-        -webkit-transform: rotate(-5deg);
+            -webkit-transform: rotate(-5deg);
 
-                transform: rotate(-5deg);
-        position: absolute;
-        top: 66px;
-        left: 46px;
-    }
-
-.game__ui-timer {
-        text-align: center;
-        -webkit-transform: rotate(-5deg);
-                transform: rotate(-5deg);
-        position: absolute;
-        top: 113px;
-        left: 64px;
-    }
-
-.game__ui-move-counter {
-        text-align: center;
-        -webkit-transform: rotate(-4deg);
-                transform: rotate(-4deg);
-        position: absolute;
-        top: 143px;
-        left: 105px;
-        font-size: 17px;
-    }
-
-.game__ui-move-counter span {
+                    transform: rotate(-5deg);
+            position: absolute;
+            top: 66px;
+            left: 46px;
+        }
+        .game__ui-timer {
+            text-align: center;
+            -webkit-transform: rotate(-5deg);
+                    transform: rotate(-5deg);
+            position: absolute;
+            top: 113px;
+            left: 64px;
+        }
+        .game__ui-move-counter {
+            text-align: center;
             -webkit-transform: rotate(-4deg);
                     transform: rotate(-4deg);
-            font-size: 20px;
+            position: absolute;
+            top: 143px;
+            left: 105px;
+            font-size: 17px;
         }
+            .game__ui-move-counter span {
+                -webkit-transform: rotate(-4deg);
+                        transform: rotate(-4deg);
+                font-size: 20px;
+            }
+        .game__ui-restart {
+            text-align: center;
 
-.game__ui-restart {
-        text-align: center;
+            -webkit-transform: rotate(5deg);
 
-        -webkit-transform: rotate(5deg);
-
-                transform: rotate(5deg);
-        position: absolute;
-        top: 205px;
-        left: 64px;
-    }
-
-.game__ui-restart p {
-            border: 1px solid #503926;
-            background: #8A6B4F;
-            border-radius: 2px;
-            padding: 7px;
-            font-size: 0.8rem;
+                    transform: rotate(5deg);
+            position: absolute;
+            top: 205px;
+            left: 64px;
         }
-
-.game__ui-restart p:hover {
-            -webkit-box-shadow: inset 0 0 10px #503926;
-            box-shadow: inset 0 0 10px #503926;
+            .game__ui-restart p {
+                border: 1px solid #503926;
+                background: #8A6B4F;
+                border-radius: 2px;
+                padding: 7px;
+                font-size: 0.8rem;
+            }
+            .game__ui-restart p:hover {
+                -webkit-box-shadow: inset 0 0 10px #503926;
+                box-shadow: inset 0 0 10px #503926;
+            }
+        .game__ui-small-grass {
+            background: url('/assets/images/1x/smallGrass.png') no-repeat left;
+            position: absolute;
+            top: 370px;
+            width: 200%;
+            left: 0;
+            height: 52px;
         }
-
-.game__ui-small-grass {
-        background: url('/assets/images/1x/smallGrass.png') no-repeat left;
-        position: absolute;
-        top: 370px;
-        width: 200%;
-        left: 0;
-        height: 52px;
     }
 
 .game__input {
-    margin-top: 3em;
-    background: url('/assets/images/1x/signInput.png') no-repeat center;
-    width: 261px;
-    height: 355px;
+    background: url('/assets/images/1x/signInputMobile.png') no-repeat;
+
+    background-size: 390px;
+    margin-top: 2em;
+    height: 150px;
     color: #FDC55C;
     position: relative;
 }
 
-.game__input-show-hint {
-        position: absolute;
-        -webkit-transform: rotate(33deg);
-                transform: rotate(33deg);
+@media (min-width: 960px) {
 
-        top: -34px;
-        left: -17px;
-        line-height: 1.5rem;
+.game__input {
+        margin-top: 0;
+        width: 261px;
+        height: 355px;
+        margin-top: 3em;
+        background: url('/assets/images/1x/signInput.png') no-repeat center
+}
+    }
+
+.game__input-show-hint {
+
+        position: absolute;
         font-size: 12px;
         text-shadow: 0 0 1px #6A3914;
-        width: 215px;
+        -webkit-transform: rotate(10deg);
+                transform: rotate(10deg);
+        line-height: 1.5rem;
+    }
+
+@media (min-width: 960px) {
+
+.game__input-show-hint {
+            -webkit-transform: rotate(33deg);
+                    transform: rotate(33deg);
+            top: -34px;
+            left: -17px;
+
+
+            width: 215px
+    }
     }
 
 .game__input-show-hint>div {
-        position: absolute;
-        top: -100px;
-        left: 40px;
-        width: 215px;
-        transform-origin: 156px 100%;
-        -webkit-transform-origin: bottom 20%;
-        background: #85B188;
-        padding: 7px;
-        border-radius: 3px;
         visibility: 0;
+        position: absolute;
+        background: #85B188;
         -webkit-transform: scale(0);
                 transform: scale(0);
         -webkit-transition: all .5s ease-in;
         transition: all .5s ease-in;
+        padding: 7px;
+        border-radius: 3px;
+        left: 110px;
+        width: 215px;
+        -webkit-transform-origin: 138px -12px;
+                transform-origin: 138px -12px;
+    }
+
+@media (min-width: 960px) {
+
+.game__input-show-hint>div {
+
+            top: -100px;
+            left: 40px;
+            width: 215px;
+            -webkit-transform-origin: 156px 100%;
+                    transform-origin: 156px 100%
+    }
     }
 
 .game__input-show-hint>div:after {
             content: "";
             position: absolute;
-            bottom: -24px;
-            right: 47px;
+            bottom: 86px;
+            right: 64px;
             margin-left: -5px;
             border-width: 12px;
             border-style: solid;
-            border-color: #85b188 transparent transparent transparent;
+            border-color: transparent transparent #85b188 transparent;
         }
+
+@media (min-width: 960px) {
+
+.game__input-show-hint>div:after {
+                content: "";
+                position: absolute;
+                bottom: -24px;
+                right: 47px;
+                border-width: 12px;
+                border-style: solid;
+                border-color: #85b188 transparent transparent transparent
+        }
+    }
 
 .game__input .show>div {
         visibility: visible;
@@ -1052,57 +1176,83 @@ a {
     }
 
 .game__input-show-level {
-        text-align: center;
-        -webkit-transform: rotate(-18deg);
-                transform: rotate(-18deg);
         position: absolute;
-        top: 115px;
-        left: 39px;
-        font-size: 14px;
+        top: 17px;
+        left: 36px;
     }
 
-.game__input-show-level span {
-            display: inline-block;
-            -webkit-transform: rotate(13deg);
-                    transform: rotate(13deg);
-            top: 47px;
-            left: 10px;
-            position: absolute;
-            font-size: 20px;
-        }
+@media (min-width: 960px) {
+
+.game__input-show-level {
+            text-align: center;
+            -webkit-transform: rotate(-18deg);
+                    transform: rotate(-18deg);
+            top: 115px;
+            left: 39px;
+            font-size: 14px
+    }
+            .game__input-show-level span {
+                display: inline-block;
+                -webkit-transform: rotate(13deg);
+                        transform: rotate(13deg);
+                top: 47px;
+                left: 10px;
+                position: absolute;
+                font-size: 20px;
+            }
+    }
 
 .game__input-get-level {
-        text-align: center;
-        -webkit-transform: rotate(15deg);
-                transform: rotate(15deg);
         position: absolute;
-        top: 32px;
-        left: 134px;
-        font-size: 21px;
-        padding: 4px;
         border: 1px solid #503926;
         background: #8A6B4F;
         border-radius: 2px;
+        left: 250px;
+        top: -7px;
+        -webkit-transform: rotate(-4deg);
+                transform: rotate(-4deg);
+        font-size: 20px;
+        padding: 4px 15px; //transform: rotate(5deg);
     }
 
-.game__input-get-level span {
-            -webkit-transform: rotate(-4deg);
-                    transform: rotate(-4deg);
-            font-size: 20px;
-        }
+@media (min-width: 960px) {
 
-.game__input-get-level:hover {
-            -webkit-box-shadow: inset 0 0 10px #503926;
-            box-shadow: inset 0 0 10px #503926;
-        }
+.game__input-get-level {
+            font-size: inherit;
+            text-align: center;
+            -webkit-transform: rotate(15deg);
+                    transform: rotate(15deg);
+            top: 32px;
+            left: 134px;
+            font-size: 21px;
+            padding: 4px;
+            border: 1px solid #503926;
+            background: #8A6B4F;
+            border-radius: 2px
+    }
+
+            .game__input-get-level span {
+                -webkit-transform: rotate(-4deg);
+                        transform: rotate(-4deg);
+                font-size: 20px;
+            }
+
+            .game__input-get-level:hover {
+                -webkit-box-shadow: inset 0 0 10px #503926;
+                box-shadow: inset 0 0 10px #503926;
+            }
+    }
+
+@media (min-width: 960px) {
 
 .game__input-small-grass {
-        background: url('/assets/images/1x/smallGrass.png') no-repeat right;
-        position: absolute;
-        top: 300px;
-        width: 200%;
-        height: 52px;
-        right: 0;
+            background: url('/assets/images/1x/smallGrass.png') no-repeat right;
+            position: absolute;
+            top: 300px;
+            width: 200%;
+            height: 52px;
+            right: 0
+    }
     }
 
 .modal {
