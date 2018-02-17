@@ -599,9 +599,61 @@ a {
     min-height: 400px;
 }
 
+@media (max-width: 959px) {
+
+.grid {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+                align-items: stretch;
+        -ms-flex-pack: distribute;
+            justify-content: space-around
+}
+            .grid__col:nth-of-type(1) {
+
+                -webkit-box-flex: 0;
+
+                    -ms-flex: 0 0 100%;
+
+                        flex: 0 0 100%;
+                -webkit-box-ordinal-group: 2;
+                    -ms-flex-order: 1;
+                        order: 1;
+            }
+            .grid__col:nth-of-type(3) {
+                -webkit-box-flex: 0;
+                    -ms-flex: 0 0 100%;
+                        flex: 0 0 100%;
+                -webkit-box-ordinal-group: 3;
+                    -ms-flex-order: 2;
+                        order: 2;
+            }
+            .grid__col:nth-of-type(2) {
+                -webkit-box-flex: 0;
+                    -ms-flex: 0 0 100%;
+                        flex: 0 0 100%;
+                -webkit-box-ordinal-group: 4;
+                    -ms-flex-order: 3;
+                        order: 3;
+            }
+
+
+        .grid__col-sidebar {
+            position: relative;
+        }
+    }
+
+@media (min-width: 730px) {
+    }
+
 @media (min-width: 960px) {
 
 .grid {
+        display: initial;
         min-height: 456px;
         padding-top: 1em;
         display: -webkit-box;
@@ -615,6 +667,7 @@ a {
 }
 
         .grid__col {
+            display: initial;
             -ms-flex-item-align: center;
                 align-self: center;
             width: 700px;
@@ -998,6 +1051,77 @@ a {
             text-align: center;
         }
 
+.game__ui {
+    background: url('/assets/images/1x/signUIMobile.png') no-repeat right;
+    position: relative;
+
+    color: #FDC55C;
+    height: 150px;
+}
+
+.game__ui-star-rating {
+        font-size: 14px;
+        text-align: center;
+        -webkit-transform: rotate(5deg);
+                transform: rotate(5deg);
+        position: absolute;
+        top: 53px;
+        right: 234px;
+    }
+
+.game__ui-star-rating span {
+            display: block;
+        }
+
+.game__ui-timer {
+        font-size: 15px;
+        text-align: center;
+        -webkit-transform: rotate(-2deg);
+                transform: rotate(-2deg);
+        position: absolute;
+        top: 16px;
+        right: 146px;
+    }
+
+.game__ui-move-counter {
+        font-size: 14px;
+        text-align: center;
+        -webkit-transform: rotate(5deg);
+                transform: rotate(5deg);
+        position: absolute;
+        top: 12px;
+        right: 25px;
+        font-size: 14px;
+    }
+
+.game__ui-move-counter span {
+            -webkit-transform: rotate(-4deg);
+                    transform: rotate(-4deg);
+            font-size: 15px;
+        }
+
+.game__ui-restart {
+        text-align: center;
+        -webkit-transform: rotate(-4deg);
+                transform: rotate(-4deg);
+        position: absolute;
+        top: 35px;
+        right: 74px;
+    }
+
+.game__ui-restart p {
+            border: 1px solid #503926;
+            background: #8A6B4F;
+            border-radius: 2px;
+            padding: 7px;
+            font-size: 0.8rem;
+        }
+
+.game__ui-restart p:hover {
+            -webkit-box-shadow: inset 0 0 10px #503926;
+            box-shadow: inset 0 0 10px #503926;
+        }
+
 @media (min-width: 960px) {
 
 .game__ui {
@@ -1005,34 +1129,35 @@ a {
         background: url('/assets/images/1x/signUI.png') no-repeat center;
         width: 261px;
         height: 355px;
-        position: relative;
-        font-size: 20px;
-        color: #FDC55C
+        font-size: 20px
 }
-
         .game__ui-star-rating {
-            text-align: center;
-
-            -webkit-transform: rotate(-5deg);
-
-                    transform: rotate(-5deg);
             position: absolute;
+            font-size: 20px;
+            -webkit-transform: rotate(-5deg);
+                    transform: rotate(-5deg);
             top: 66px;
-            left: 46px;
+            left: 0;
+            right: 0;
         }
+            .game__ui-star-rating span {
+                display: inline;
+            }
         .game__ui-timer {
-            text-align: center;
+            font-size: 20px;
+
             -webkit-transform: rotate(-5deg);
+
                     transform: rotate(-5deg);
-            position: absolute;
             top: 113px;
             left: 64px;
         }
         .game__ui-move-counter {
-            text-align: center;
+
             -webkit-transform: rotate(-4deg);
+
                     transform: rotate(-4deg);
-            position: absolute;
+
             top: 143px;
             left: 105px;
             font-size: 17px;
@@ -1078,7 +1203,7 @@ a {
 
     background-size: 390px;
     margin-top: 2em;
-    height: 150px;
+    height: 75px;
     color: #FDC55C;
     position: relative;
 }
