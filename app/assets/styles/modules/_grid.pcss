@@ -1,5 +1,6 @@
 .grid {
     min-height: 400px;
+
     @mixin upToMediumSmall {
         display: flex;
         flex-wrap: wrap;
@@ -8,7 +9,7 @@
 
         &__col:nth-of-type(1) {
             {
-                border: 1px solid red;
+
                 flex: 0 0 100%;
                 order: 1;
             }
@@ -31,6 +32,8 @@
             position: relative;
         }
     }
+
+    @mixin atMediumM {}
     @mixin atMedium {
         display: initial;
         min-height: 456px;
