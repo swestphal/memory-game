@@ -26,6 +26,7 @@
         position: relative;
         -webkit-transition: transform 1s ease;
         transition: transform 1s ease;
+
         &:hover {
             cursor: pointer;
         }
@@ -35,6 +36,7 @@
             border: 1px solid #83BB8A;
             border-radius: 1px;
         }
+
 
         @mixin atMedium {
             img {
@@ -46,14 +48,16 @@
     }
 
 
-
-
     &.bernese {
         .field-table__card,
         .front,
         .back {
-            width: 87px;
-            height: 87px;
+            width: 90px;
+            height: 90px;
+            @mixin atMediumXm {
+                width: 140px;
+                height: 140px;
+            }
             @mixin atMedium {
                 width: 100px;
                 height: 100px;
@@ -73,8 +77,13 @@
         .field-table__card,
         .front,
         .back {
-            width: 115px;
-            height: 115px;
+
+            width: 120px;
+            height: 120px;
+            @mixin atMediumXm {
+                width: 190px;
+                height: 190px;
+            }
             @mixin atMedium {
                 width: 136px;
                 height: 136px;
@@ -90,16 +99,59 @@
         .field-table__card,
         .front,
         .back {
-            width: 135px;
-            height: 135px;
+            width: 170px;
+            height: 170px;
+            @mixin atMediumXm {
+                width: 190px;
+                height: 190px;
+            }
             @mixin atMedium {
                 width: 150px;
                 height: 150px;
             }
-            @mixin atMediumLarge {}
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* flip the pane when clicked */
@@ -110,6 +162,46 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* flip speed  */
 
 .field-table__flipContainer {
@@ -117,6 +209,46 @@
     transform-style: preserve-3d;
     position: relative;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* hide back of pane during swap */
@@ -130,6 +262,46 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* front pane, placed above back */
 
 .front {
@@ -138,6 +310,46 @@
     /* for firefox 31 */
     transform: rotateY(0deg);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* back, initially hidden pane */
