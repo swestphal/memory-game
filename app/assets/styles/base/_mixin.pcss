@@ -16,14 +16,20 @@
     }
 }
 
+@define-mixin atMediumXm {
+    @media (min-width: 680px) {
+        @mixin-content;
+    }
+}
+
 @define-mixin atMediumM {
-    @media (min-width: 730px) {
+    @media (min-width: 770px) and (max-width:959px) {
         @mixin-content;
     }
 }
 
 @define-mixin atMedium {
-    @media (min-width: 960px) {
+    @media (min-width: 970px) {
         @mixin-content;
     }
 }
