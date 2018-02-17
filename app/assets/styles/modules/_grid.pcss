@@ -1,8 +1,38 @@
 .grid {
     min-height: 400px;
+    @mixin upToMediumSmall {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: space-around;
+
+        &__col:nth-of-type(1) {
+            {
+                border: 1px solid red;
+                flex: 0 0 100%;
+                order: 1;
+            }
+        }
+        &__col:nth-of-type(3) {
+            {
+                flex: 0 0 100%;
+                order: 2;
+            }
+        }
+        &__col:nth-of-type(2) {
+            {
+                flex: 0 0 100%;
+                order: 3;
+            }
+        }
 
 
+        &__col-sidebar {
+            position: relative;
+        }
+    }
     @mixin atMedium {
+        display: initial;
         min-height: 456px;
         padding-top: 1em;
         display: flex;
@@ -10,6 +40,7 @@
         justify-content: space-around;
 
         &__col {
+            display: initial;
             align-self: center;
             width: 700px;
             @mixin atXLarge {
