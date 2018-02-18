@@ -1468,10 +1468,17 @@ a {
     -webkit-transition: all .5s ease-out;
 }
 
+@media (max-width: 959px) {
+
+.modal {
+        width: 370px
+}
+    }
+
 .modal__content {
         bottom: 0;
         line-height: 1.7rem;
-        font-size: 16px;
+        font-size: 11px;
         color: #924D19;
     }
 
@@ -1485,6 +1492,14 @@ a {
             position: absolute;
             bottom: 0;
         }
+
+@media (max-width: 959px) {
+
+.modal__congrat .modal__content {
+                padding: 50px;
+                bottom: 80px
+        }
+    }
 
 .modal__congrat__content {
             position: absolute;
@@ -1501,11 +1516,27 @@ a {
         width: 700px;
     }
 
+@media (max-width: 959px) {
+
+.modal__faq {
+            padding: 4px 20px;
+            width: 90%
+    }
+    }
+
 .modal__hitlist {
         background: #ea7e69;
         padding: 50px;
         height: auto;
         width: 700px;
+    }
+
+@media (max-width: 959px) {
+
+.modal__hitlist {
+            padding: 4px 20px;
+            width: 90%
+    }
     }
 
 .modal.fade-in {
@@ -1536,19 +1567,45 @@ a {
     }
 
     70% {
-        bottom: 0;
+        bottom: -50px;
         opacity: 1;
     }
 
     80% {
-        bottom: 100px;
+        bottom: 80px;
     }
 
     90% {
-        bottom: 50px;
+        bottom: 20px;
     }
 
     100% {
-        bottom: 70px;
+        bottom: 30px;
     }
 }
+
+@media (min-width: 970px) {
+    @-webkit-keyframes animationFrames {
+        0% {
+            bottom: 1000px;
+            opacity: 0;
+        }
+
+        70% {
+            bottom: 0;
+            opacity: 1;
+        }
+
+        80% {
+            bottom: 100px;
+        }
+
+        90% {
+            bottom: 50px;
+        }
+
+        100% {
+            bottom: 70px;
+        }
+    }
+    }
