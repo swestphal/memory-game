@@ -315,10 +315,9 @@ var memory = function() {
 
 
                 if (dataSetId != oldId && cardArr[dataSetId].isClickable == true) {
-
+                    myAudio.volume = .3;
                     myAudio.play();
-                    // increment the move-counter of clicks
-                    // update move-counter on frontend
+
                     showCardClickCounter.innerText = (cardClickCounter++) + 1;
                     checkRating();
                     checkCardClickChoice(dataSetId);

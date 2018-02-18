@@ -482,6 +482,11 @@ a {
     background: #aec5bb;
 }
 
+main {
+    min-height: calc(100vh-70px);
+    padding-bottom: 0;
+}
+
 @font-face {
     font-family: 'LoveYaLikeASister';
     src: url('../../fonts/LoveYaLikeASister/LoveYaLikeASister.eot');
@@ -975,7 +980,7 @@ a {
         position: relative;
         left: -20px;
         margin: 0 auto; //position: absolute;
-        width: 390px;
+        width: 320px;
     }
 
 .site-header__title h1 {
@@ -1468,10 +1473,17 @@ a {
     -webkit-transition: all .5s ease-out;
 }
 
+@media (max-width: 959px) {
+
+.modal {
+        width: 370px
+}
+    }
+
 .modal__content {
         bottom: 0;
         line-height: 1.7rem;
-        font-size: 16px;
+        font-size: 11px;
         color: #924D19;
     }
 
@@ -1485,6 +1497,14 @@ a {
             position: absolute;
             bottom: 0;
         }
+
+@media (max-width: 959px) {
+
+.modal__congrat .modal__content {
+                padding: 50px;
+                bottom: 80px
+        }
+    }
 
 .modal__congrat__content {
             position: absolute;
@@ -1501,11 +1521,27 @@ a {
         width: 700px;
     }
 
+@media (max-width: 959px) {
+
+.modal__faq {
+            padding: 4px 20px;
+            width: 90%
+    }
+    }
+
 .modal__hitlist {
         background: #ea7e69;
         padding: 50px;
         height: auto;
         width: 700px;
+    }
+
+@media (max-width: 959px) {
+
+.modal__hitlist {
+            padding: 4px 20px;
+            width: 90%
+    }
     }
 
 .modal.fade-in {
@@ -1529,26 +1565,54 @@ a {
         -webkit-transform: scale(1.2);
     }
 
-@-webkit-keyframes animationFrames {
-    0% {
-        bottom: 1000px;
-        opacity: 0;
+@media (max-width: 959px) {
+    @-webkit-keyframes animationFrames {
+        0% {
+            bottom: 1000px;
+            opacity: 0;
+        }
+
+        70% {
+            bottom: -50px;
+            opacity: 1;
+        }
+
+        80% {
+            bottom: 80px;
+        }
+
+        90% {
+            bottom: 20px;
+        }
+
+        100% {
+            bottom: 30px;
+        }
+    }
     }
 
-    70% {
-        bottom: 0;
-        opacity: 1;
-    }
+@media (min-width: 970px) {
+    @-webkit-keyframes animationFrames {
+        0% {
+            bottom: 1000px;
+            opacity: 0;
+        }
 
-    80% {
-        bottom: 100px;
-    }
+        70% {
+            bottom: 0;
+            opacity: 1;
+        }
 
-    90% {
-        bottom: 50px;
-    }
+        80% {
+            bottom: 100px;
+        }
 
-    100% {
-        bottom: 70px;
+        90% {
+            bottom: 50px;
+        }
+
+        100% {
+            bottom: 70px;
+        }
     }
-}
+    }
