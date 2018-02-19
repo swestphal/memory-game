@@ -1,11 +1,5 @@
 var memory = function() {
 
-    // $(".site-header__menu-icon").click(function () {
-    //     console.log("right icon was clicked");
-
-    var fieldSize = 9;
-    var fieldSizeIsOdd = true;
-    var cardClickCounter = 0;
     var showCardClickCounter = document.getElementById('card-click-counter');
     var showCardRating = document.getElementById('card-star-rating');
     var showCardTimer = document.getElementById('card-timer');
@@ -19,7 +13,7 @@ var memory = function() {
     var cardClick = document.getElementById('field');
     var myAudio = document.getElementById('myAudio');
 
-    var modalCongrat = document.getElementById('modal-congrat');
+
     var modalsClose = document.getElementsByClassName('modal__close');
     var modalMoves = document.getElementById('modal-congrat-moves');
     var modalTime = document.getElementById('modal-congrat-time');
@@ -28,10 +22,12 @@ var memory = function() {
 
     var showHitlist = document.getElementById('modal-show-hitlist');
 
+    var fieldSize = 9;
+    var fieldSizeIsOdd = true;
+
+    var cardClickCounter = 0;
     var matchingCards = 0;
     var gameCompleted = false;
-
-    var flag = 0;
     var clickDisabled = false;
     var refreshIntervalId;
     var firstClickTime;
@@ -44,99 +40,126 @@ var memory = function() {
     var goToSecondMove = false;
     var cardArr = [];
 
-    document.addEventListener('DOMContentLoaded', listenEvents, false);
 
 
-    restart();
+    function start() {
 
-    function restart() {
+        document.addEventListener('DOMContentLoaded', listenEvents, false);
 
-
-
+        // on restart set values to zero
+        //
         cardClickCounter = 0;
         matchingCards = 0;
         gameCompleted = false;
 
-        flag = 0;
         clickDisabled = false;
-
         oldId = 999;
 
         goToSecondMove = false;
         cardArr = [];
 
 
-
+        // remove field table from previous game
         var myNode = document.getElementById("field-table");
         while (myNode.firstChild) {
             myNode.removeChild(myNode.firstChild);
         }
 
+        // if hint is still open hide it
         changeLevelDisableHint();
+
+        // fade out open modal
         modalFadeOutOpened();
 
+        // add current hitlist to dom
         addHitlistToDom();
 
+        // stop timer and restart it (set it to 00:00:00 on frontend)
         timerStop();
         timerRestart();
-        showCardClickCounter.innerText = 0;
 
+        // set frontend values to 0
+        showCardClickCounter.innerText = 0;
         showCardRating.innerText = "***";
+
+        // generate a new card array
         generateCards();
 
     }
 
+
+    /**
+     * check if local storage is supported
+     */
+
     function isLocalStorageNameSupported() {
-        var testKey = 'test',
-            storage = window.localStorage;
         try {
-            storage.setItem(testKey, 'hitlist');
-            storage.removeItem(testKey);
+            // try to write data on localstorage
+            localStorage.setItem('test', 'hitlist');
+            localStorage.removeItem('test');
             return true;
         } catch (error) {
+            // on error return false
             return false;
         }
     }
+
+
+    /**
+     * reads hitlist from local storage
+     */
 
     function getFromLocalStorage() {
         if (isLocalStorageNameSupported()) return JSON.parse(localStorage.getItem("hitlist"));
     }
 
+
+    /**
+     * writes hitlist to local storage
+     */
+
     function writeToLocalStore(obj) {
         if (isLocalStorageNameSupported()) return localStorage.setItem("hitlist", JSON.stringify(obj));
     }
 
+
+    /**
+     * appends current game to hitlist and write it back to local storage
+     */
+
     function pushToLocalStorage(newObj) {
         if (isLocalStorageNameSupported()) {
-            // var newData = ({
-            //   fieldSize: fieldSize,
-            // moves: cardClickCounter,
-            //    minutes: diffMin,
-            //  seconds: diffSec
-            // });
-
             var oldHitlist = getFromLocalStorage();
-
-
             if (oldHitlist == null) { oldHitlist = [newObj]; } else oldHitlist.push(newObj);
-            //if (oldHitlist.length > 6) oldHitlist.shift();
+            // remove the oldest entry if there are more than six values stored
+            if (oldHitlist.length > 6) oldHitlist.shift();
             writeToLocalStore(oldHitlist);
         }
     }
 
 
+    /**
+     * helper: removes children of given node
+     */
+
     function removeNode(node) {
+        // as long as the node has a child ...
         while (node.firstChild) {
+            // ... remove from node the first child
             node.removeChild(node.firstChild);
         }
     }
 
 
+    /**
+     * appends the current hitlist to the dom
+     */
 
     function addHitlistToDom() {
-
+        // remove old list
         removeNode(showHitlist);
 
+        // build a new hitlist
         var myFragment = document.createDocumentFragment();
 
         var nodeUl = document.createElement("ul");
@@ -144,67 +167,108 @@ var memory = function() {
         var localHitlist = getFromLocalStorage();
 
         if (localHitlist) {
-            for (var i = 0; i < (localHitlist.length > 6 ? 6 : localHitlist.length); i++) {
+            // if there is is a local storage hitlist build list with it and append to dom
+            for (var i = 5; i >= 0; i--) {
+                // latest value on top
                 var nodeLi = document.createElement("li");
-                var content = (i + 1) + ")" + localHitlist[i].fieldSize + "fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
+                var content = (i + 1) + ") " + localHitlist[i].fieldSize + " fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
                 nodeLi.innerText = content;
                 myFragment.appendChild(nodeLi);
             }
+            nodeUl.appendChild(myFragment);
+            showHitlist.appendChild(nodeUl);
         } else {
+            // if there is no list give text info that no games are saved
             var nodeP = document.createElement("p");
             nodeP.innerText = "Sorry, but there are no games saved.";
             showHitlist.appendChild(nodeP);
         }
-        nodeUl.appendChild(myFragment);
-        showHitlist.appendChild(nodeUl);
-
-
-
     }
 
-    function modalFadeIn(containerId) {
 
+    /**
+     * fade - in modal
+     */
+
+    function modalFadeIn(containerId) {
+        // if containerID is not set
         if (containerId == null) {
+            // set content to the dataset info of the parentElement of click
             var content = document.getElementById(event.target.parentElement.dataset.modalTarget);
         } else
+            // set content to the containerId
             var content = document.getElementById(containerId);
 
-        var openedModal = document.querySelector('.fade-in');
-
+        // fade out modals that are opened
         modalFadeOutOpened();
 
+        // add class "fade-in" to the element and show it
         content.classList.add("fade-in");
 
     }
 
+
+    /**
+     * fade-out opened modal windows
+     */
+
     function modalFadeOutOpened() {
+        // get all modal that are currently shown
         var modalOpened = document.querySelectorAll('.fade-in');
-        console.log(modalOpened);
+
+        // loop through the founded elements
         for (var i = 0; i < modalOpened.length; i++) {
+            // and remove the class "fade-in"
             modalOpened[i].classList.remove("fade-in");
         }
     }
 
-    function modalFadeOut() {
 
+    /**
+     * fade-out current modal that user click
+     */
+
+    function modalFadeOut() {
+        // get the grandparent of click
         var modal = event.target.parentElement.parentElement;
 
+        // and remove class "fade-in"
         modal.classList.remove("fade-in");
     }
 
-    function timerStop() {
 
+    /**
+     * stop timer
+     */
+
+    function timerStop() {
+        // stop recurring timer from firing
         clearInterval(refreshIntervalId);
     }
 
+
+    /**
+     * restart timer
+     */
+
     function timerRestart() {
+        // stop recurring timer from firing
         clearInterval(refreshIntervalId);
+
+        // set on frontend timer on zero
         showCardTimer.innerText = "00:00:00";
+
+        // add eventlistener on cardclick to start the timer on click on card
+        // it will then be removed after the first click
         cardClick.addEventListener('click', timerStart);
     }
 
-    function timerStart() {
 
+    /**
+     * start timer
+     */
+
+    function timerStart() {
         //remove eventlistener after first call of timerStart
         cardClick.removeEventListener('click', timerStart);
 
@@ -215,16 +279,30 @@ var memory = function() {
         refreshIntervalId = setInterval(timerUpdate.bind(this), 1000);
     }
 
-    function gameRunning() {
 
+    /**
+     * check if game is running
+     */
+
+    function gameRunning() {
         if (gameCompleted || cardClickCounter == 0) return false;
         return true;
     }
+
+
+    /**
+     * close the hint
+     */
 
     function changeLevelDisableHint() {
         var hint = document.getElementById('game-level-hint');
         hint.classList.remove('show');
     }
+
+
+    /**
+     * show the hint for four seconds
+     */
 
     function changeLevelHint() {
         var hint = document.getElementById('game-level-hint');
@@ -234,12 +312,19 @@ var memory = function() {
         }, 4000);
     }
 
+
+    /**
+     * change the level if game is not running
+     */
+
     function changeLevel() {
 
         if (!gameRunning()) {
+            // if game is not running allow level changing
             showGameField.classList.remove(gameLevel.innerText);
             var levels = [{ name: "terrier", size: 9 }, { name: "bernese", size: 16 }, { name: "puppy", size: 4 }];
 
+            // run through the levels
             level++;
             level = level % 3;
 
@@ -248,9 +333,15 @@ var memory = function() {
             gameLevel.innerText = levels[level].name;
             fieldSize = levels[level].size;
             showGameField.classList.add(gameLevel.innerText);
-            restart();
+            start();
         } else changeLevelHint();
+        // show hint, that is is not allowed to change level while game is running
     }
+
+
+    /**
+     * remove first 0 from values
+     */
 
     function digitFormat(value) {
         // convert value to string
@@ -262,6 +353,11 @@ var memory = function() {
         //else go back like it was
         return value;
     }
+
+
+    /**
+     * update the values of running timer
+     */
 
     function timerUpdate() {
         var currentTime = new Date();
@@ -280,11 +376,12 @@ var memory = function() {
     }
 
 
-
+    /**
+     * add eventlistener
+     */
 
     function listenEvents() {
 
-        //timerStart = timerStart.bind(this);
         cardClick.addEventListener('click', timerStart);
 
         cardClick.addEventListener('click', function() {
@@ -293,8 +390,7 @@ var memory = function() {
         });
 
         getLevel.addEventListener('click', changeLevel);
-
-        getRestart.addEventListener('click', restart);
+        getRestart.addEventListener('click', start);
 
 
         for (var i = 0; i < modalsClose.length; i++) {
@@ -302,21 +398,23 @@ var memory = function() {
         }
 
         modalInfoOpen.addEventListener('click', function() { modalFadeIn(null) });
-
     }
+
+
+    /**
+     * handle the click on a card
+     */
 
     function newCardClick() {
         var dataSetId = event.target.dataset.id;
-        // verify, that user clicked on td element
 
+        // verify, that game is still running
         if (!gameCompleted) {
+            // verify, that user clicked on img and that there is a id to identify the card index
             if ((event.target.nodeName).toLowerCase() == 'img' && dataSetId) {
-                var dataSetId = event.target.dataset.id;
 
-
+                //if clicked card is not the same as the precedent and the card is not the dummy card ...
                 if (dataSetId != oldId && cardArr[dataSetId].isClickable == true) {
-                    myAudio.volume = .3;
-                    myAudio.play();
 
                     showCardClickCounter.innerText = (cardClickCounter++) + 1;
                     checkRating();
@@ -329,10 +427,14 @@ var memory = function() {
     }
 
 
+    /**
+     * build an array and double it
+     */
+
     function generateCards() {
         if (fieldSize % 2 != 0) fieldSizeIsOdd = true;
         if (fieldSizeIsOdd == true) {
-
+            // input a not clickable dummy card for an odd fieldsize
             var dummyCard = {
                 matchingPair: 999,
                 isOpen: false,
@@ -353,25 +455,28 @@ var memory = function() {
                 img: 'dog' + digitFormat(i + 1)
             }
             cardArr.push(card1);
-            cardArr.push(card1);
+            cardArr.push(card1); //push again for the second set of cards
         }
+        // rearrange order of the card array
         shuffleCards();
     }
 
+
+    /**
+     * shuffle the array
+     */
+
     function shuffleCards() {
         // fisher-yates shuffle
-        let counter = cardArr.length;
+        var counter = cardArr.length;
 
-        // While there are elements in the arr
+        // While there are elements in the card array
         while (counter > 0) {
             // pick a random index
-            let index = Math.floor(Math.random() * counter);
-
-            // decrease counter by 1
+            var index = Math.floor(Math.random() * counter);
             counter--;
-
             // swap the last element with it
-            let temp = cardArr[counter];
+            var temp = cardArr[counter];
             cardArr[counter] = cardArr[index];
             cardArr[index] = temp;
         }
@@ -380,12 +485,15 @@ var memory = function() {
     }
 
 
+    /**
+     * build the table and append it to showGameField
+     */
 
     function showShuffledCards() {
         for (var row = 0; row < Math.sqrt(fieldSize); row++) {
+            // build rows
             var nodeRow = document.createElement("tr");
-
-
+            // build cols
             for (var col = 0; col < Math.sqrt(fieldSize); col++) {
                 var nodeFrontDiv = document.createElement("div");
                 var nodeCol = document.createElement("td");
@@ -393,9 +501,15 @@ var memory = function() {
                 var itemId = Math.sqrt(fieldSize) * row + col;
 
                 var img = document.createElement('IMG');
-                if (cardArr[itemId].isClickable == false) { img.setAttribute("src", '../../assets/images/pool/1x/odd.png') } else img.setAttribute("src", '../../assets/images/pool/1x/paws.png');
-                img.setAttribute("width", "200");
-                img.setAttribute("height", "200");
+
+                // if this card is not clickable (because fieldsize is odd) show dummycard
+                if (cardArr[itemId].isClickable == false) {
+                    img.setAttribute("src", '../../assets/images/pool/1x/odd.png')
+                } else {
+                    // else show normal frontside
+                    img.setAttribute("src", '../../assets/images/pool/1x/paws.png');
+                }
+
                 img.setAttribute("alt", "Train your Brain");
                 img.dataset.id = itemId;
                 nodeFrontDiv.appendChild(img);
@@ -403,15 +517,18 @@ var memory = function() {
                 var nodeFlipDiv = document.createElement('div');
                 nodeFlipDiv.classList.add('field-table__flipContainer');
                 nodeFlipDiv.appendChild(nodeFrontDiv);
-
                 nodeCol.appendChild(nodeFlipDiv);
-
                 nodeRow.appendChild(nodeCol);
             }
+            // show the cards
             showGameField.appendChild(nodeRow);
         }
-
     }
+
+
+    /**
+     * generate amount of stars
+     */
 
     function generateRatingStars(num) {
         var stars = "";
@@ -422,102 +539,130 @@ var memory = function() {
     }
 
 
+    /**
+     * calculate rating
+     */
+
     function checkRating() {
-        var rating = (cardClickCounter) / fieldSize;
+        var rating = (cardClickCounter / fieldSize) * 100 - 100;
+        // switch on a a span of 30/50/90 percent of additional click in relation to fieldsize
         switch (true) {
-            case (rating <= 1.3):
+            case (rating <= 25):
                 starRating = 3;
 
                 break;
-            case (rating <= 1.5):
+            case (rating <= 50):
                 starRating = 2;
 
                 break;
-            case (rating <= 1.7):
+            case (rating <= 90):
                 starRating = 1;
 
                 break;
             default:
                 starRating = 0;
         }
-
+        // get amount of appropriate count of stars and set it in the frontend
         showCardRating.innerText = generateRatingStars(starRating);
-
 
     }
 
+
+    /**
+     * check if all cards are matching and game is finished
+     */
+
     function checkIfCompleted() {
+
         matchingCards++;
 
         if (matchingCards >= Math.floor(fieldSize / 2)) {
             gameCompleted = true;
             timerStop();
-
             gratulation();
         }
 
     }
 
+    /**
+     * set needed time and moves into gratulation modal and push values to localstorage
+     */
+
     function gratulation() {
         modalFadeIn("modal-congrat");
 
+        // build timestring of minutes (if there are) and seconds
         var timeContent = "";
 
         if (diffMin >= 1) { timeContent = diffMin + " minutes and " };
         timeContent += diffSec + " seconds."
 
+        // set in gratulation modal count of moves and timestring
         modalMoves.innerText = cardClickCounter;
         modalTime.innerText = timeContent;
-        modalTime.innerText = timeContent;
 
+        // fill object for pushing to existing localstorage
         var newData = {
             fieldSize: fieldSize,
             moves: cardClickCounter,
             time: timeContent
         };
 
-
         pushToLocalStorage(newData);
         addHitlistToDom();
-
     }
 
 
+    /**
+     * turn clicked card and show image with index of id
+     */
 
     function flipCard(element, id) {
+
+        // make flip sound
+        myAudio.volume = .3;
+        myAudio.play();
+
         element.parentElement.classList.add("open");
+
+        // in order to not show solution at first sight in the html code, the backside of card is
+        // appended if user clicks on card
         var nodeBackDiv = document.createElement('div');
         nodeBackDiv.classList.add('back');
 
         var img = document.createElement('IMG');
         img.src = '../../assets/images/pool/1x/' + cardArr[id]['img'] + '.png';
-        img.setAttribute("width", "200");
-        img.setAttribute("height", "200");
         img.setAttribute("alt", "Train your Brain");
 
         nodeBackDiv.appendChild(img);
         element.appendChild(nodeBackDiv);
     }
 
+
+    /**
+     * check if clicked card is the first opened card and if not if it matches to precedent
+     */
+
     function checkCardClickChoice(currentCardId) {
 
         var currentElement = event.target.parentElement.parentElement;
 
         if (goToSecondMove == true) {
-
+            // if it is the second card which is openend ...
             clickDisabled = true;
-            //currentElement.parentElement.classList.add("open");
+
             flipCard(currentElement, currentCardId);
 
 
             if (cardArr[oldId].matchingPair == cardArr[currentCardId].matchingPair) {
 
                 setTimeout(function() {
+                    // cards matching is passed, set to both cards on matched status
                     cardArr[oldId].isMatching = true;
                     cardArr[currentCardId].isMatching = true;
 
+                    // search for opened cards, remove class open and set it to matching
                     var matchingPair = document.querySelectorAll(".open");
-
                     for (var i = 0; i < matchingPair.length; i++) {
                         matchingPair[i].classList.remove("open");
                         matchingPair[i].classList.add("matching");
@@ -525,6 +670,8 @@ var memory = function() {
                     oldId = 999;
                     clickDisabled = false;
                 }, 1000);
+
+                // pairmatching was passed, next move is again the first of two cards to open
                 goToSecondMove = false;
                 checkIfCompleted();
             } else {
@@ -532,6 +679,7 @@ var memory = function() {
                     cardArr[oldId].isOpen = false;
                     cardArr[currentCardId].isOpen = false;
 
+                    // card wasn't matching, remove the class open from both opened cards
                     var pairs = document.querySelectorAll(".open");
                     for (var i = 0; i < pairs.length; i++) {
                         pairs[i].classList.remove("open");
@@ -539,19 +687,26 @@ var memory = function() {
                     oldId = 999;
                     clickDisabled = false;
                 }, 1500);
+
+                // pairmatching was not passed, next move is again the first of two cards to open
                 goToSecondMove = false;
             }
 
         } else {
-
+            // if it is the first card of two which is openen .....
+            //
+            // set status of current card to open
             cardArr[currentCardId].isOpen = true;
-            // currentElement.parentElement.classList.add("open");
+
             flipCard(currentElement, currentCardId);
-            //flipCard(event.target.parentElement);
+
+            // store current Id in oldId
             oldId = currentCardId;
 
+            // allow next time to go to test of pairmatching
             goToSecondMove = true;
         }
 
     }
+    start();
 }();
