@@ -450,6 +450,11 @@ template {
   display: none;
 }
 
+html,
+body {
+    height: 100%;
+}
+
 body {
     font-family: 'LoveYaLikeASister', sans-serif;
     color: #333;
@@ -480,11 +485,11 @@ a {
     overflow: hidden;
     margin: 0 auto;
     background: #aec5bb;
+    min-height: calc(100vH - 290px);
 }
 
-main {
-    min-height: calc(100vh-70px);
-    padding-bottom: 0;
+.main-wrapper {
+    padding-top: 2em;
 }
 
 @font-face {
@@ -962,7 +967,7 @@ main {
 }
 
 .site-header {
-    margin-top: 1.5em;
+    /* margin-top: 1.5em;*/
     background: url('/assets/images/1x/flowers.png') no-repeat center;
     height: 137px;
     position: relative;
@@ -1090,7 +1095,7 @@ main {
     position: relative;
     position: relative;
     background: url('/assets/images/1x/grass.png') no-repeat bottom #aec5bb;
-    height: 124px;
+    height: 130px;
 }
 
 .site-footer__content {
@@ -1117,7 +1122,7 @@ main {
         }
 
 .game__ui {
-    background: url('/assets/images/1x/signUIMobile.png') no-repeat right;
+    background: url('/assets/images/1x/signUiMobile.png') no-repeat right;
     position: relative;
 
     margin-right: 20px;
@@ -1227,7 +1232,7 @@ main {
                     transform: rotate(-4deg);
 
             top: 143px;
-            left: 105px;
+            left: 102px;
             font-size: 17px;
         }
             .game__ui-move-counter span {
@@ -1535,6 +1540,11 @@ main {
         height: auto;
         width: 700px;
     }
+
+.modal__hitlist ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
 
 @media (max-width: 959px) {
 
