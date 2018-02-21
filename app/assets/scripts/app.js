@@ -167,8 +167,9 @@ var memory = function() {
         var localHitlist = getFromLocalStorage();
 
         if (localHitlist) {
+            console.log(localHitlist.length);
             // if there is is a local storage hitlist build list with it and append to dom
-            for (var i = 5; i >= 0; i--) {
+            for (var i = localHitlist.length - 1; i >= 0; i--) {
                 // latest value on top
                 var nodeLi = document.createElement("li");
                 var content = (i + 1) + ") " + localHitlist[i].fieldSize + " fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
@@ -384,9 +385,9 @@ var memory = function() {
 
         cardClick.addEventListener('click', timerStart);
 
-        cardClick.addEventListener('click', function() {
+        cardClick.addEventListener('click', function(e) {
             if (clickDisabled == true) return;
-            else newCardClick();
+            else newCardClick(e);
         });
 
         getLevel.addEventListener('click', changeLevel);
@@ -405,7 +406,8 @@ var memory = function() {
      * handle the click on a card
      */
 
-    function newCardClick() {
+    function newCardClick(event) {
+        console.log(event);
         var dataSetId = event.target.dataset.id;
 
         // verify, that game is still running
@@ -418,7 +420,7 @@ var memory = function() {
 
                     showCardClickCounter.innerText = (cardClickCounter++) + 1;
                     checkRating();
-                    checkCardClickChoice(dataSetId);
+                    checkCardClickChoice(dataSetId, event);
 
                 }
 
