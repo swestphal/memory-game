@@ -191,7 +191,7 @@ var memory = function() {
      * fade - in modal
      */
 
-    function modalFadeIn(containerId) {
+    function modalFadeIn(containerId, event) {
         // if containerID is not set
         if (containerId == null) {
             // set content to the dataset info of the parentElement of click
@@ -229,7 +229,7 @@ var memory = function() {
      * fade-out current modal that user click
      */
 
-    function modalFadeOut() {
+    function modalFadeOut(event) {
         // get the grandparent of click
         var modal = event.target.parentElement.parentElement;
 
@@ -395,10 +395,10 @@ var memory = function() {
 
 
         for (var i = 0; i < modalsClose.length; i++) {
-            modalsClose[i].addEventListener('click', modalFadeOut, false);
+            modalsClose[i].addEventListener('click', function(e) { modalFadeOut(e) }, false);
         }
 
-        modalInfoOpen.addEventListener('click', function() { modalFadeIn(null) });
+        modalInfoOpen.addEventListener('click', function(e) { modalFadeIn(null, e) });
     }
 
 
@@ -407,7 +407,7 @@ var memory = function() {
      */
 
     function newCardClick(event) {
-        console.log(event);
+
         var dataSetId = event.target.dataset.id;
 
         // verify, that game is still running
@@ -645,7 +645,7 @@ var memory = function() {
      * check if clicked card is the first opened card and if not if it matches to precedent
      */
 
-    function checkCardClickChoice(currentCardId) {
+    function checkCardClickChoice(currentCardId, event) {
 
         var currentElement = event.target.parentElement.parentElement;
 
