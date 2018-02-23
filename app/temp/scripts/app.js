@@ -70,7 +70,8 @@
 "use strict";
 
 
-var memory = function () {
+(function () {
+    'use strict';
 
     var showCardClickCounter = document.getElementById('card-click-counter');
     var showCardRating = document.getElementById('card-star-rating');
@@ -78,7 +79,7 @@ var memory = function () {
     var showGameField = document.getElementById('field-table');
 
     var getRestart = document.getElementById('game-restart');
-    var getLevel = document.getElementById('game-level');
+    var hint = document.getElementById('game-level-hint');
     var getLevel = document.getElementById('game-level-input');
     var gameLevel = document.getElementById('game-level');
 
@@ -100,13 +101,15 @@ var memory = function () {
     var matchingCards = 0;
     var gameCompleted = false;
     var clickDisabled = false;
-    var refreshIntervalId;
-    var firstClickTime;
-    var starRating;
-    var oldId;
+    var refreshIntervalId = void 0;
+    var firstClickTime = void 0;
+    var starRating = void 0;
+    var oldId = void 0;
     var level = 0;
 
-    var diffHours, diffMin, diffSec;
+    var diffHours = void 0,
+        diffMin = void 0,
+        diffSec = void 0;
 
     var goToSecondMove = false;
     var cardArr = [];
@@ -230,7 +233,6 @@ var memory = function () {
         var localHitlist = getFromLocalStorage();
 
         if (localHitlist) {
-            console.log(localHitlist.length);
             // if there is is a local storage hitlist build list with it and append to dom
             for (var i = localHitlist.length - 1; i >= 0; i--) {
                 // latest value on top
@@ -255,12 +257,12 @@ var memory = function () {
 
     function modalFadeIn(containerId, event) {
         // if containerID is not set
+        var content = document.getElementById(containerId);
+
         if (containerId == null) {
             // set content to the dataset info of the parentElement of click
-            var content = document.getElementById(event.target.parentElement.dataset.modalTarget);
-        } else
-            // set content to the containerId
-            var content = document.getElementById(containerId);
+            content = document.getElementById(event.target.parentElement.dataset.modalTarget);
+        }
 
         // fade out modals that are opened
         modalFadeOutOpened();
@@ -350,7 +352,7 @@ var memory = function () {
      */
 
     function changeLevelDisableHint() {
-        var hint = document.getElementById('game-level-hint');
+
         hint.classList.remove('show');
     }
 
@@ -359,7 +361,7 @@ var memory = function () {
      */
 
     function changeLevelHint() {
-        var hint = document.getElementById('game-level-hint');
+
         hint.classList.add('show');
         setTimeout(function () {
             hint.classList.remove('show');
@@ -691,6 +693,7 @@ var memory = function () {
         var currentElement = event.target.parentElement.parentElement;
 
         if (goToSecondMove == true) {
+
             // if it is the second card which is openend ...
             clickDisabled = true;
 
@@ -718,7 +721,10 @@ var memory = function () {
                 checkIfCompleted();
             } else {
                 setTimeout(function () {
-                    cardArr[oldId].isOpen = false;
+
+                    if (oldId != 999) {
+                        cardArr[oldId].isOpen = false;
+                    }
                     cardArr[currentCardId].isOpen = false;
 
                     // card wasn't matching, remove the class open from both opened cards
@@ -749,7 +755,7 @@ var memory = function () {
         }
     }
     start();
-}();
+})();
 
 /***/ })
 /******/ ]);
