@@ -1,44 +1,44 @@
-var memory = function() {
+(function() {
+    'use strict';
+    const showCardClickCounter = document.getElementById('card-click-counter');
+    const showCardRating = document.getElementById('card-star-rating');
+    const showCardTimer = document.getElementById('card-timer');
+    const showGameField = document.getElementById('field-table');
 
-    var showCardClickCounter = document.getElementById('card-click-counter');
-    var showCardRating = document.getElementById('card-star-rating');
-    var showCardTimer = document.getElementById('card-timer');
-    var showGameField = document.getElementById('field-table');
+    const getRestart = document.getElementById('game-restart');
+    const hint = document.getElementById('game-level-hint');
+    const getLevel = document.getElementById('game-level-input');
+    const gameLevel = document.getElementById('game-level');
 
-    var getRestart = document.getElementById('game-restart');
-    var getLevel = document.getElementById('game-level');
-    var getLevel = document.getElementById('game-level-input');
-    var gameLevel = document.getElementById('game-level');
-
-    var cardClick = document.getElementById('field');
-    var myAudio = document.getElementById('myAudio');
+    const cardClick = document.getElementById('field');
+    const myAudio = document.getElementById('myAudio');
 
 
-    var modalsClose = document.getElementsByClassName('modal__close');
-    var modalMoves = document.getElementById('modal-congrat-moves');
-    var modalTime = document.getElementById('modal-congrat-time');
+    const modalsClose = document.getElementsByClassName('modal__close');
+    const modalMoves = document.getElementById('modal-congrat-moves');
+    const modalTime = document.getElementById('modal-congrat-time');
 
-    var modalInfoOpen = document.getElementById('header-info');
+    const modalInfoOpen = document.getElementById('header-info');
 
-    var showHitlist = document.getElementById('modal-show-hitlist');
+    const showHitlist = document.getElementById('modal-show-hitlist');
 
-    var fieldSize = 9;
-    var fieldSizeIsOdd = true;
+    let fieldSize = 9;
+    let fieldSizeIsOdd = true;
 
-    var cardClickCounter = 0;
-    var matchingCards = 0;
-    var gameCompleted = false;
-    var clickDisabled = false;
-    var refreshIntervalId;
-    var firstClickTime;
-    var starRating;
-    var oldId;
-    var level = 0;
+    let cardClickCounter = 0;
+    let matchingCards = 0;
+    let gameCompleted = false;
+    let clickDisabled = false;
+    let refreshIntervalId;
+    let firstClickTime;
+    let starRating;
+    let oldId;
+    let level = 0;
 
-    var diffHours, diffMin, diffSec;
+    let diffHours, diffMin, diffSec;
 
-    var goToSecondMove = false;
-    var cardArr = [];
+    let goToSecondMove = false;
+    let cardArr = [];
 
 
 
@@ -58,9 +58,8 @@ var memory = function() {
         goToSecondMove = false;
         cardArr = [];
 
-
         // remove field table from previous game
-        var myNode = document.getElementById("field-table");
+        const myNode = document.getElementById("field-table");
         while (myNode.firstChild) {
             myNode.removeChild(myNode.firstChild);
         }
@@ -129,7 +128,7 @@ var memory = function() {
 
     function pushToLocalStorage(newObj) {
         if (isLocalStorageNameSupported()) {
-            var oldHitlist = getFromLocalStorage();
+            let oldHitlist = getFromLocalStorage();
             if (oldHitlist == null) { oldHitlist = [newObj]; } else oldHitlist.push(newObj);
             // remove the oldest entry if there are more than six values stored
             if (oldHitlist.length > 6) oldHitlist.shift();
@@ -160,19 +159,18 @@ var memory = function() {
         removeNode(showHitlist);
 
         // build a new hitlist
-        var myFragment = document.createDocumentFragment();
+        const myFragment = document.createDocumentFragment();
 
-        var nodeUl = document.createElement("ul");
+        const nodeUl = document.createElement("ul");
 
-        var localHitlist = getFromLocalStorage();
+        const localHitlist = getFromLocalStorage();
 
         if (localHitlist) {
-            console.log(localHitlist.length);
             // if there is is a local storage hitlist build list with it and append to dom
-            for (var i = localHitlist.length - 1; i >= 0; i--) {
+            for (let i = localHitlist.length - 1; i >= 0; i--) {
                 // latest value on top
-                var nodeLi = document.createElement("li");
-                var content = (i + 1) + ") " + localHitlist[i].fieldSize + " fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
+                const nodeLi = document.createElement("li");
+                const content = (i + 1) + ") " + localHitlist[i].fieldSize + " fields with " + localHitlist[i].moves + " moves in " + localHitlist[i].time;
                 nodeLi.innerText = content;
                 myFragment.appendChild(nodeLi);
             }
@@ -180,7 +178,7 @@ var memory = function() {
             showHitlist.appendChild(nodeUl);
         } else {
             // if there is no list give text info that no games are saved
-            var nodeP = document.createElement("p");
+            const nodeP = document.createElement("p");
             nodeP.innerText = "Sorry, but there are no games saved.";
             showHitlist.appendChild(nodeP);
         }
@@ -193,12 +191,12 @@ var memory = function() {
 
     function modalFadeIn(containerId, event) {
         // if containerID is not set
+        let content = document.getElementById(containerId);
+
         if (containerId == null) {
             // set content to the dataset info of the parentElement of click
-            var content = document.getElementById(event.target.parentElement.dataset.modalTarget);
-        } else
-            // set content to the containerId
-            var content = document.getElementById(containerId);
+            content = document.getElementById(event.target.parentElement.dataset.modalTarget);
+        }
 
         // fade out modals that are opened
         modalFadeOutOpened();
@@ -215,10 +213,10 @@ var memory = function() {
 
     function modalFadeOutOpened() {
         // get all modal that are currently shown
-        var modalOpened = document.querySelectorAll('.fade-in');
+        const modalOpened = document.querySelectorAll('.fade-in');
 
         // loop through the founded elements
-        for (var i = 0; i < modalOpened.length; i++) {
+        for (let i = 0; i < modalOpened.length; i++) {
             // and remove the class "fade-in"
             modalOpened[i].classList.remove("fade-in");
         }
@@ -231,7 +229,7 @@ var memory = function() {
 
     function modalFadeOut(event) {
         // get the grandparent of click
-        var modal = event.target.parentElement.parentElement;
+        const modal = event.target.parentElement.parentElement;
 
         // and remove class "fade-in"
         modal.classList.remove("fade-in");
@@ -296,7 +294,7 @@ var memory = function() {
      */
 
     function changeLevelDisableHint() {
-        var hint = document.getElementById('game-level-hint');
+
         hint.classList.remove('show');
     }
 
@@ -306,7 +304,7 @@ var memory = function() {
      */
 
     function changeLevelHint() {
-        var hint = document.getElementById('game-level-hint');
+
         hint.classList.add('show');
         setTimeout(function() {
             hint.classList.remove('show');
@@ -323,7 +321,7 @@ var memory = function() {
         if (!gameRunning()) {
             // if game is not running allow level changing
             showGameField.classList.remove(gameLevel.innerText);
-            var levels = [{ name: "terrier", size: 9 }, { name: "bernese", size: 16 }, { name: "puppy", size: 4 }];
+            const levels = [{ name: "terrier", size: 9 }, { name: "bernese", size: 16 }, { name: "puppy", size: 4 }];
 
             // run through the levels
             level++;
@@ -361,8 +359,8 @@ var memory = function() {
      */
 
     function timerUpdate() {
-        var currentTime = new Date();
-        var diffTime = (currentTime.getTime() - firstClickTime.getTime());
+        const currentTime = new Date();
+        let diffTime = (currentTime.getTime() - firstClickTime.getTime());
 
         diffHours = Math.floor(diffTime / (1000 * 60 * 60));
         diffTime -= diffHours * (1000 * 60 * 60);
@@ -394,7 +392,7 @@ var memory = function() {
         getRestart.addEventListener('click', start);
 
 
-        for (var i = 0; i < modalsClose.length; i++) {
+        for (let i = 0; i < modalsClose.length; i++) {
             modalsClose[i].addEventListener('click', function(e) { modalFadeOut(e) }, false);
         }
 
@@ -408,7 +406,7 @@ var memory = function() {
 
     function newCardClick(event) {
 
-        var dataSetId = event.target.dataset.id;
+        const dataSetId = event.target.dataset.id;
 
         // verify, that game is still running
         if (!gameCompleted) {
@@ -437,7 +435,7 @@ var memory = function() {
         if (fieldSize % 2 != 0) fieldSizeIsOdd = true;
         if (fieldSizeIsOdd == true) {
             // input a not clickable dummy card for an odd fieldsize
-            var dummyCard = {
+            const dummyCard = {
                 matchingPair: 999,
                 isOpen: false,
                 isMatching: false,
@@ -448,8 +446,8 @@ var memory = function() {
             cardArr.push(dummyCard);
         }
 
-        for (var i = 0; i < Math.floor(fieldSize / 2); i++) {
-            var card1 = {
+        for (let i = 0; i < Math.floor(fieldSize / 2); i++) {
+            const card1 = {
                 matchingPair: i,
                 isOpen: false,
                 isMatching: false,
@@ -470,15 +468,15 @@ var memory = function() {
 
     function shuffleCards() {
         // fisher-yates shuffle
-        var counter = cardArr.length;
+        let counter = cardArr.length;
 
         // While there are elements in the card array
         while (counter > 0) {
             // pick a random index
-            var index = Math.floor(Math.random() * counter);
+            let index = Math.floor(Math.random() * counter);
             counter--;
             // swap the last element with it
-            var temp = cardArr[counter];
+            let temp = cardArr[counter];
             cardArr[counter] = cardArr[index];
             cardArr[index] = temp;
         }
@@ -492,17 +490,17 @@ var memory = function() {
      */
 
     function showShuffledCards() {
-        for (var row = 0; row < Math.sqrt(fieldSize); row++) {
+        for (let row = 0; row < Math.sqrt(fieldSize); row++) {
             // build rows
-            var nodeRow = document.createElement("tr");
+            const nodeRow = document.createElement("tr");
             // build cols
-            for (var col = 0; col < Math.sqrt(fieldSize); col++) {
-                var nodeFrontDiv = document.createElement("div");
-                var nodeCol = document.createElement("td");
+            for (let col = 0; col < Math.sqrt(fieldSize); col++) {
+                const nodeFrontDiv = document.createElement("div");
+                const nodeCol = document.createElement("td");
                 nodeCol.className = "field-table__card";
-                var itemId = Math.sqrt(fieldSize) * row + col;
+                let itemId = Math.sqrt(fieldSize) * row + col;
 
-                var img = document.createElement('IMG');
+                const img = document.createElement('IMG');
 
                 // if this card is not clickable (because fieldsize is odd) show dummycard
                 if (cardArr[itemId].isClickable == false) {
@@ -516,7 +514,7 @@ var memory = function() {
                 img.dataset.id = itemId;
                 nodeFrontDiv.appendChild(img);
                 nodeFrontDiv.classList.add('front');
-                var nodeFlipDiv = document.createElement('div');
+                const nodeFlipDiv = document.createElement('div');
                 nodeFlipDiv.classList.add('field-table__flipContainer');
                 nodeFlipDiv.appendChild(nodeFrontDiv);
                 nodeCol.appendChild(nodeFlipDiv);
@@ -533,8 +531,8 @@ var memory = function() {
      */
 
     function generateRatingStars(num) {
-        var stars = "";
-        for (var i = 0; i < num; i++) {
+        let stars = "";
+        for (let i = 0; i < num; i++) {
             stars += "*";
         }
         return stars;
@@ -546,7 +544,7 @@ var memory = function() {
      */
 
     function checkRating() {
-        var rating = (cardClickCounter / fieldSize) * 100 - 100;
+        let rating = (cardClickCounter / fieldSize) * 100 - 100;
         // switch on a a span of 30/50/90 percent of additional click in relation to fieldsize
         switch (true) {
             case (rating <= 25):
@@ -594,7 +592,7 @@ var memory = function() {
         modalFadeIn("modal-congrat");
 
         // build timestring of minutes (if there are) and seconds
-        var timeContent = "";
+        let timeContent = "";
 
         if (diffMin >= 1) { timeContent = diffMin + " minutes and " };
         timeContent += diffSec + " seconds."
@@ -604,7 +602,7 @@ var memory = function() {
         modalTime.innerText = timeContent;
 
         // fill object for pushing to existing localstorage
-        var newData = {
+        let newData = {
             fieldSize: fieldSize,
             moves: cardClickCounter,
             time: timeContent
@@ -629,10 +627,10 @@ var memory = function() {
 
         // in order to not show solution at first sight in the html code, the backside of card is
         // appended if user clicks on card
-        var nodeBackDiv = document.createElement('div');
+        const nodeBackDiv = document.createElement('div');
         nodeBackDiv.classList.add('back');
 
-        var img = document.createElement('IMG');
+        const img = document.createElement('IMG');
         img.src = '../../assets/images/pool/1x/' + cardArr[id]['img'] + '.png';
         img.setAttribute("alt", "Train your Brain");
 
@@ -647,9 +645,10 @@ var memory = function() {
 
     function checkCardClickChoice(currentCardId, event) {
 
-        var currentElement = event.target.parentElement.parentElement;
+        const currentElement = event.target.parentElement.parentElement;
 
         if (goToSecondMove == true) {
+
             // if it is the second card which is openend ...
             clickDisabled = true;
 
@@ -664,8 +663,8 @@ var memory = function() {
                     cardArr[currentCardId].isMatching = true;
 
                     // search for opened cards, remove class open and set it to matching
-                    var matchingPair = document.querySelectorAll(".open");
-                    for (var i = 0; i < matchingPair.length; i++) {
+                    const matchingPair = document.querySelectorAll(".open");
+                    for (let i = 0; i < matchingPair.length; i++) {
                         matchingPair[i].classList.remove("open");
                         matchingPair[i].classList.add("matching");
                     }
@@ -678,12 +677,13 @@ var memory = function() {
                 checkIfCompleted();
             } else {
                 setTimeout(function() {
-                    cardArr[oldId].isOpen = false;
+
+                    if (oldId != 999) { cardArr[oldId].isOpen = false; }
                     cardArr[currentCardId].isOpen = false;
 
                     // card wasn't matching, remove the class open from both opened cards
-                    var pairs = document.querySelectorAll(".open");
-                    for (var i = 0; i < pairs.length; i++) {
+                    const pairs = document.querySelectorAll(".open");
+                    for (let i = 0; i < pairs.length; i++) {
                         pairs[i].classList.remove("open");
                     }
                     oldId = 999;
@@ -711,4 +711,4 @@ var memory = function() {
 
     }
     start();
-}();
+})();
