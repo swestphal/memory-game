@@ -416,7 +416,6 @@
                 //if clicked card is not the same as the precedent and the card is not the dummy card ...
                 if (dataSetId != oldId && cardArr[dataSetId].isClickable == true) {
 
-                    showCardClickCounter.innerText = (cardClickCounter++) + 1;
                     checkRating();
                     checkCardClickChoice(dataSetId, event);
 
@@ -544,7 +543,8 @@
      */
 
     function checkRating() {
-        let rating = (cardClickCounter / fieldSize) * 100 - 100;
+        let rating = ((cardClickCounter * 3) / fieldSize) * 100 - 100;
+        console.log(rating);
         // switch on a a span of 30/50/90 percent of additional click in relation to fieldsize
         switch (true) {
             case (rating <= 25):
@@ -648,7 +648,7 @@
         const currentElement = event.target.parentElement.parentElement;
 
         if (goToSecondMove == true) {
-
+            showCardClickCounter.innerText = cardClickCounter++ + 1;
             // if it is the second card which is openend ...
             clickDisabled = true;
 
