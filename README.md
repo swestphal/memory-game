@@ -1,7 +1,7 @@
 # Memory Game
 
 Train your brain with this memory game!
-[play it here] (http://memory.swestphal.net/)
+[play it here](http://memory.swestphal.net/)
 
 ### Getting Started
 
