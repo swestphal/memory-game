@@ -1,6 +1,7 @@
 # Memory Game
 
 Train your brain with this memory game!
+[play it here] (http://memory.swestphal.net/)
 
 ### Getting Started
 
@@ -17,7 +18,7 @@ If you want to work on the existing code, it is recommended to install node and 
 ```
 npm install
 ```
-for installing the required dependencies
+for installing the required dependencies. In the app folder you can work.
 
 ### Deployment
 
@@ -25,7 +26,7 @@ run
 ```
 gulp build
 ```
-and then move the dist-folder onto your server and point to the directory.
+and then move the dist-folder onto your server and point to this directory.
 
 
 ### Authors
