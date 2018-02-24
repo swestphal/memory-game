@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'LoveYaLikeASister';
+  src: url('LoveYaLikeASister.eot');
+  src: url('LoveYaLikeASister.woff2') format('woff2'),
+       url('LoveYaLikeASister.woff') format('woff'),
+       url('LoveYaLikeASister.ttf') format('truetype'),
+       url('LoveYaLikeASister.svg#LoveYaLikeASister') format('svg'),
+       url('LoveYaLikeASister.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
