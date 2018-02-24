@@ -494,24 +494,24 @@ a {
 
 @font-face {
     font-family: 'LoveYaLikeASister';
-    src: url('../../fonts/LoveYaLikeASister/LoveYaLikeASister.eot');
-    src: url('../../fonts/LoveYaLikeASister/LoveYaLikeASister.woff2') format('woff2'),
-    url('../../fonts/LoveYaLikeASister/LoveYaLikeASister.woff') format('woff'),
-    url('../../fonts/LoveYaLikeASister/LoveYaLikeASister.ttf') format('truetype'),
-    url('../../fonts/LoveYaLikeASister/LoveYaLikeASister.svg#LoveYaLikeASister') format('svg'),
-    url('../../fonts/LoveYaLikeASister/LoveYaLikeASister.eot?#iefix') format('embedded-opentype');
+    src: url('/assets/fonts/LoveYaLikeASister/LoveYaLikeASister.eot');
+    src: url('/assets/fonts/LoveYaLikeASister/LoveYaLikeASister.woff2') format('woff2'),
+    url('/assets/fonts/LoveYaLikeASister/LoveYaLikeASister.woff') format('woff'),
+    url('/assets/fonts/LoveYaLikeASister/LoveYaLikeASister.ttf') format('truetype'),
+    url('/assets/fonts/LoveYaLikeASister/LoveYaLikeASister.svg#LoveYaLikeASister') format('svg'),
+    url('/assets/fonts/LoveYaLikeASister/LoveYaLikeASister.eot?#iefix') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'fontello';
-    src: url('../../fonts/fontello/fontello.eot?88597527');
-    src: url('../../fonts/fontello/fontello.eot?88597527#iefix') format('embedded-opentype'),
-    url('../../fonts/fontello/fontello.woff2?88597527') format('woff2'),
-    url('../../fonts/fontello/fontello.woff?88597527') format('woff'),
-    url('../../fonts/fontello/fontello.ttf?88597527') format('truetype'),
-    url('../../fonts/fontello/fontello.svg?88597527#fontello') format('svg');
+    src: url('/assets/fonts/fontello/fontello.eot?88597527');
+    src: url('/assets/fonts/fontello/fontello.eot?88597527#iefix') format('embedded-opentype'),
+    url('/assets/fonts/fontello/fontello.woff2?88597527') format('woff2'),
+    url('/assets/fonts/fontello/fontello.woff?88597527') format('woff'),
+    url('/assets/fonts/fontello/fontello.ttf?88597527') format('truetype'),
+    url('/assets/fonts/fontello/fontello.svg?88597527#fontello') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -717,7 +717,7 @@ a {
             @media (min-width: 1500px) {
 
         .grid__col {
-                width: 800px; //align-self: center
+                width: 800px
         }
     }
         .grid__col-sidebar {
@@ -732,7 +732,7 @@ a {
     }
             @media (min-width: 1500px) {
         .grid__col-sidebar {
-                width: 350px; //align-self: center
+                width: 350px
         }
     }
     }
@@ -967,7 +967,7 @@ a {
 }
 
 .site-header {
-    /* margin-top: 1.5em;*/
+
     background: url('/assets/images/1x/flowers.png') no-repeat center;
     height: 137px;
     position: relative;
@@ -984,7 +984,7 @@ a {
         text-align: center;
         position: relative;
         left: -20px;
-        margin: 0 auto; //position: absolute;
+        margin: 0 auto;
         width: 320px;
     }
 
@@ -1011,7 +1011,7 @@ a {
 
 .site-header__title {
             width: 600px;
-            margin: 0 auto; //position: absolute;
+            margin: 0 auto;
             -webkit-transform: rotate(-2deg);
                     transform: rotate(-2deg);
             padding: 0.25em;
@@ -1037,7 +1037,7 @@ a {
         }
 
 .site-header__info {
-        //float: right;
+
         position: absolute;
         left: 0;
         bottom: 5px;
@@ -1415,7 +1415,7 @@ a {
         -webkit-transform: rotate(-4deg);
                 transform: rotate(-4deg);
         font-size: 20px;
-        padding: 4px 15px; //transform: rotate(5deg);
+        padding: 4px 15px;
     }
 
 @media (min-width: 970px) {
@@ -1472,10 +1472,10 @@ a {
     width: 570px;
     height: 527px;
 
-    -webkit-transition: all .5 ease-out;
+    -webkit-transition: all 0.5 ease-out;
 
-    transition: all .5 ease-out;
-    -webkit-transition: all .5s ease-out;
+    transition: all 0.5 ease-out;
+    -webkit-transition: all 0.5s ease-out;
 }
 
 @media (max-width: 959px) {
@@ -1576,6 +1576,29 @@ a {
     }
 
 @media (max-width: 959px) {
+    @keyframes animationFrames {
+        0% {
+            bottom: 1000px;
+            opacity: 0;
+        }
+
+        70% {
+            bottom: -50px;
+            opacity: 1;
+        }
+
+        80% {
+            bottom: 80px;
+        }
+
+        90% {
+            bottom: 20px;
+        }
+
+        100% {
+            bottom: 30px;
+        }
+    }
     @-webkit-keyframes animationFrames {
         0% {
             bottom: 1000px;
@@ -1602,6 +1625,29 @@ a {
     }
 
 @media (min-width: 970px) {
+    @keyframes animationFrames {
+        0% {
+            bottom: 1000px;
+            opacity: 0;
+        }
+
+        70% {
+            bottom: 0;
+            opacity: 1;
+        }
+
+        80% {
+            bottom: 100px;
+        }
+
+        90% {
+            bottom: 50px;
+        }
+
+        100% {
+            bottom: 70px;
+        }
+    }
     @-webkit-keyframes animationFrames {
         0% {
             bottom: 1000px;

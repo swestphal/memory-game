@@ -8,7 +8,9 @@
     <title>Memory Game</title>
     <meta name="keywords" content="Train your Brain with this Memory Game!">
     <meta name="description" content="Play around with some nice dogs to train your memory.">
+    <!-- build:css assets/css/style.css -->
     <link rel="stylesheet" href="assets/css/style/style.css">
+    <!-- endbuild -->
 </head>
 
 <body>
@@ -17,7 +19,7 @@
             <div class="site-header__title">
                 <h1>Doggy Memory</h1>
                 <div class="site-header__doggy">
-                    <img src="../../assets/images/1x/doggy.png">
+                    <img src="assets/images/1x/doggy.png" alt="Dog">
                 </div>
             </div>
             <div class="site-header__info" id="header-info">
@@ -69,8 +71,8 @@
                         <div class="grid__col grid__col-main">
                             <div class="game__field" id="field">
                                 <audio id="myAudio">
-                                    <source src="../../assets/sound/flip.ogg" type="audio/ogg">
-                                    <source src="../../assets/sound/flip.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+                                    <source src="assets/sound/flip.ogg" type="audio/ogg">
+                                    <source src="assets/sound/flip.mp3" type="audio/mpeg"> Your browser does not support the audio element.
                                 </audio>
                                 <table id="field-table" class="field-table terrier">
                                 </table>
@@ -80,7 +82,7 @@
                             <div class="game__ui">
                                 <div class="game__ui-star-rating">Rating: <span id="card-star-rating">***</span></div>
                                 <div class="game__ui-timer" id="card-timer">00:00:00</div>
-                                <div class="game__ui-move-counter">Moves: <span id="card-click-counter">0<</span></div>
+                                <div class="game__ui-move-counter">Moves: <span id="card-click-counter">0</span></div>
                                 <div class="game__ui-restart" id="game-restart">
                                     <p>NEW GAME</p>
                                 </div>
@@ -99,7 +101,9 @@
             <p>&lt;&hearts;&gt; by Simone Westphal - <a href="https://www.linkedin.com/in/simonewestphal/" class="icon icon-linkedin"></a>&nbsp;<a href="https://github.com/swestphal" class="icon icon-github"></a></p>
         </div>
     </footer>
+    <!-- build:js assets/scripts/app.js -->
     <script src="temp/scripts/app.js"></script>
+    <!-- endbuild -->
 </body>
 
 </html>

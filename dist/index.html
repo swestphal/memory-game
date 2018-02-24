@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700' rel='stylesheet' type='text/css'>
+    <title>Memory Game</title>
+    <meta name="keywords" content="Train your Brain with this Memory Game!">
+    <meta name="description" content="Play around with some nice dogs to train your memory.">
+    <link rel="stylesheet" href="assets/css/style-6529eb102d.css"/>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <header class="site-header">
+            <div class="site-header__title">
+                <h1>Doggy Memory</h1>
+                <div class="site-header__doggy">
+                    <img src="assets/images/1x/doggy.png">
+                </div>
+            </div>
+            <div class="site-header__info" id="header-info">
+                <div id="site-header__info-faq" data-modal-target="modal-faq"><span class="icon icon-help"></span></div>
+                <div id="site-header__info-hitlist" data-modal-target="modal-hitlist"><span class="icon icon-award"></span></div>
+            </div>
+        </header>
+        <div class="modal modal__faq" id="modal-faq">
+            <div class="modal__content">
+                <div class="modal__close " aria-label="Close congratulation modal">&times;</div>
+                <h3>FAQ</h3>
+                <p>Select the level on the left panel. After starting the game it is not possible to change the level. While playing use the restart button on the right panel to change the level.
+                    <br>If your browser supports datasaving, your moves, the played fieldsize and time will be saved.</p>
+                <p>Let's play and have fun!</p>
+            </div>
+        </div>
+        <div class="modal modal__hitlist" id="modal-hitlist">
+            <div class="modal__content">
+                <div class="modal__close" aria-label="Close congratulation modal">&times;</div>
+                <h3>Rankinglist of the last six</h3>
+                <div id="modal-show-hitlist">
+                </div>
+            </div>
+        </div>
+        <div class="modal modal__congrat " id="modal-congrat">
+            <div class="modal__content">
+                <div class="modal__close" aria-label="Close congratulation modal">&times;</div>
+                <h3>Congratulation!</h3>
+                <p>You mastered this game with <span id="modal-congrat-moves"></span> moves in <span id="modal-congrat-time"></span>
+                    <!--<br>In the ranking, you are on place <span id="modal-congrat-ranking"></span></p>-->
+            </div>
+        </div>
+        <main>
+            <div class="wrapper">
+                <section class="game">
+                    <div class="grid">
+                        <div class="grid__col grid__col-sidebar">
+                            <div class="game__input">
+                                <div class="game__input-show-level">Level: <span id="game-level">terrier</span>
+                                    <div class="game__input-show-hint" id="game-level-hint">
+                                        <div>You cannot change the level while playing!</div>
+                                    </div>
+                                    <div class="game__input-get-level" id="game-level-input">&#8633;</div>
+                                </div>
+                            </div>
+                            <div class="game__input-small-grass">
+                            </div>
+                        </div>
+                        <div class="grid__col grid__col-main">
+                            <div class="game__field" id="field">
+                                <audio id="myAudio">
+                                    <source src="assets/sound/flip.ogg" type="audio/ogg">
+                                    <source src="assets/sound/flip.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+                                </audio>
+                                <table id="field-table" class="field-table terrier">
+                                </table>
+                            </div>
+                        </div>
+                        <div class="grid__col grid__col-sidebar">
+                            <div class="game__ui">
+                                <div class="game__ui-star-rating">Rating: <span id="card-star-rating">***</span></div>
+                                <div class="game__ui-timer" id="card-timer">00:00:00</div>
+                                <div class="game__ui-move-counter">Moves: <span id="card-click-counter">0<</span></div>
+                                <div class="game__ui-restart" id="game-restart">
+                                    <p>NEW GAME</p>
+                                </div>
+                            </div>
+                            <div class="game__ui-small-grass">
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="game__popup" id="popup">congrat popup</div>-->
+                </section>
+            </div>
+        </main>
+    </div>
+    <footer class="site-footer">
+        <div class="site-footer__content">
+            <p>&lt;&hearts;&gt; by Simone Westphal - <a href="https://www.linkedin.com/in/simonewestphal/" class="icon icon-linkedin"></a>&nbsp;<a href="https://github.com/swestphal" class="icon icon-github"></a></p>
+        </div>
+    </footer>
+    <script src="assets/scripts/app-a110c09198.js"></script>
+</body>
+
+</html>
