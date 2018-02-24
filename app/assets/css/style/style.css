@@ -717,7 +717,7 @@ a {
             @media (min-width: 1500px) {
 
         .grid__col {
-                width: 800px; //align-self: center
+                width: 800px
         }
     }
         .grid__col-sidebar {
@@ -732,7 +732,7 @@ a {
     }
             @media (min-width: 1500px) {
         .grid__col-sidebar {
-                width: 350px; //align-self: center
+                width: 350px
         }
     }
     }
@@ -967,7 +967,7 @@ a {
 }
 
 .site-header {
-    /* margin-top: 1.5em;*/
+
     background: url('/assets/images/1x/flowers.png') no-repeat center;
     height: 137px;
     position: relative;
@@ -984,7 +984,7 @@ a {
         text-align: center;
         position: relative;
         left: -20px;
-        margin: 0 auto; //position: absolute;
+        margin: 0 auto;
         width: 320px;
     }
 
@@ -1011,7 +1011,7 @@ a {
 
 .site-header__title {
             width: 600px;
-            margin: 0 auto; //position: absolute;
+            margin: 0 auto;
             -webkit-transform: rotate(-2deg);
                     transform: rotate(-2deg);
             padding: 0.25em;
@@ -1037,7 +1037,7 @@ a {
         }
 
 .site-header__info {
-        //float: right;
+
         position: absolute;
         left: 0;
         bottom: 5px;
@@ -1415,7 +1415,7 @@ a {
         -webkit-transform: rotate(-4deg);
                 transform: rotate(-4deg);
         font-size: 20px;
-        padding: 4px 15px; //transform: rotate(5deg);
+        padding: 4px 15px;
     }
 
 @media (min-width: 970px) {
@@ -1472,10 +1472,10 @@ a {
     width: 570px;
     height: 527px;
 
-    -webkit-transition: all .5 ease-out;
+    -webkit-transition: all 0.5 ease-out;
 
-    transition: all .5 ease-out;
-    -webkit-transition: all .5s ease-out;
+    transition: all 0.5 ease-out;
+    -webkit-transition: all 0.5s ease-out;
 }
 
 @media (max-width: 959px) {
