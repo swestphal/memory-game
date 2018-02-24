@@ -12,8 +12,12 @@ var gulp = require('gulp'),
     svgSprite = require('gulp-svg-sprite'),
     del = require('del'),
     hexrgba = require('postcss-hexrgba'),
-    webpack = require('webpack')
-;
+    webpack = require('webpack'),
+    imagemin = require('gulp-imagemin'),
+    usemin = require('gulp-usemin'),
+    rev = require('gulp-rev'),
+    cssnano = require('gulp-cssnano'),
+    uglify = require('gulp-uglify');
 
 var config = {
     mode: {
@@ -27,13 +31,13 @@ var config = {
     }
 };
 
-gulp.task('createSprite', ['beginClean'], function () {
+gulp.task('createSprite', ['beginClean'], function() {
     return gulp.src('./app/assets/images/icons/**/*.svg')
         .pipe(svgSprite(config))
         .pipe(gulp.dest('./app/assets/sprite/'));
 });
 
-gulp.task('copySpriteCss', function () {
+gulp.task('copySpriteCss', function() {
     var newSprite = gulp.src('./app/assets/sprite/css/*.css')
         .pipe(rename('_sprite.pcss'))
         .pipe(gulp.dest('./app/assets/styles/modules/'));
@@ -41,20 +45,20 @@ gulp.task('copySpriteCss', function () {
     return [newSprite, deleteOldCss];
 });
 
-gulp.task('beginClean', function () {
+gulp.task('beginClean', function() {
     return del(['./app/assets/images/sprite', './app/assets/styles/modules/_sprite.pcss'])
 });
 
-gulp.task('default', function () {
+gulp.task('default', function() {
 
 });
 
-gulp.task('html', function () {
+gulp.task('html', function() {
     console.log("html changed");
 });
 
-gulp.task('scripts', function (callback) {
-    webpack(require('./webpack.config.js'), function (err,stats) {
+gulp.task('scripts', function(callback) {
+    webpack(require('./webpack.config.js'), function(err, stats) {
         if (err) {
             console.log(err.toString());
         }
@@ -64,11 +68,11 @@ gulp.task('scripts', function (callback) {
 });
 
 
-gulp.task('styles', function () {
+gulp.task('styles', function() {
 
     return gulp.src('./app/assets/styles/style.pcss')
         .pipe(postcss([cssImport, mixins, cssvars, nested, hexrgba, autoprefixer]))
-        .on('error', function (errorInfo) {
+        .on('error', function(errorInfo) {
             console.log(errorInfo.toString());
             this.emit('end')
         })
@@ -77,34 +81,80 @@ gulp.task('styles', function () {
 });
 
 
-gulp.task('cssInject', ['styles'], function () {
+gulp.task('cssInject', ['styles'], function() {
     return gulp.src('./app/assets/styles/style.pcss')
         .pipe(browserSync.stream());
 });
 
 
 
-gulp.task('watch', function () {
+gulp.task('watch', function() {
     browserSync.init({
         server: {
             baseDir: 'app'
         }
     });
 
-    watch('./app/index.html', function () {
+    watch('./app/index.html', function() {
         browserSync.reload();
     });
-    watch('./app/assets/styles/**/*.pcss', function () {
+    watch('./app/assets/styles/**/*.pcss', function() {
         gulp.start('cssInject');
     });
 
-    watch('./app/assets/scripts/**/*.js', function () {
+    watch('./app/assets/scripts/**/*.js', function() {
         gulp.start('scriptsRefresh');
     });
 });
 
 
 
-gulp.task('scriptsRefresh',['scripts'], function () {
+gulp.task('scriptsRefresh', ['scripts'], function() {
     browserSync.reload();
 });
+
+gulp.task('delDistFolder', function() {
+    return del('./dist');
+});
+
+gulp.task('copyGeneralFiles', ['delDistFolder'], function() {
+    var pathsToCopy = [
+        './app/**/*',
+        '!./app/assets/css/**',
+        '!./app/assets/images/**',
+        '!./app/assets/scripts/**',
+        '!./app/assets/sprite/**/*',
+        '!./app/assets/styles/**/*',
+    ]
+    return gulp.src(pathsToCopy, { nodir: true })
+        .pipe(gulp.dest('./dist'));
+});
+gulp.task('optimizeImages', ['delDistFolder'], function() {
+    return gulp.src(['./app/assets/images/**/**/**.*', ])
+        .pipe(imagemin({
+            progressive: true,
+            interlaced: true,
+            optimizationLevel: 5,
+            multipass: true
+        }))
+        .pipe(gulp.dest('./dist/assets/images/'));
+})
+
+gulp.task('usemin', ['delDistFolder', 'copyGeneralFiles', 'styles', 'scripts'], function() {
+    return gulp.src('./app/index.html')
+        .pipe(usemin({
+            css: [function() { return rev() }, function() { return cssnano() }],
+            js: [function() { return rev() }, function() { return uglify() }]
+        }))
+        .pipe(gulp.dest('./dist'));
+})
+
+gulp.task('build', ['delDistFolder', 'optimizeImages', 'usemin']);
+
+gulp.task('previewDist', function() {
+    browserSync.init({
+        server: {
+            baseDir: 'dist'
+        }
+    });
+})
