@@ -1,3 +1,4 @@
-gulp/**/*
-app/assets/css/**/*
-app/assets/styles/**/*
+gulp/templates/*.css  linguist-vendored=true
+app/assets/style/css/*.css  linguist-vendored=true
+app/assets/styles/**/*  linguist-vendored=true
+dist/assets/css/*.css linguist-vendored=true
