@@ -1,4 +1,3 @@
 $ cat .gitattributes
 *.js linguist-language=JavaScript
 *.js linguist-vendored=JavaScript
-app/assets/scripts/* linguist-vendored=true
