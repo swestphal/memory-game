@@ -162,7 +162,7 @@
             // if there is is a local storage hitlist build list with it and append to dom
             for (let i = localHitlist.length - 1; i >= 0; i--) {
                 // latest value on top
-                console.log(localHitlist);
+
                 const nodeLi = document.createElement("li");
                 const content =
                     i +
@@ -532,23 +532,20 @@
 
     function checkRating() {
         let rating = cardClickCounter * 3 / fieldSize * 100 - 100;
-        console.log(rating);
+
         // switch on a a span of 30/50/90 percent of additional click in relation to fieldsize
         switch (true) {
-            case rating <= 25:
+            case rating <= 35:
                 starRating = 3;
 
                 break;
-            case rating <= 50:
+            case rating <= 110:
                 starRating = 2;
 
                 break;
-            case rating <= 90:
-                starRating = 1;
 
-                break;
             default:
-                starRating = 0;
+                starRating = 1;
         }
         // get amount of appropriate count of stars and set it in the frontend
         showCardRating.innerText = generateRatingStars(starRating);
@@ -588,7 +585,7 @@
         modalTime.innerText = timeContent;
         modalRating.innerText = showCardRating.innerText.length;
         // fill object for pushing to existing localstorage
-        console.log("->", showCardRating.innerText);
+
         let newData = {
             fieldSize: fieldSize,
             moves: cardClickCounter,
