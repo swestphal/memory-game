@@ -90,6 +90,7 @@
     var modalMoves = document.getElementById("modal-congrat-moves");
     var modalTime = document.getElementById("modal-congrat-time");
     var modalRating = document.getElementById("modal-congrat-rating");
+    var modalPlayAgain = document.getElementById("modal-congrat-play-again");
 
     var modalInfoOpen = document.getElementById("header-info");
 
@@ -446,7 +447,7 @@
                 modalFadeOut(e);
             }, false);
         }
-
+        modalPlayAgain.addEventListener("click", start);
         modalInfoOpen.addEventListener("click", function (e) {
             modalFadeIn(null, e);
         });
