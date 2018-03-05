@@ -17,6 +17,7 @@
     const modalMoves = document.getElementById("modal-congrat-moves");
     const modalTime = document.getElementById("modal-congrat-time");
     const modalRating = document.getElementById("modal-congrat-rating");
+    const modalPlayAgain = document.getElementById("modal-congrat-play-again");
 
     const modalInfoOpen = document.getElementById("header-info");
 
@@ -392,7 +393,7 @@
                 false
             );
         }
-
+        modalPlayAgain.addEventListener("click", start);
         modalInfoOpen.addEventListener("click", function(e) {
             modalFadeIn(null, e);
         });
