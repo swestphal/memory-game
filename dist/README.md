@@ -3,9 +3,11 @@
 Train your brain with this memory game!
 [play it here](http://memory.swestphal.net/)
 
-## Getting Started
+### Getting Started
 
-In Order to run the game you only need the app-folder.
+In Order to run the game you only need the dist-folder.
+
+### Play the Game
 
 In this game, you have to select 2 matching cards. After two cards, the pairing is checked.
 
@@ -17,7 +19,7 @@ Let's play and have fun!
 
 ### Prerequisites
 
-The Game runs in every local environment or on your server without prerequisites.
+The game runs in every local environment or on your server without prerequisites.
 
 ### Installing
 
@@ -29,7 +31,7 @@ npm install
 
 for installing the required dependencies
 
-## Deployment
+### Deployment
 
 run
 
@@ -39,10 +41,10 @@ gulp build
 
 and then move the dist-folder onto your server and point to the directory.
 
-## Authors
+### Authors
 
 [**Simone Westphal**](https://github.com/swestphal)
 
-## License
+### License
 
 This project is licensed under the MIT License

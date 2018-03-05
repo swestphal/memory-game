@@ -7,6 +7,8 @@ Train your brain with this memory game!
 
 In Order to run the game you only need the dist-folder.
 
+### Play the Game
+
 In this game, you have to select 2 matching cards. After two cards, the pairing is checked.
 
 You can select the level on the left panel. After starting the game it is not possible to change the level. In order to change the level after a game has started you have to push "new game" on the right panel.
