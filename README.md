@@ -18,16 +18,18 @@ If you want to work on the existing code, it is recommended to install node and 
 ```
 npm install
 ```
+
 for installing the required dependencies. In the app folder you can work.
 
 ### Deployment
 
 run
+
 ```
 gulp build
 ```
-and then move the dist-folder onto your server and point to this directory.
 
+and then move the dist-folder onto your server and point to this directory.
 
 ### Authors
 
@@ -36,5 +38,3 @@ and then move the dist-folder onto your server and point to this directory.
 ### License
 
 This project is licensed under the MIT License
-
-
