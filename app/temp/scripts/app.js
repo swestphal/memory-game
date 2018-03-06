@@ -548,10 +548,10 @@
 
                 // if this card is not clickable (because fieldsize is odd) show dummycard
                 if (cardArr[itemId].isClickable == false) {
-                    img.setAttribute("src", "../../assets/images/pool/1x/odd.png");
+                    img.setAttribute("src", "assets/images/pool/1x/odd.png");
                 } else {
                     // else show normal frontside
-                    img.setAttribute("src", "../../assets/images/pool/1x/paws.png");
+                    img.setAttribute("src", "assets/images/pool/1x/paws.png");
                 }
 
                 img.setAttribute("alt", "Train your Brain");
@@ -669,7 +669,7 @@
         nodeBackDiv.classList.add("back");
 
         var img = document.createElement("IMG");
-        img.src = "../../assets/images/pool/1x/" + cardArr[id]["img"] + ".png";
+        img.src = "assets/images/pool/1x/" + cardArr[id]["img"] + ".png";
         img.setAttribute("alt", "Train your Brain");
 
         nodeBackDiv.appendChild(img);

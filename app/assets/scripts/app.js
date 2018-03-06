@@ -104,7 +104,8 @@
      */
 
     function getFromLocalStorage() {
-        if (isLocalStorageNameSupported()) return JSON.parse(localStorage.getItem("hitlist"));
+        if (isLocalStorageNameSupported())
+            return JSON.parse(localStorage.getItem("hitlist"));
     }
 
     /**
@@ -199,7 +200,9 @@
 
         if (containerId == null) {
             // set content to the dataset info of the parentElement of click
-            content = document.getElementById(event.target.parentElement.dataset.modalTarget);
+            content = document.getElementById(
+                event.target.parentElement.dataset.modalTarget
+            );
         }
 
         // fade out modals that are opened
@@ -366,7 +369,11 @@
         diffSec = Math.floor(diffTime / 1000);
 
         showCardTimer.innerText =
-            digitFormat(diffHours) + ":" + digitFormat(diffMin) + ":" + digitFormat(diffSec);
+            digitFormat(diffHours) +
+            ":" +
+            digitFormat(diffMin) +
+            ":" +
+            digitFormat(diffSec);
     }
 
     /**
@@ -411,7 +418,10 @@
             // verify, that user clicked on img and that there is a id to identify the card index
             if (event.target.nodeName.toLowerCase() == "img" && dataSetId) {
                 //if clicked card is not the same as the precedent and the card is not the dummy card ...
-                if (dataSetId != oldId && cardArr[dataSetId].isClickable == true) {
+                if (
+                    dataSetId != oldId &&
+                    cardArr[dataSetId].isClickable == true
+                ) {
                     checkRating();
                     checkCardClickChoice(dataSetId, event);
                 }
@@ -494,10 +504,10 @@
 
                 // if this card is not clickable (because fieldsize is odd) show dummycard
                 if (cardArr[itemId].isClickable == false) {
-                    img.setAttribute("src", "../../assets/images/pool/1x/odd.png");
+                    img.setAttribute("src", "assets/images/pool/1x/odd.png");
                 } else {
                     // else show normal frontside
-                    img.setAttribute("src", "../../assets/images/pool/1x/paws.png");
+                    img.setAttribute("src", "assets/images/pool/1x/paws.png");
                 }
 
                 img.setAttribute("alt", "Train your Brain");
@@ -615,7 +625,7 @@
         nodeBackDiv.classList.add("back");
 
         const img = document.createElement("IMG");
-        img.src = "../../assets/images/pool/1x/" + cardArr[id]["img"] + ".png";
+        img.src = "assets/images/pool/1x/" + cardArr[id]["img"] + ".png";
         img.setAttribute("alt", "Train your Brain");
 
         nodeBackDiv.appendChild(img);
@@ -636,7 +646,10 @@
 
             flipCard(currentElement, currentCardId);
 
-            if (cardArr[oldId].matchingPair == cardArr[currentCardId].matchingPair) {
+            if (
+                cardArr[oldId].matchingPair ==
+                cardArr[currentCardId].matchingPair
+            ) {
                 setTimeout(function() {
                     // cards matching is passed, set to both cards on matched status
                     cardArr[oldId].isMatching = true;
