@@ -177,7 +177,10 @@
                     localHitlist[i].time +
                     " and earned " +
                     localHitlist[i].rating;
-                nodeLi.innerText = content;
+
+                if (localHitlist[i].fieldSize != undefined) {
+                    nodeLi.innerText = content;
+                }
                 myFragment.appendChild(nodeLi);
             }
             nodeUl.appendChild(myFragment);
